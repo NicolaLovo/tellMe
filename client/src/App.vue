@@ -1,0 +1,20 @@
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
+</script>
+
+<template>
+  <!-- <header>
+    <div class="wrapper">
+      <nav>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/about">About</RouterLink>
+      </nav>
+    </div>
+  </header> -->
+
+  <!-- <Icon icon="mdi-light:home" /> -->
+
+  <RouterView />
+</template>
+
+<style scoped></style>
