@@ -2,7 +2,7 @@
   <div class="home-container">
     <div class="content">
       <h1 class="title">Benvenuto nella Home Page</h1>
-      <p class="subtitle"></p>
+      <p class="subtitle">Benvenuto, {{ userEmail }}</p>
 
       <div class="button-group">
         <router-link :to="APP_ROUTES.citizen.home" class="btn">Utente</router-link>
@@ -15,6 +15,11 @@
 
 <script setup lang="ts">
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
+import { useUserStore } from '@/stores/user'
+import { computed } from 'vue'
+
+const userStore = useUserStore()
+const userEmail = computed(() => userStore.user?.email || 'Utente')
 </script>
 
 <style scoped>
