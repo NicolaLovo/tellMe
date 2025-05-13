@@ -21,12 +21,13 @@
 </template>
 
 <script setup lang="ts">
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import router from '@/router'
 import { useUserStore } from '@/stores/user'
 import type { User } from '@/types/auth/User'
 import axios from 'axios'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import jwtDecode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import { ref } from 'vue'
 
 const email = ref('')
@@ -71,7 +72,7 @@ const login = async () => {
     const userStore = useUserStore()
     userStore.login(decoded)
 
-    router.push('/UtenteLoggato')
+    router.push(APP_ROUTES.citizen.home)
   } catch (error: any) {
     console.error('Errore login:', error)
 

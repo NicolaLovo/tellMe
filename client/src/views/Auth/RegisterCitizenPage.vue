@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import { ApiClient } from '@/api/ApiClient'
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import router from '@/router'
 import { useUserStore } from '@/stores/user'
 import {
@@ -57,7 +58,7 @@ const registerWithToken = async (firebaseToken: string) => {
     token: serverResponse.data.token,
   })
 
-  router.push('/SurveyCreator')
+  router.push(APP_ROUTES.citizen.home)
 }
 
 const registerWithEmailAndPassword = async () => {

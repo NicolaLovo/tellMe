@@ -1,37 +1,38 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/HomePage.vue'
-import Register from '../views/Auth/RegisterCitizenPage.vue'
-import Login from '../views/Auth/CitizenLoginPage.vue'
+import CitizenLoginPage from '../views/Auth/CitizenLoginPage.vue'
+import RegisterCitizenPage from '../views/Auth/RegisterCitizenPage.vue'
 import CitizenWelcomePage from '../views/CitizenWelcomePage.vue'
+import Home from '../views/HomePage.vue'
 
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import type { RouteRecordRaw } from 'vue-router'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
+    path: APP_ROUTES.home,
     name: 'Home',
-    component: Home
+    component: Home,
   },
   {
-    path: '/register',
+    path: APP_ROUTES.citizen.register,
     name: 'Register',
-    component: Register
+    component: RegisterCitizenPage,
   },
   {
-    path: '/login',
+    path: APP_ROUTES.citizen.login,
     name: 'Login',
-    component: Login
+    component: CitizenLoginPage,
   },
   {
-    path: '/utente',
-    name: 'Utente',
-    component: CitizenWelcomePage
-  }
+    path: APP_ROUTES.citizen.home,
+    name: 'CitizenHome',
+    component: CitizenWelcomePage,
+  },
 ]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 })
 
 router.beforeEach((to, from, next) => {
