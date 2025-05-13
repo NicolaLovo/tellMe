@@ -1,3 +1,4 @@
+import { HTTP_TMRESPONSES } from '@/constants/HTTP_TMRESPONSES'
 import { TmResponse } from '@/types/common/utils/TmResponse'
 import { API_URL } from '../constants/API_URL'
 import { ApiClientChildren, ApiClientChildrenProps } from './base/ApiClientChildren'
@@ -7,13 +8,13 @@ export class AuthApiClient extends ApiClientChildren {
     super(props)
   }
 
-  public async login(body: { firebaseToken: string }) {
+  public async login(body: { firebaseToken: string }): Promise<TmResponse<{ token: string }>> {
     try {
       const response = await this.httpClient.post<TmResponse<{ token: string }>>(
         `${API_URL}/auth/login`,
         body,
       )
-      return response
+      return response ?? HTTP_TMRESPONSES.error
     } catch (error) {
       console.error('Login error:', error)
       return {
@@ -25,13 +26,16 @@ export class AuthApiClient extends ApiClientChildren {
     }
   }
 
-  public async registerCitizen(body: { email: string; firebaseToken: string }) {
+  public async registerCitizen(body: {
+    email: string
+    firebaseToken: string
+  }): Promise<TmResponse<{ token: string }>> {
     try {
       const response = await this.httpClient.post<TmResponse<{ token: string }>>(
         `${API_URL}/auth/register-citizen`,
         body,
       )
-      return response
+      return response ?? HTTP_TMRESPONSES.error
     } catch (error) {
       console.error('Register Citizen error:', error)
       return {
