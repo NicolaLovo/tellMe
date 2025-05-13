@@ -24,6 +24,7 @@
 <script setup lang="ts">
 import { ApiClient } from '@/api/ApiClient'
 import router from '@/router'
+import { useUserStore } from '@/stores/user'
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -51,6 +52,10 @@ const registerWithToken = async (firebaseToken: string) => {
     return
   }
   toast.success('Registrazione avvenuta con successo!')
+  const userStore = useUserStore()
+  userStore.login({
+    token: serverResponse.data.token,
+  })
 
   router.push('/SurveyCreator')
 }
