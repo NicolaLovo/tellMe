@@ -1,57 +1,32 @@
+<script setup lang="ts">
+import router from '@/router'
+import { getAuth, signOut } from 'firebase/auth'
+import { APP_ROUTES } from './constants/APP_ROUTES'
+import { useUserStore } from './stores/user'
+
+const goHome = () => {
+  router.push(APP_ROUTES.home)
+}
+
+const auth = getAuth()
+const userStore = useUserStore()
+
+const logout = async () => {
+  await signOut(auth)
+  userStore.logout()
+}
+</script>
+
 <template>
   <div>
     <header class="app-header">
       <button @click="goHome" class="home-btn">Home</button>
-      <button v-if="isLoggedIn" @click="logout" class="logout-btn">Logout</button>
+      <button v-if="userStore.user" @click="logout" class="logout-btn">Logout</button>
     </header>
 
     <router-view />
   </div>
 </template>
-
-
-
-<script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
-import router from '@/router';
-
-const goHome = () => {
-  router.push('/');
-};
-
-
-export default defineComponent({
-  name: 'App',
-  setup() {
-    const isLoggedIn = ref(false);
-    const auth = getAuth();
-
-    onMounted(() => {
-      onAuthStateChanged(auth, (user) => {
-        isLoggedIn.value = !!user;
-      });
-    });
-
-    const logout = () => {
-      signOut(auth)
-        .then(() => {
-          console.log('Logout eseguito con successo');
-          router.push('/');
-        })
-        .catch((error) => {
-          console.error('Errore durante il logout:', error);
-        });
-    };
-
-    return {
-      isLoggedIn,
-      logout,
-      goHome
-    };
-  }
-});
-</script>
 
 <style scoped>
 .app-header {
@@ -77,8 +52,6 @@ export default defineComponent({
   background-color: #7a68a1; /* viola leggermente più scuro al passaggio */
   transform: scale(1.1); /* effetto zoom leggero */
 }
-
-
 
 .logout-btn {
   background-color: #8e7cc3;

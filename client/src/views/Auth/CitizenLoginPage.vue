@@ -21,35 +21,70 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import router from '@/router';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
+import router from '@/router'
+import { useUserStore } from '@/stores/user'
+import type { User } from '@/types/auth/User'
+import axios from 'axios'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { jwtDecode } from 'jwt-decode'
+import { ref } from 'vue'
 
-const email = ref('');
-const password = ref('');
-const errorMessage = ref('');
+const email = ref('')
+const password = ref('')
+const errorMessage = ref('')
 
-const login = () => {
-  errorMessage.value = ''; // reset messaggio d'errore
-  signInWithEmailAndPassword(getAuth(), email.value, password.value)
-    .then((data) => {
-      console.log("Login avvenuta!");
-      router.push('/UtenteLoggato');
+const login = async () => {
+  errorMessage.value = ''
+
+  try {
+    // 1. Autentication with Firebase
+    const auth = getAuth()
+    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value)
+    const user = userCredential.user
+
+    if (!user) {
+      errorMessage.value = 'Utente non trovato.'
+      return
+    }
+
+    // 2. Obtain Firebase ID token
+    const firebaseToken = await user.getIdToken()
+
+    // 3. Send the token to the backend
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, {
+      firebaseToken,
     })
-    .catch((error) => {
-  console.error("Errore login:", error.code, error.message);
 
-  const code = error.code;
+    const appToken = response.data?.data?.token
+    if (!appToken) {
+      throw new Error('Token non ricevuto dal server.')
+    }
 
-  if (code === 'auth/invalid-credential') {
-    errorMessage.value = "Credenziali non valide";
-  } else {
-    // Mostra anche il codice per debug
-    errorMessage.value = `${code}`;
+    // 4. Save the token
+    localStorage.setItem('appToken', appToken)
+
+    // 5. Decote the token
+    const decoded = jwtDecode<User>(appToken)
+    console.log('Utente decodificato:', decoded)
+
+    // 6. Save in the user store
+    const userStore = useUserStore()
+    userStore.login(decoded)
+
+    router.push(APP_ROUTES.citizen.home)
+  } catch (error: any) {
+    console.error('Errore login:', error)
+
+    const firebaseError = error.code
+    const backendError = error.response?.data?.message
+
+    errorMessage.value =
+      firebaseError === 'auth/invalid-credential'
+        ? 'Credenziali non valide'
+        : backendError || 'Errore durante il login.'
   }
-});
-
-};
+}
 </script>
 
 <style scoped>
@@ -107,7 +142,9 @@ const login = () => {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
   width: 100%;
 }
 
@@ -135,3 +172,4 @@ const login = () => {
   text-decoration: underline;
 }
 </style>
+-->

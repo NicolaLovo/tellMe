@@ -4,7 +4,7 @@
       <h1 class="title">Registrazione</h1>
       <p class="subtitle">Crea il tuo account per iniziare.</p>
 
-      <form @submit.prevent="register">
+      <form @submit.prevent="registerWithEmailAndPassword">
         <input type="email" placeholder="Email" v-model="email" class="input" />
         <input type="password" placeholder="Password" v-model="password" class="input" />
         <button type="submit" class="btn">Registrati</button>
@@ -22,56 +22,86 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/router';
-import { ref } from 'vue';
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { ApiClient } from '@/api/ApiClient'
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
+import router from '@/router'
+import { useUserStore } from '@/stores/user'
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from 'firebase/auth'
+import { ref } from 'vue'
+import { useToast } from 'vue-toastification'
 
-const email = ref('');
-const password = ref('');
-const errorMessage = ref('');
+const email = ref('')
+const password = ref('')
+const errorMessage = ref('')
+const toast = useToast()
 
-const register = () => {
-  errorMessage.value = ''; // Reset errore prima di iniziare
+const registerWithToken = async (firebaseToken: string) => {
+  const apiClient = new ApiClient({})
 
-  createUserWithEmailAndPassword(getAuth(), email.value, password.value)
-    .then(() => {
-      console.log("Registrazione avvenuta!");
-      router.push('/SurveyCreator');
-    })
-    .catch((error) => {
-      switch (error.code) {
-        case 'auth/email-already-in-use':
-          errorMessage.value = "Questa email è già registrata.";
-          break;
-        case 'auth/invalid-email':
-          errorMessage.value = "L'email inserita non è valida.";
-          break;
-        case 'auth/weak-password':
-          errorMessage.value = "La password è troppo debole. Deve contenere almeno 6 caratteri.";
-          break;
-        default:
-          console.error("Errore imprevisto:", error.code);
-          errorMessage.value = "Si è verificato un errore: " + error.message;
-      }
-    });
-};
+  const serverResponse = await apiClient.auth.registerCitizen({
+    email: email.value,
+    firebaseToken,
+  })
+
+  if (serverResponse.status === 'error') {
+    toast.error(serverResponse.data.message)
+    return
+  }
+  toast.success('Registrazione avvenuta con successo!')
+  const userStore = useUserStore()
+  userStore.login({
+    token: serverResponse.data.token,
+  })
+
+  router.push(APP_ROUTES.citizen.home)
+}
+
+const registerWithEmailAndPassword = async () => {
+  errorMessage.value = '' // Reset errore prima di iniziare
+
+  try {
+    const credentials = await createUserWithEmailAndPassword(getAuth(), email.value, password.value)
+    const firebaseToken = await credentials.user.getIdToken()
+    registerWithToken(firebaseToken)
+  } catch (error: any) {
+    switch (error.code) {
+      case 'auth/email-already-in-use':
+        errorMessage.value = 'Questa email è già registrata.'
+        break
+      case 'auth/invalid-email':
+        errorMessage.value = "L'email inserita non è valida."
+        break
+      case 'auth/weak-password':
+        errorMessage.value = 'La password è troppo debole. Deve contenere almeno 6 caratteri.'
+        break
+      default:
+        console.error('Errore imprevisto:', error.code)
+        errorMessage.value = 'Si è verificato un errore: ' + error.message
+    }
+  }
+}
 
 // Funzione per registrazione con Google
 const registerWithGoogle = async () => {
-  errorMessage.value = ''; // Reset errore prima di iniziare
-  const auth = getAuth();
-  const provider = new GoogleAuthProvider();
+  errorMessage.value = '' // Reset errore prima di iniziare
+  const auth = getAuth()
+  const provider = new GoogleAuthProvider()
 
   try {
-    const result = await signInWithPopup(auth, provider);
-    // L'utente è stato registrato con successo con Google
-    console.log('Google user:', result.user);
-    router.push('/SurveyCreator');
+    const result = await signInWithPopup(auth, provider)
+    const firebaseToken = await result.user.getIdToken()
+
+    registerWithToken(firebaseToken)
   } catch (error) {
-    console.error("Errore Google login:", error);
-    errorMessage.value = "Si è verificato un errore durante la registrazione con Google.";
+    console.error('Errore Google login:', error)
+    errorMessage.value = 'Si è verificato un errore durante la registrazione con Google.'
   }
-};
+}
 </script>
 
 <style scoped>
@@ -132,7 +162,9 @@ const registerWithGoogle = async () => {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
   width: 100%;
 }
 
@@ -168,7 +200,9 @@ const registerWithGoogle = async () => {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
   width: 100%;
   margin-top: 10px;
 }
