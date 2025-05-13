@@ -22,18 +22,18 @@
 </template>
 
 <script setup lang="ts">
+import { ApiClient } from '@/api/ApiClient'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import router from '@/router'
 import { useUserStore } from '@/stores/user'
-import type { User } from '@/types/auth/User'
-import axios from 'axios'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import { jwtDecode } from 'jwt-decode'
 import { ref } from 'vue'
+import { useToast } from 'vue-toastification'
 
 const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
+const toast = useToast()
 
 const login = async () => {
   errorMessage.value = ''
@@ -52,27 +52,23 @@ const login = async () => {
     // 2. Obtain Firebase ID token
     const firebaseToken = await user.getIdToken()
 
-    // 3. Send the token to the backend
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, {
+    const apiClient = new ApiClient({})
+
+    const serverResponse = await apiClient.auth.login({
       firebaseToken,
     })
 
-    const appToken = response.data?.data?.token
-    if (!appToken) {
-      throw new Error('Token non ricevuto dal server.')
+    console.log(serverResponse)
+
+    if (serverResponse.status === 'error') {
+      toast.error(serverResponse.data.message)
+      return
     }
-
-    // 4. Save the token
-    localStorage.setItem('appToken', appToken)
-
-    // 5. Decote the token
-    const decoded = jwtDecode<User>(appToken)
-    console.log('Utente decodificato:', decoded)
-
-    // 6. Save in the user store
+    toast.success('Login avvenuto con successo!')
     const userStore = useUserStore()
-    userStore.login(decoded)
-
+    userStore.login({
+      token: serverResponse.data.token,
+    })
     router.push(APP_ROUTES.citizen.home)
   } catch (error: any) {
     console.error('Errore login:', error)
