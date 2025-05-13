@@ -21,7 +21,7 @@ const logout = async () => {
   <div>
     <header class="app-header">
       <button @click="goHome" class="home-btn">Home</button>
-      <button v-if="userStore.user" @click="logout" class="logout-btn">Logout</button>
+      <button v-if="!!userStore.user" @click="logout" class="logout-btn">Logout</button>
     </header>
 
     <router-view />
