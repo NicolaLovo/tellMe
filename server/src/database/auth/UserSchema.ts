@@ -3,6 +3,7 @@ import { UserRole } from '../../types/auth/UserRole';
 
 // Define the User schema
 const userSchema: Schema = new Schema({
+  uid: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   roles: {
     type: [String],
@@ -12,6 +13,7 @@ const userSchema: Schema = new Schema({
 });
 
 export interface UserModelSchema extends Document {
+  uid: string;
   email: string;
   roles: UserRole[];
 }
