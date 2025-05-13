@@ -1,80 +1,34 @@
 FORMAT: 1A
-HOST: https://polls.apiblueprint.org/
+HOST: https://your-api-host.com
 
-# tellMe
+# Authentication API
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+This API allows users to log in using a Firebase token and receive a custom token with additional user claims.
 
-## Questions Collection [/questions]
+## Login [/auth/login]
 
-### List All Questions [GET]
+### Login with Firebase Token [POST]
 
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+Authenticate a user using a Firebase ID token. On success, returns a custom token with additional user metadata (email and roles). On failure, returns an appropriate error message.
 
 + Request (application/json)
+    + Attributes (object)
+        + firebaseToken: `eyJhbGci...` (string, required) - Firebase ID token obtained from client-side authentication
 
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
++ Response 200 (application/json)
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + token: `eyJhbGci...` (string) - Custom token with additional claims
 
-+ Response 201 (application/json)
++ Response 401 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `User not found` (string)
 
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
++ Response 500 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
