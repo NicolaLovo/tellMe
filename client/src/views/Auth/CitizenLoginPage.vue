@@ -1,0 +1,137 @@
+<template>
+  <div class="login-container">
+    <div class="content">
+      <h1 class="title">Login</h1>
+      <p class="subtitle">Accedi con la tua email e password.</p>
+
+      <form @submit.prevent="login">
+        <input type="email" placeholder="Email" v-model="email" class="input" />
+        <input type="password" placeholder="Password" v-model="password" class="input" />
+        <button type="submit" class="btn">Accedi</button>
+      </form>
+
+      <!-- Messaggio di errore -->
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+
+      <p class="alternative">
+        Non hai un account? <router-link to="/Register" class="link">Registrati</router-link>
+      </p>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+import router from '@/router';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
+const email = ref('');
+const password = ref('');
+const errorMessage = ref('');
+
+const login = () => {
+  errorMessage.value = ''; // reset messaggio d'errore
+  signInWithEmailAndPassword(getAuth(), email.value, password.value)
+    .then((data) => {
+      console.log("Login avvenuta!");
+      router.push('/UtenteLoggato');
+    })
+    .catch((error) => {
+  console.error("Errore login:", error.code, error.message);
+
+  const code = error.code;
+
+  if (code === 'auth/invalid-credential') {
+    errorMessage.value = "Credenziali non valide";
+  } else {
+    // Mostra anche il codice per debug
+    errorMessage.value = `${code}`;
+  }
+});
+
+};
+</script>
+
+<style scoped>
+.error {
+  color: #d9534f;
+  font-size: 1rem;
+  margin-top: 15px;
+}
+
+.login-container {
+  background-color: white;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Arial', sans-serif;
+}
+
+.content {
+  text-align: center;
+  background-color: #f5f3ff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 90%;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #5e4b8b;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.input {
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  width: 95%;
+}
+
+.btn {
+  padding: 12px 25px;
+  background-color: #8e7cc3; /* Colore lilla */
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+.btn:hover {
+  background-color: #7a68a1; /* Lilla più scuro al passaggio del mouse */
+  transform: scale(1.05);
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.alternative {
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.link {
+  color: #8e7cc3;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+</style>
