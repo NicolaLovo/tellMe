@@ -1,7 +1,7 @@
 <template>
   <div class="user-container">
     <div class="content">
-      <h1 class="title">Benvenuto, Utente!</h1>
+      <h1 class="title">Benvenuto, {{ userStore.user?.email }}!</h1>
       <p class="subtitle">Accedi o registrati per continuare.</p>
 
       <div class="button-group">
@@ -14,6 +14,9 @@
 
 <script setup lang="ts">
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
 
 // Nessuna logica al momento
 </script>

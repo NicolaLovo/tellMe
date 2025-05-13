@@ -25,9 +25,26 @@ import { ref } from 'vue'
  * - `logout`: A function to log out the user by clearing the `user` state.
  */
 export const useUserStore = defineStore('user', () => {
-  const token = localStorage.getItem(LOCALSTORAGE_KEYS.jwtToken)
+  const decodeTokenClaims = (token: string): TokenPayload | null => {
+    try {
+      const decoded = jwtDecode(token)
+      if (!decoded) {
+        return null
+      }
 
-  const payload: TokenPayload | null = token ? jwtDecode(token) : null
+      const data = decoded as {
+        claims: TokenPayload
+      }
+
+      return data.claims
+    } catch (error) {
+      console.error('Error decoding token:', error)
+      return null
+    }
+  }
+
+  const token = localStorage.getItem(LOCALSTORAGE_KEYS.jwtToken)
+  const payload = decodeTokenClaims(token ?? '')
 
   // Recupera lo stato utente da localStorage o imposta come null se non presente
   const user = ref<User | null>(
@@ -38,12 +55,17 @@ export const useUserStore = defineStore('user', () => {
 
   // Funzione di login per impostare l'utente e salvarlo in localStorage
   const login = ({ token }: { token: string }) => {
-    const payload: TokenPayload | null = token ? jwtDecode(token) : null
+    const payload = decodeTokenClaims(token)
 
     // Recupera lo stato utente da localStorage o imposta come null se non presente
     const data: User | null =
       payload && token
-        ? { uid: payload.uid, email: payload.email, roles: payload.roles, token }
+        ? {
+            uid: payload.uid,
+            email: payload.email,
+            roles: payload.roles,
+            token,
+          }
         : null
     user.value = data
 
