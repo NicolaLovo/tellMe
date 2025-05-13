@@ -21,35 +21,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import router from '@/router';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import router from '@/router'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { ref } from 'vue'
 
-const email = ref('');
-const password = ref('');
-const errorMessage = ref('');
+const email = ref('')
+const password = ref('')
+const errorMessage = ref('')
 
 const login = () => {
-  errorMessage.value = ''; // reset messaggio d'errore
+  errorMessage.value = '' // reset messaggio d'errore
   signInWithEmailAndPassword(getAuth(), email.value, password.value)
     .then((data) => {
-      console.log("Login avvenuta!");
-      router.push('/UtenteLoggato');
+      console.log('Login avvenuta!')
+      router.push('/UtenteLoggato')
     })
     .catch((error) => {
-  console.error("Errore login:", error.code, error.message);
+      console.error('Errore login:', error.code, error.message)
 
-  const code = error.code;
+      const code = error.code
 
-  if (code === 'auth/invalid-credential') {
-    errorMessage.value = "Credenziali non valide";
-  } else {
-    // Mostra anche il codice per debug
-    errorMessage.value = `${code}`;
-  }
-});
-
-};
+      if (code === 'auth/invalid-credential') {
+        errorMessage.value = 'Credenziali non valide'
+      } else {
+        // Mostra anche il codice per debug
+        errorMessage.value = `${code}`
+      }
+    })
+}
 </script>
 
 <style scoped>
@@ -107,7 +106,9 @@ const login = () => {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
   width: 100%;
 }
 
