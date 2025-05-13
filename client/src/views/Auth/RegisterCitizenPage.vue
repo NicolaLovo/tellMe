@@ -15,7 +15,8 @@
       <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
 
       <p class="alternative">
-        Hai già un account? <router-link to="/Login" class="link">Accedi</router-link>
+        Hai già un account?
+        <router-link :to="APP_ROUTES.citizen.login" class="link">Accedi</router-link>
       </p>
     </div>
   </div>
@@ -47,6 +48,8 @@ const registerWithToken = async (firebaseToken: string) => {
     email: email.value,
     firebaseToken,
   })
+
+  console.log(serverResponse)
 
   if (serverResponse.status === 'error') {
     toast.error(serverResponse.data.message)

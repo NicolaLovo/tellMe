@@ -5,16 +5,16 @@
       <p class="subtitle"></p>
 
       <div class="button-group">
-        <router-link to="/Utente" class="btn">Utente</router-link>
-        <router-link to="/Ente" class="btn">Ente</router-link>
-        <router-link to="/Comune" class="btn">Comune</router-link>
+        <router-link :to="APP_ROUTES.citizen.home" class="btn">Utente</router-link>
+        <router-link :to="APP_ROUTES.home" class="btn">Ente</router-link>
+        <router-link :to="APP_ROUTES.home" class="btn">Comune</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
 </script>
 
 <style scoped>
@@ -66,7 +66,9 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .btn:hover {

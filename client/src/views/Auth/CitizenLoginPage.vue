@@ -14,7 +14,8 @@
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
 
       <p class="alternative">
-        Non hai un account? <router-link to="/Register" class="link">Registrati</router-link>
+        Non hai un account?
+        <router-link :to="APP_ROUTES.citizen.register" class="link">Registrati</router-link>
       </p>
     </div>
   </div>

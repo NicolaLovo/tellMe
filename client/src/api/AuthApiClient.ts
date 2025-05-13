@@ -11,7 +11,7 @@ export class AuthApiClient extends ApiClientChildren {
   public async login(body: { firebaseToken: string }): Promise<TmResponse<{ token: string }>> {
     try {
       const response = await this.httpClient.post<TmResponse<{ token: string }>>(
-        `${API_URL}/auth/login`,
+        `${API_URL}/api/v1/auth/login`,
         body,
       )
       return response ?? HTTP_TMRESPONSES.error
@@ -32,7 +32,7 @@ export class AuthApiClient extends ApiClientChildren {
   }): Promise<TmResponse<{ token: string }>> {
     try {
       const response = await this.httpClient.post<TmResponse<{ token: string }>>(
-        `${API_URL}/auth/register-citizen`,
+        `${API_URL}/api/v1/auth/register/citizen`,
         body,
       )
       return response ?? HTTP_TMRESPONSES.error

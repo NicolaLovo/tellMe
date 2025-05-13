@@ -5,15 +5,16 @@
       <p class="subtitle">Accedi o registrati per continuare.</p>
 
       <div class="button-group">
-        <router-link to="/Login" class="btn">Login</router-link>
-        <router-link to="/Register" class="btn">Registrati</router-link>
+        <router-link :to="APP_ROUTES.citizen.login" class="btn">Login</router-link>
+        <router-link :to="APP_ROUTES.citizen.register" class="btn">Registrati</router-link>
       </div>
     </div>
   </div>
 </template>
 
-
 <script setup lang="ts">
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
+
 // Nessuna logica al momento
 </script>
 
@@ -66,7 +67,9 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 }
 
 .btn:hover {
