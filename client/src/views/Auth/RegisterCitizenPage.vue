@@ -4,7 +4,7 @@
       <h1 class="title">Registrazione</h1>
       <p class="subtitle">Crea il tuo account per iniziare.</p>
 
-      <form @submit.prevent="register">
+      <form @submit.prevent="registerWithEmailAndPassword">
         <input type="email" placeholder="Email" v-model="email" class="input" />
         <input type="password" placeholder="Password" v-model="password" class="input" />
         <button type="submit" class="btn">Registrati</button>
@@ -31,30 +31,37 @@ import {
   signInWithPopup,
 } from 'firebase/auth'
 import { ref } from 'vue'
+import { useToast } from 'vue-toastification'
 
 const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
+const toast = useToast()
 
-const register = async () => {
+const registerWithToken = async (firebaseToken: string) => {
+  const apiClient = new ApiClient({})
+
+  const serverResponse = await apiClient.auth.registerCitizen({
+    email: email.value,
+    firebaseToken,
+  })
+
+  if (serverResponse.status === 'error') {
+    toast.error(serverResponse.data.message)
+    return
+  }
+  toast.success('Registrazione avvenuta con successo!')
+
+  router.push('/SurveyCreator')
+}
+
+const registerWithEmailAndPassword = async () => {
   errorMessage.value = '' // Reset errore prima di iniziare
 
   try {
     const credentials = await createUserWithEmailAndPassword(getAuth(), email.value, password.value)
     const firebaseToken = await credentials.user.getIdToken()
-    const apiClient = new ApiClient({})
-
-    const serverResponse = await apiClient.auth.registerCitizen({
-      email: email.value,
-      firebaseToken,
-    })
-
-    if (serverResponse.status === 'error') {
-      errorMessage.value = serverResponse.data.message
-      return
-    }
-    console.log('Registrazione avvenuta con successo:', serverResponse)
-    router.push('/SurveyCreator')
+    registerWithToken(firebaseToken)
   } catch (error: any) {
     switch (error.code) {
       case 'auth/email-already-in-use':
@@ -81,9 +88,9 @@ const registerWithGoogle = async () => {
 
   try {
     const result = await signInWithPopup(auth, provider)
-    // L'utente è stato registrato con successo con Google
-    console.log('Google user:', result.user)
-    router.push('/SurveyCreator')
+    const firebaseToken = await result.user.getIdToken()
+
+    registerWithToken(firebaseToken)
   } catch (error) {
     console.error('Errore Google login:', error)
     errorMessage.value = 'Si è verificato un errore durante la registrazione con Google.'
