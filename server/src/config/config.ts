@@ -1,19 +1,11 @@
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file into process.env by defaul
-dotenv.config(); 
-
-interface Config {
-  port: number;
-  nodeEnv: string;
-}
+dotenv.config();
 
 // Define the config interface by extracting the properties from process.env
-const config: Config = {
+export const config = {
   port: Number(process.env.PORT) || 4000,
   nodeEnv: process.env.NODE_ENV || 'development',
+  mongooseUrl: process.env.MONGOOSE_URL || '',
 };
-
-// Export the config object
-// This allows us to use the config object in other parts of the application
-export default config;
