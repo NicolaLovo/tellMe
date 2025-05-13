@@ -1,7 +1,7 @@
+import { HTTP_TMRESPONSES } from '@/constants/HTTP_TMRESPONSES'
 import { TmResponse } from '@/types/common/utils/TmResponse'
-import axios from 'axios'
 import { API_URL } from '../constants/API_URL'
-import { ApiClientChildren, ApiClientChildrenProps } from './ApiClientChildren'
+import { ApiClientChildren, ApiClientChildrenProps } from './base/ApiClientChildren'
 
 export class AuthApiClient extends ApiClientChildren {
   constructor(props: ApiClientChildrenProps) {
@@ -10,8 +10,11 @@ export class AuthApiClient extends ApiClientChildren {
 
   public async login(body: { firebaseToken: string }): Promise<TmResponse<{ token: string }>> {
     try {
-      const response = await axios.post(`${API_URL}/auth/login`, body)
-      return response.data
+      const response = await this.httpClient.post<TmResponse<{ token: string }>>(
+        `${API_URL}/auth/login`,
+        body,
+      )
+      return response ?? HTTP_TMRESPONSES.error
     } catch (error) {
       console.error('Login error:', error)
       return {
@@ -28,8 +31,11 @@ export class AuthApiClient extends ApiClientChildren {
     firebaseToken: string
   }): Promise<TmResponse<{ token: string }>> {
     try {
-      const response = await axios.post(`${API_URL}/auth/register-citizen`, body)
-      return response.data
+      const response = await this.httpClient.post<TmResponse<{ token: string }>>(
+        `${API_URL}/auth/register-citizen`,
+        body,
+      )
+      return response ?? HTTP_TMRESPONSES.error
     } catch (error) {
       console.error('Register Citizen error:', error)
       return {
