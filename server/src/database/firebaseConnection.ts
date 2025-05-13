@@ -20,3 +20,7 @@ const credentials: object = {
 export const firebaseApp = initializeApp({
   credential: credential.cert(credentials),
 });
+
+export const initFirebase = async () => {
+  return firebaseApp;
+};
