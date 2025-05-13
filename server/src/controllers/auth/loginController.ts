@@ -1,3 +1,71 @@
 import { Request, Response } from 'express';
+import { getAuth } from 'firebase-admin/auth';
+import { UserModel } from '../../database/auth/UserSchema';
+import { UserRole } from '../../types/auth/UserRole';
+import { TmResponse } from '../../types/common/utils/TmResponse';
 
-export const loginController = (req: Request, res: Response) => {};
+interface ReqBody {
+  firebaseToken: string;
+}
+
+type ResBody = TmResponse<{
+  token: string;
+}>;
+
+export const loginController = async (
+  req: Request<{}, ResBody, ReqBody>,
+  res: Response<ResBody>,
+): Promise<void> => {
+  try {
+    const { firebaseToken } = req.body;
+
+    const auth = getAuth();
+
+    // decode the token
+
+    const decodedFirebaseToken = await auth.verifyIdToken(firebaseToken);
+
+    // retrieve user from database
+    const userEntity = await UserModel.findOne({
+      _id: decodedFirebaseToken.uid,
+    });
+
+    if (!userEntity) {
+      res.status(400).json({
+        status: 'error',
+        data: {
+          message: 'User not found',
+        },
+      });
+      return;
+    }
+
+    const additionalClaims: {
+      email: string;
+      roles: UserRole[];
+    } = {
+      email: userEntity.email,
+      roles: userEntity.roles,
+    };
+
+    const token = await auth.createCustomToken(
+      decodedFirebaseToken.uid,
+      additionalClaims,
+    );
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        token,
+      },
+    });
+  } catch (error) {
+    console.error('Error logging in:', error);
+    res.status(500).json({
+      status: 'error',
+      data: {
+        message: 'Internal server error',
+      },
+    });
+  }
+};
