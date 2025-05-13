@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
 import { config } from '../config/config';
 
-const connectToDatabase = async () => {
+export const connectToDatabase = async () => {
   try {
-    await mongoose.connect(config.mongooseUrl, {});
+    await mongoose.connect(config.mongooseUrl, {
+      dbName: config.dbName,
+    });
     console.log('Connected to MongoDB successfully');
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
