@@ -33,7 +33,7 @@ export const registerCitizenController = async (
     // Decode the firebase token
     const decodedFirebaseToken = await auth.verifyIdToken(firebaseToken);
 
-    // Check email not empty
+    // Check email is not empty
     if (!email) {
       res.status(400).json({
         status: 'error',
@@ -78,16 +78,17 @@ export const registerCitizenController = async (
     // Save user to database
     await newUser.save();
 
-    // Create a token payload that contains the email and role of the user
-    const tokenPayload: TokenPayload = {
+    // Create a token payload that contains Firebase uid, the email and role of the user
+    const additionalClaims: TokenPayload = {
+      uid: decodedFirebaseToken.uid,
       email: email,
       roles: ['citizen'],
     };
 
-    // Create custom token using firebase uid and token payload (email and role of the user)
+    // Create custom token
     const token = await auth.createCustomToken(
-      decodedFirebaseToken.uid,
-      tokenPayload,
+      decodedFirebaseToken.uid, 
+      additionalClaims,       
     );
 
     // Return the custom token
