@@ -37,7 +37,7 @@ export const useUserStore = defineStore('user', () => {
   )
 
   // Funzione di login per impostare l'utente e salvarlo in localStorage
-  const login = (userData: { token: string }) => {
+  const login = ({ token }: { token: string }) => {
     const payload: TokenPayload | null = token ? jwtDecode(token) : null
 
     // Recupera lo stato utente da localStorage o imposta come null se non presente
@@ -47,7 +47,7 @@ export const useUserStore = defineStore('user', () => {
         : null
     user.value = data
 
-    localStorage.setItem(LOCALSTORAGE_KEYS.jwtToken, userData.token)
+    localStorage.setItem(LOCALSTORAGE_KEYS.jwtToken, token)
   }
 
   // Funzione di logout per resettare l'utente e rimuoverlo da localStorage

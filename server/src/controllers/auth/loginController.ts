@@ -27,7 +27,7 @@ export const loginController = async (
 
     // retrieve user from database
     const userEntity = await UserModel.findOne({
-      _id: decodedFirebaseToken.uid,
+      uid: decodedFirebaseToken.uid,
     });
 
     if (!userEntity) {
