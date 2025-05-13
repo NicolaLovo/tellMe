@@ -14,6 +14,7 @@ const userStore = useUserStore()
 const logout = async () => {
   await signOut(auth)
   userStore.logout()
+  goHome()
 }
 </script>
 
