@@ -1,6 +1,9 @@
+import { LOCALSTORAGE_KEYS } from '@/constants/LOCALSTORAGE_KEYS'
+import { TokenPayload } from '@/types/auth/TokenPayload'
 import type { User } from '@/types/auth/User'
+import { jwtDecode } from 'jwt-decode'
 import { defineStore } from 'pinia'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 
 /**
  * A Pinia store for managing user state with persistence.
@@ -22,17 +25,21 @@ import { onMounted, ref } from 'vue'
  * - `logout`: A function to log out the user by clearing the `user` state.
  */
 export const useUserStore = defineStore('user', () => {
+  const token = localStorage.getItem(LOCALSTORAGE_KEYS.jwtToken)
+
+  const payload: TokenPayload | null = token ? jwtDecode(token) : null
+
   // Recupera lo stato utente da localStorage o imposta come null se non presente
-  const user = ref<User | null>(JSON.parse(localStorage.getItem('user') || 'null'))
+  const user = ref<User | null>(
+    payload && token
+      ? { uid: payload.uid, email: payload.email, roles: payload.roles, token }
+      : null,
+  )
 
   // Funzione di login per impostare l'utente e salvarlo in localStorage
-  const login = (userData: User | null) => {
+  const login = (userData: User) => {
     user.value = userData
-    if (userData) {
-      localStorage.setItem('user', JSON.stringify(userData))
-    } else {
-      localStorage.removeItem('user')
-    }
+    localStorage.setItem(LOCALSTORAGE_KEYS.jwtToken, userData.token)
   }
 
   // Funzione di logout per resettare l'utente e rimuoverlo da localStorage
@@ -40,13 +47,6 @@ export const useUserStore = defineStore('user', () => {
     user.value = null
     localStorage.removeItem('user')
   }
-
-  // Verifica e aggiorna il localStorage quando il componente viene montato
-  onMounted(() => {
-    if (user.value) {
-      localStorage.setItem('user', JSON.stringify(user.value))
-    }
-  })
 
   return {
     user,
