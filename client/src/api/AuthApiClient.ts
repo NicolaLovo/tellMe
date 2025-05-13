@@ -1,3 +1,6 @@
+import { TmResponse } from '@/types/common/utils/TmResponse'
+import axios from 'axios'
+import { API_URL } from '../constants/API_URL'
 import { ApiClientChildren, ApiClientChildrenProps } from './ApiClientChildren'
 
 export class AuthApiClient extends ApiClientChildren {
@@ -5,11 +8,36 @@ export class AuthApiClient extends ApiClientChildren {
     super(props)
   }
 
-  // public async login(body: { firebaseToken: string }): Promise<
-  //   TmResponse<{
-  //     token: string
-  //   }>
-  // > {
-  //   return null as any
-  // }
+  public async login(body: { firebaseToken: string }): Promise<TmResponse<{ token: string }>> {
+    try {
+      const response = await axios.post(`${API_URL}/auth/login`, body)
+      return response.data
+    } catch (error) {
+      console.error('Login error:', error)
+      return {
+        status: 'error',
+        data: {
+          message: 'Errow in login request',
+        },
+      }
+    }
+  }
+
+  public async registerCitizen(body: {
+    email: string
+    firebaseToken: string
+  }): Promise<TmResponse<{ token: string }>> {
+    try {
+      const response = await axios.post(`${API_URL}/auth/register-citizen`, body)
+      return response.data
+    } catch (error) {
+      console.error('Register Citizen error:', error)
+      return {
+        status: 'error',
+        data: {
+          message: 'Errow in registerCitizen request',
+        },
+      }
+    }
+  }
 }
