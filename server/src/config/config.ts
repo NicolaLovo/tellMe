@@ -9,4 +9,6 @@ export const config = {
   nodeEnv: process.env.NODE_ENV || 'development',
   mongooseUrl: process.env.MONGOOSE_URL || '',
   dbName: 'TellMe',
+  townCouncilPwd: process.env.TOWN_COUNCIL_PWD || '',
+  firebasePrivateKey: process.env.FIREBASE_PRIVATE_KEY || '',
 };
