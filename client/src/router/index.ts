@@ -1,16 +1,18 @@
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
+import { useUserStore } from '@/stores/useUserStore'
+import { UserRole } from '@/types/auth/UserRole'
+import TownhallLoginPage from '@/views/townCouncil/auth/TownCouncilLoginPage.vue'
+import TownhallHomePage from '@/views/townCouncil/TownCouncilHomePage.vue'
+import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
-import CitizenLoginPage from '../views/Auth/CitizenLoginPage.vue'
-import RegisterCitizenPage from '../views/Auth/RegisterCitizenPage.vue'
-import CitizenWelcomePage from '../views/CitizenWelcomePage.vue'
+import CitizenLoginPage from '../views/citizen/auth/LoginCitizenPage.vue'
+import RegisterCitizenPage from '../views/citizen/auth/RegisterCitizenPage.vue'
+import CitizenWelcomePage from '../views/citizen/CitizenWelcomePage.vue'
 import Home from '../views/HomePage.vue'
 
-import { APP_ROUTES } from '@/constants/APP_ROUTES'
-import TownhallLoginPage from '@/views/Auth/TownhallLoginPage.vue'
-
-//import SurveyCreator from '@/views/SurveyCreator.vue'
-
-import TownhallHomePage from '@/views/TownhallHomePage.vue'
-import type { RouteRecordRaw } from 'vue-router'
+interface RouteMeta {
+  requiresRoles?: UserRole[]
+}
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -19,15 +21,20 @@ const routes: Array<RouteRecordRaw> = [
     component: Home,
   },
   {
-    path: APP_ROUTES.townhall.login,
+    path: APP_ROUTES.townCouncil.login,
     name: 'TownhallLogin',
     component: TownhallLoginPage,
   },
   {
-    path: APP_ROUTES.townhall.home,
+    path: APP_ROUTES.townCouncil.home,
     name: 'TownhallHome',
     component: TownhallHomePage,
-    meta: { requiresAuth: true },
+    meta: {
+      /**
+       * RBAC: A user must have the 'townCouncil' role to access this route.
+       */
+      requiresRoles: ['townCouncil'],
+    } satisfies RouteMeta,
   },
   /*{
     path: APP_ROUTES.townhall.createsurvery,
@@ -49,7 +56,12 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.citizen.home,
     name: 'CitizenHome',
     component: CitizenWelcomePage,
-    meta: { requiresAuth: true },
+    meta: {
+      /**
+       * RBAC: A user must have the 'citizen' role to access this route.
+       */
+      requiresRoles: ['citizen'],
+    } satisfies RouteMeta,
   },
 ]
 
@@ -59,13 +71,27 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('user')
+  const { user } = useUserStore()
 
-  if (to.meta.requiresAuth && !isAuthenticated) {
-    next({ name: 'Home' })
-  } else {
-    next()
+  const meta = to.meta as RouteMeta | undefined
+
+  if (meta && meta.requiresRoles) {
+    if (!user) {
+      console.error('User not authenticated')
+      next({ path: APP_ROUTES.home })
+      return
+    }
+
+    // Check if the user has the required roles
+    const hasAllRequiredRoles = meta.requiresRoles.every((role) => user.roles.includes(role))
+
+    if (!hasAllRequiredRoles) {
+      console.error('User does not have the required roles')
+      next({ path: APP_ROUTES.home })
+      return
+    }
   }
+  next()
 })
 
 export default router

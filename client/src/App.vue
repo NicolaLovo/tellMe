@@ -2,7 +2,7 @@
 import router from '@/router'
 import { getAuth, signOut } from 'firebase/auth'
 import { APP_ROUTES } from './constants/APP_ROUTES'
-import { useUserStore } from './stores/user'
+import { useUserStore } from './stores/useUserStore'
 
 const goHome = () => {
   router.push(APP_ROUTES.home)
@@ -37,6 +37,7 @@ const logout = async () => {
   padding: 10px 20px;
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #eaeaea;
 }
 
 .home-btn {

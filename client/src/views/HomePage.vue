@@ -6,7 +6,7 @@
       <div class="button-group">
         <router-link :to="APP_ROUTES.citizen.home" class="btn">Utente</router-link>
         <router-link :to="APP_ROUTES.home" class="btn">Ente</router-link>
-        <router-link :to="APP_ROUTES.townhall.login" class="btn">Comune</router-link>
+        <router-link :to="APP_ROUTES.townCouncil.login" class="btn">Comune</router-link>
       </div>
     </div>
   </div>

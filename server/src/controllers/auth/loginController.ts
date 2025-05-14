@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { getAuth } from 'firebase-admin/auth';
 import { UserModel } from '../../database/auth/UserSchema';
-import { UserRole } from '../../types/auth/UserRole';
+import { TokenPayload } from '../../types/auth/TokenPayload';
 import { TmResponse } from '../../types/common/utils/TmResponse';
 
 interface ReqBody {
@@ -40,12 +40,10 @@ export const loginController = async (
       return;
     }
 
-    const additionalClaims: {
-      email: string;
-      roles: UserRole[];
-    } = {
+    const additionalClaims: TokenPayload = {
       email: userEntity.email,
       roles: userEntity.roles,
+      uid: userEntity.uid,
     };
 
     const token = await auth.createCustomToken(

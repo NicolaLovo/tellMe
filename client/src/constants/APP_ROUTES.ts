@@ -1,3 +1,6 @@
+/**
+ * A constant object defining the application routes for different user roles and pages.
+ */
 export const APP_ROUTES = {
   home: '/',
   citizen: {
@@ -5,9 +8,9 @@ export const APP_ROUTES = {
     login: '/citizen/login',
     home: '/citizen/home',
   },
-  townhall: {
-    login: '/townhall/login',
-    home: '/townhall/home',
-    createsurvery: '/townhall/createsurvey'
-  }
-}
+  townCouncil: {
+    login: '/towncouncil/login',
+    home: '/towncouncil/home',
+    createsurvery: '/towncouncil/createsurvey',
+  },
+} as const
