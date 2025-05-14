@@ -6,7 +6,9 @@ import Home from '../views/HomePage.vue'
 
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import TownhallLoginPage from '@/views/Auth/TownhallLoginPage.vue'
-import SurveyCreator from '@/views/SurveyCreator.vue'
+
+//import SurveyCreator from '@/views/SurveyCreator.vue'
+
 import TownhallHomePage from '@/views/TownhallHomePage.vue'
 import type { RouteRecordRaw } from 'vue-router'
 
@@ -25,12 +27,14 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.townhall.home,
     name: 'TownhallHome',
     component: TownhallHomePage,
+    meta: { requiresAuth: true },
   },
-  {
+  /*{
     path: APP_ROUTES.townhall.createsurvery,
     name: 'SurveyCreator',
     component: SurveyCreator,
-  },
+    meta: { requiresAuth: true },
+  },*/
   {
     path: APP_ROUTES.citizen.register,
     name: 'Register',
@@ -45,6 +49,7 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.citizen.home,
     name: 'CitizenHome',
     component: CitizenWelcomePage,
+    meta: { requiresAuth: true },
   },
 ]
 
@@ -54,12 +59,12 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('user') // Verifica se l'utente è autenticato
+  const isAuthenticated = !!localStorage.getItem('user')
 
   if (to.meta.requiresAuth && !isAuthenticated) {
-    next({ name: 'Login' }) // Se non autenticato, reindirizza al login
+    next({ name: 'Login' })
   } else {
-    next() // Altrimenti continua la navigazione
+    next()
   }
 })
 
