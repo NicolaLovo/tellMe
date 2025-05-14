@@ -56,12 +56,6 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.citizen.home,
     name: 'CitizenHome',
     component: CitizenWelcomePage,
-    meta: {
-      /**
-       * RBAC: A user must have the 'citizen' role to access this route.
-       */
-      requiresRoles: ['citizen'],
-    } satisfies RouteMeta,
   },
 ]
 
