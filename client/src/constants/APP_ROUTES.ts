@@ -5,4 +5,9 @@ export const APP_ROUTES = {
     login: '/citizen/login',
     home: '/citizen/home',
   },
+  townhall: {
+    login: '/townhall/login',
+    home: '/townhall/home',
+    createsurvery: '/townhall/createsurvey'
+  }
 }

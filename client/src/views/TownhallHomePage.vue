@@ -2,18 +2,17 @@
   <div class="home-container">
     <div class="content">
       <h1 class="title">Benvenuto nella Home Page</h1>
-
-      <div class="button-group">
-        <router-link :to="APP_ROUTES.citizen.home" class="btn">Utente</router-link>
-        <router-link :to="APP_ROUTES.home" class="btn">Ente</router-link>
-        <router-link :to="APP_ROUTES.townhall.login" class="btn">Comune</router-link>
-      </div>
+      <button class="create-button" @click="$router.push('/townhall/createsurvey')">
+        Crea Sondaggio
+      </button>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { APP_ROUTES } from '@/constants/APP_ROUTES'
+<script lang="ts">
+export default {
+  name: 'TownhallHomePage',
+}
 </script>
 
 <style scoped>
@@ -29,39 +28,22 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
 .content {
   text-align: center;
   background-color: #f5f3ff;
-  padding: 40px;
+  padding: 30px;
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  width: 90%;
 }
 
 .title {
   font-size: 2.5rem;
   color: #5e4b8b;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
-.subtitle {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 30px;
-}
-
-.button-group {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
-
-.btn {
-  width: 120px;
-  padding: 12px 25px;
+.create-button {
   background-color: #8e7cc3;
   color: white;
-  font-size: 1rem;
-  text-decoration: none;
+  font-size: 1.2rem;
+  padding: 15px 30px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -70,12 +52,12 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
     transform 0.2s ease;
 }
 
-.btn:hover {
-  background-color: #7a68a1;
+.create-button:hover {
+  background-color: #5e4b8b;
   transform: scale(1.05);
 }
 
-.btn:focus {
+.create-button:focus {
   outline: none;
 }
 </style>

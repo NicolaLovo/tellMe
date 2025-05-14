@@ -5,6 +5,9 @@ import CitizenWelcomePage from '../views/CitizenWelcomePage.vue'
 import Home from '../views/HomePage.vue'
 
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
+import TownhallLoginPage from '@/views/Auth/TownhallLoginPage.vue'
+import SurveyCreator from '@/views/SurveyCreator.vue'
+import TownhallHomePage from '@/views/TownhallHomePage.vue'
 import type { RouteRecordRaw } from 'vue-router'
 
 const routes: Array<RouteRecordRaw> = [
@@ -12,6 +15,21 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.home,
     name: 'Home',
     component: Home,
+  },
+  {
+    path: APP_ROUTES.townhall.login,
+    name: 'TownhallLogin',
+    component: TownhallLoginPage,
+  },
+  {
+    path: APP_ROUTES.townhall.home,
+    name: 'TownhallHome',
+    component: TownhallHomePage,
+  },
+  {
+    path: APP_ROUTES.townhall.createsurvery,
+    name: 'SurveyCreator',
+    component: SurveyCreator,
   },
   {
     path: APP_ROUTES.citizen.register,
