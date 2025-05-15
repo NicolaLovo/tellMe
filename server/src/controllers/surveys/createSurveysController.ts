@@ -18,6 +18,48 @@ export const createSurveyController = async (
   try {
     const { survey } = req.body;
 
+    if (
+      !survey?.title?.trim() ||
+      !survey?.status ||
+      !Array.isArray(survey.questions) ||
+      survey.questions.length === 0
+    ) {
+      return res.status(400).json({
+        status: 'error',
+        data: {
+          message: 'Missing or invalid required fields',
+        },
+      });
+    }
+
+    // Controllo ogni domanda
+    for (const question of survey.questions) {
+      if (!question.question?.trim()) {
+        return res.status(400).json({
+          status: 'error',
+          data: {
+            message: 'Each question must have a non-empty question text',
+          },
+        });
+      }
+
+      if (question.type === 'multiple-choice') {
+        if (
+          !Array.isArray(question.options) ||
+          question.options.length === 0 ||
+          question.options.some((option) => !option.text?.trim())
+        ) {
+          return res.status(400).json({
+            status: 'error',
+            data: {
+              message:
+                'Multiple-choice questions must have at least one option',
+            },
+          });
+        }
+      }
+    }
+
     const newSurvey = new SurveyModel(survey);
 
     await newSurvey.save();
