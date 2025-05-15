@@ -1,12 +1,12 @@
 <template>
-  <div class="home-container">
+  <div class="user-container">
     <div class="content">
-      <h1 class="title">Benvenuto nella Home Page</h1>
+      <h1 class="title">Benvenuto {{ userStore.user?.email }}!</h1>
+      <p class="subtitle">Accedi o registrati per continuare.</p>
 
       <div class="button-group">
-        <router-link :to="APP_ROUTES.citizen.welcome" class="btn">Utente</router-link>
-        <router-link :to="APP_ROUTES.agency.welcome" class="btn">Ente</router-link>
-        <router-link :to="APP_ROUTES.townCouncil.welcome" class="btn">Comune</router-link>
+        <router-link :to="APP_ROUTES.citizen.login" class="btn">Login</router-link>
+        <router-link :to="APP_ROUTES.citizen.register" class="btn">Registrati</router-link>
       </div>
     </div>
   </div>
@@ -14,10 +14,15 @@
 
 <script setup lang="ts">
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
+import { useUserStore } from '@/stores/useUserStore'
+
+const userStore = useUserStore()
+
+// Nessuna logica al momento
 </script>
 
 <style scoped>
-.home-container {
+.user-container {
   background-color: #f0f0f0;
   min-height: 100vh;
   display: flex;
@@ -50,13 +55,13 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
 
 .button-group {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
 }
 
 .btn {
-  width: 120px;
+  width: 200px;
   padding: 12px 25px;
   background-color: #9578f4;
   color: white;
@@ -71,7 +76,7 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
 }
 
 .btn:hover {
-  background-color: #815aff;
+  background-color: #815aff; /* Lilla più scuro al passaggio del mouse */
   transform: scale(1.05);
 }
 

@@ -1,14 +1,15 @@
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
 import { UserRole } from '@/types/auth/UserRole'
-import TownhallLoginPage from '@/views/townCouncil/auth/TownCouncilLoginPage.vue'
+import TownCouncilWelcomePage from '@/views/townCouncil/auth/TownCouncilWelcomePage.vue'
 import TownhallHomePage from '@/views/townCouncil/TownCouncilHomePage.vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 import CitizenLoginPage from '../views/citizen/auth/LoginCitizenPage.vue'
 import RegisterCitizenPage from '../views/citizen/auth/RegisterCitizenPage.vue'
-import CitizenWelcomePage from '../views/citizen/CitizenWelcomePage.vue'
-import Home from '../views/HomePage.vue'
+import CitizenWelcomePage from '../views/citizen/auth/CitizenWelcomePage.vue'
+import HomePage from '../views/HomePage.vue'
+import CitizenHomePage from '@/views/citizen/CitizenHomePage.vue'
 
 interface RouteMeta {
   requiresRoles?: UserRole[]
@@ -18,12 +19,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: APP_ROUTES.home,
     name: 'Home',
-    component: Home,
+    component: HomePage,
   },
   {
-    path: APP_ROUTES.townCouncil.login,
-    name: 'TownhallLogin',
-    component: TownhallLoginPage,
+    path: APP_ROUTES.townCouncil.welcome,
+    name: 'TownCouncilWelcome',
+    component: TownCouncilWelcomePage,
   },
   {
     path: APP_ROUTES.townCouncil.home,
@@ -43,6 +44,11 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true },
   },*/
   {
+    path: APP_ROUTES.citizen.welcome,
+    name: 'CitizenWelcome',
+    component: CitizenWelcomePage,
+  },
+  {
     path: APP_ROUTES.citizen.register,
     name: 'Register',
     component: RegisterCitizenPage,
@@ -55,7 +61,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: APP_ROUTES.citizen.home,
     name: 'CitizenHome',
-    component: CitizenWelcomePage,
+    component: CitizenHomePage,
   },
 ]
 
@@ -68,6 +74,18 @@ router.beforeEach((to, from, next) => {
   const { user } = useUserStore()
 
   const meta = to.meta as RouteMeta | undefined
+
+  // Redirect authenticated users from Home to their own Home page if authenticated
+ if (to.path === APP_ROUTES.home && user) {
+    if (user.roles.includes('townCouncil')) {
+      next({ path: APP_ROUTES.townCouncil.home })
+      return
+    }
+    if (user.roles.includes('citizen')) {
+      next({ path: APP_ROUTES.citizen.home })
+      return
+    }
+  }
 
   if (meta && meta.requiresRoles) {
     if (!user) {

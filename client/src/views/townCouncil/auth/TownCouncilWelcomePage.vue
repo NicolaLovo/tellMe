@@ -1,40 +1,16 @@
+<script setup lang="ts">
+import LoginTownCouncilWithPwdForm from '@/components/auth/citizen/LoginTownCouncilWithPwdForm.vue'
+</script>
+
 <template>
   <div class="comune-container">
     <div class="content">
       <h1 class="title">Accedi come Comune</h1>
       <p class="subtitle">Inserisci la tua password per accedere.</p>
-
-      <div class="input-group">
-        <input
-          v-model="password"
-          type="password"
-          placeholder="Inserisci la password"
-          class="password-input"
-        />
-      </div>
-
-      <div class="button-group">
-        <button @click="handleAccedi" class="btn">Accedi</button>
-      </div>
+      <LoginTownCouncilWithPwdForm />
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const password = ref('')
-
-// Funzione che può essere usata per gestire l'accesso
-const handleAccedi = () => {
-  if (password.value === '') {
-    alert('Inserisci una password!')
-  } else {
-    // Logica per il login (questa parte va implementata)
-    alert('Accesso effettuato con successo!')
-  }
-}
-</script>
 
 <style scoped>
 .comune-container {
@@ -94,7 +70,7 @@ const handleAccedi = () => {
 
 .btn {
   padding: 12px 25px;
-  background-color: #8e7cc3;
+  background-color: #9578f4;
   color: white;
   font-size: 1rem;
   text-decoration: none;
@@ -107,7 +83,7 @@ const handleAccedi = () => {
 }
 
 .btn:hover {
-  background-color: #7a68a1;
+  background-color: #815aff;
   transform: scale(1.05);
 }
 
