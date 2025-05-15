@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { Survey } from '@/types/survey/Survey'
 import { v4 as uuidv4 } from 'uuid'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import SurveyQuestionForm from './SurveyQuestionForm.vue'
 
 const router = useRouter()
 
+const errorMessage = ref('')
 const survey = reactive<Survey>({
   title: '',
   status: 'draft',
@@ -19,7 +21,7 @@ const survey = reactive<Survey>({
   ],
 })
 
-const addQuestion = () => {
+const addMultipleChoiceQuestion = () => {
   survey.questions.push({
     id: uuidv4(),
     question: '',
@@ -41,14 +43,16 @@ const removeOption = (questionIndex: number, optionIndex: number) => {
 }
 
 const handleSubmit = () => {
-  if (!survey.title) {
-    alert('Per favore, inserisci il titolo del sondaggio!')
-    return
-  }
+  /**
+   * No need for text input validation, since all fields are required in the template.
+   * Check that each question has at least one option.
+   */
 
-  if (survey.questions.some((q) => !q.question || q.options.some((opt) => !opt.text))) {
-    alert('Per favore, compila tutte le domande e le opzioni!')
-    return
+  for (const question of survey.questions) {
+    if (question.options.length === 0) {
+      errorMessage.value = "Ogni domanda deve avere almeno un'opzione."
+      return
+    }
   }
 
   const surveyData = { ...survey, createdAt: new Date() }
@@ -79,51 +83,20 @@ const handleSubmit = () => {
           :key="questionItem.id"
           class="section"
         >
-          <div class="section-header">
-            <label :for="'question-' + questionIndex">Domanda {{ questionIndex + 1 }}:</label>
-            <button type="button" @click="removeQuestion(questionIndex)" class="remove-btn">
-              Rimuovi Domanda
-            </button>
-          </div>
-
-          <input
-            type="text"
-            :id="'question-' + questionIndex"
-            v-model="questionItem.question"
-            class="uniform-input"
-            placeholder="Scrivi la tua domanda"
-            required
+          <SurveyQuestionForm
+            :question="questionItem"
+            @remove-question="removeQuestion(questionIndex)"
+            @add-option="addOption(questionIndex)"
+            @remove-option="removeOption(questionIndex, $event)"
           />
-
-          <div>
-            <label>Opzioni:</label>
-            <div
-              v-for="(option, optionIndex) in questionItem.options"
-              :key="option.id"
-              class="option-group"
-            >
-              <input
-                type="text"
-                v-model="option.text"
-                class="uniform-input"
-                placeholder="Inserisci l'opzione"
-                required
-              />
-              <button
-                type="button"
-                @click="removeOption(questionIndex, optionIndex)"
-                class="remove-btn small"
-              >
-                Rimuovi Opzione
-              </button>
-            </div>
-            <button type="button" @click="addOption(questionIndex)" class="add-option-btn">
-              Aggiungi Opzione
-            </button>
-          </div>
         </div>
 
-        <button type="button" @click="addQuestion" class="add-section-btn">Aggiungi Domanda</button>
+        <button type="button" @click="addMultipleChoiceQuestion" class="add-section-btn">
+          Aggiungi Domanda
+        </button>
+
+        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+
         <button type="submit" class="submit-btn">Crea Sondaggio</button>
       </form>
     </div>
@@ -131,6 +104,12 @@ const handleSubmit = () => {
 </template>
 
 <style scoped>
+.error-message {
+  color: red;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
 .survey-container {
   background-color: #f5f3ff;
   min-height: 100vh;
