@@ -20,9 +20,11 @@ const removeLocalOption = (index: number) => {
   <div class="section">
     <div class="section-header">
       <label :for="'question-' + question.id">Domanda:</label>
-      <button type="button" @click="$emit('remove-question')" class="btn danger small">
-        <i class="pi pi-trash"></i>
-      </button>
+      <div class="section-header-actions">
+        <button type="button" @click="$emit('remove-question')" class="btn danger small">
+          <i class="pi pi-trash"></i>
+        </button>
+      </div>
     </div>
 
     <input
@@ -67,9 +69,13 @@ const removeLocalOption = (index: number) => {
 
 .section-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+  gap: 10px;
+}
+
+.section-header-actions {
+  margin-left: auto;
 }
 
 .option-group {
@@ -77,6 +83,10 @@ const removeLocalOption = (index: number) => {
   gap: 10px;
   margin-bottom: 10px;
   align-items: center;
+}
+
+.option-group .uniform-input {
+  margin-bottom: 0;
 }
 
 .uniform-input {
@@ -96,7 +106,6 @@ label {
   color: #333;
 }
 
-/* PULSANTI UNIFORMI E PIÙ PICCOLI */
 .btn {
   padding: 8px 12px;
   font-size: 0.9rem;
@@ -117,14 +126,13 @@ label {
   transform: translateY(-1px);
 }
 
-/* Colori */
 .btn.primary {
-  background-color: #007bff;
+  background-color: #28a745;
   color: white;
 }
 
 .btn.primary:hover {
-  background-color: #0056b3;
+  background-color: #218838;
 }
 
 .btn.danger {
@@ -136,9 +144,10 @@ label {
   background-color: #d32f2f;
 }
 
-/* Dimensioni ridotte */
 .btn.small {
-  padding: 6px 10px;
+  padding: 10px 10px;
   font-size: 0.8rem;
+  display: block;
+  margin: 0 auto;
 }
 </style>

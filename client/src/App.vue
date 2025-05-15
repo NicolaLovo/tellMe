@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import router from '@/router'
 import { getAuth, signOut } from 'firebase/auth'
-// import SurveyCreateForm from './components/surveys/SurveyCreateForm/SurveyCreateForm.vue'
+import SurveyCreateForm from './components/surveys/SurveyCreateForm/SurveyCreateForm.vue'
 import { APP_ROUTES } from './constants/APP_ROUTES'
 import { useUserStore } from './stores/useUserStore'
 
@@ -33,9 +33,9 @@ const logout = async () => {
       </div>
     </header>
 
-    <router-view />
+    <!--<router-view />-->
 
-    <!-- <SurveyCreateForm /> -->
+    <SurveyCreateForm />
   </div>
 </template>
 
@@ -51,7 +51,7 @@ const logout = async () => {
 }
 
 .home-btn {
-  background-color: #4f0adf;
+  background-color: #6226e3;
   color: white;
   padding: 8px 16px;
   border: none;
@@ -61,8 +61,8 @@ const logout = async () => {
 }
 
 .home-btn:hover {
-  background-color: #36039f; /* viola leggermente più scuro al passaggio */
-  transform: scale(1.1); /* effetto zoom leggero */
+  background-color: #36039f;
+  transform: scale(1.1);
 }
 
 .logout-btn {
