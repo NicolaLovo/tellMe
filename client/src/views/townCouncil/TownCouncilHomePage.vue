@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <div class="content">
-      <h1 class="title">Benvenuto nella Home Page</h1>
+      <h1 class="title">Benvenuto comune!</h1>
       <button class="create-button" @click="$router.push('/townhall/createsurvey')">
         Crea Sondaggio
       </button>
@@ -17,7 +17,7 @@ export default {
 
 <style scoped>
 .home-container {
-  background-color: white;
+  background-color: #f0f0f0;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -40,7 +40,7 @@ export default {
 }
 
 .create-button {
-  background-color: #8e7cc3;
+  background-color: #9578f4;
   color: white;
   font-size: 1.2rem;
   padding: 15px 30px;
@@ -53,7 +53,7 @@ export default {
 }
 
 .create-button:hover {
-  background-color: #5e4b8b;
+  background-color: #815aff;
   transform: scale(1.05);
 }
 

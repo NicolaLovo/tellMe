@@ -1,13 +1,9 @@
 <template>
   <div class="user-container">
     <div class="content">
-      <h1 class="title">Benvenuto, {{ userStore.user?.email }}!</h1>
+      <h1 class="title">Benvenuto {{ userStore.user?.email }}!</h1>
       <p class="subtitle">Accedi o registrati per continuare.</p>
-
-      <div class="button-group">
-        <router-link :to="APP_ROUTES.citizen.login" class="btn">Login</router-link>
-        <router-link :to="APP_ROUTES.citizen.register" class="btn">Registrati</router-link>
-      </div>
+      dummy agency page
     </div>
   </div>
 </template>
@@ -23,7 +19,7 @@ const userStore = useUserStore()
 
 <style scoped>
 .user-container {
-  background-color: white;
+  background-color: #f0f0f0;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -43,7 +39,7 @@ const userStore = useUserStore()
 
 .title {
   font-size: 2.5rem;
-  color: #5e4b8b;
+  color: #4f0adf;
   margin-bottom: 10px;
 }
 
@@ -63,7 +59,7 @@ const userStore = useUserStore()
 .btn {
   width: 200px;
   padding: 12px 25px;
-  background-color: #8e7cc3;
+  background-color: #9578f4;
   color: white;
   font-size: 1rem;
   text-decoration: none;
@@ -76,7 +72,7 @@ const userStore = useUserStore()
 }
 
 .btn:hover {
-  background-color: #7a68a1; /* Lilla più scuro al passaggio del mouse */
+  background-color: #815aff; /* Lilla più scuro al passaggio del mouse */
   transform: scale(1.05);
 }
 

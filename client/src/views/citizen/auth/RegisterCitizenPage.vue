@@ -98,7 +98,7 @@ const registerWithEmailAndPassword = async () => {
 }
 
 .register-container {
-  background-color: white;
+  background-color: #f0f0f0;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -139,7 +139,7 @@ const registerWithEmailAndPassword = async () => {
 
 .btn {
   padding: 12px 25px;
-  background-color: #8e7cc3;
+  background-color: #9578f4;
   color: white;
   font-size: 1rem;
   border: none;
@@ -152,7 +152,7 @@ const registerWithEmailAndPassword = async () => {
 }
 
 .btn:hover {
-  background-color: #7a68a1;
+  background-color: #815aff;
   transform: scale(1.05);
 }
 

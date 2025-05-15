@@ -9,20 +9,23 @@ import { useToast } from 'vue-toastification'
 const toast = useToast()
 
 const loginFormData = reactive({
-  email: '',
   password: '',
   errorMessage: '',
 })
 
 const onSubmit = async () => {
   loginFormData.errorMessage = ''
+  if (!loginFormData.password) {
+    loginFormData.errorMessage = 'Per favore inserisci la password.'
+    return
+  }
 
   try {
     // 1. Autentication with Firebase
     const auth = getAuth()
     const userCredential = await signInWithEmailAndPassword(
       auth,
-      loginFormData.email,
+      'comune@tellme.com',
       loginFormData.password,
     )
 
@@ -45,7 +48,9 @@ const onSubmit = async () => {
       return
     }
     toast.success('Login avvenuto con successo!')
+
     const userStore = useUserStore()
+
     const user = userStore.login({
       token: serverResponse.data.token,
     })
@@ -69,11 +74,9 @@ const onSubmit = async () => {
 
 <template>
   <form @submit.prevent="onSubmit">
-    <input type="email" placeholder="Email" v-model="loginFormData.email" class="input" />
     <input type="password" placeholder="Password" v-model="loginFormData.password" class="input" />
     <button type="submit" class="btn">Accedi</button>
   </form>
-
   <!-- Messaggio di errore -->
   <p v-if="loginFormData.errorMessage" class="error">{{ loginFormData.errorMessage }}</p>
 </template>
