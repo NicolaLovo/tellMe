@@ -84,7 +84,7 @@ const onSubmit = async () => {
 <style scoped>
 .btn {
   padding: 12px 25px;
-  background-color: #9578f4; /* Colore lilla */
+  background-color: #9578f4;
   color: white;
   font-size: 1rem;
   border: none;
@@ -93,7 +93,8 @@ const onSubmit = async () => {
   transition:
     background-color 0.3s ease,
     transform 0.2s ease;
-  width: 100%;
+  width: 95%;
+  margin: 10px 0;
 }
 
 .btn:hover {
@@ -116,7 +117,6 @@ const onSubmit = async () => {
 
 input:focus {
   border-color: #815aff; /* blue border when focused */
-  outline: none;         /* removes default browser outline */
+  outline: none; /* removes default browser outline */
 }
-
 </style>
