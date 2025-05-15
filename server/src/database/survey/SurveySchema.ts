@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-const optionSchema = new Schema(
+const OptionSchema = new Schema(
   {
     id: { type: String, required: true },
     text: { type: String, required: true },
@@ -8,24 +8,24 @@ const optionSchema = new Schema(
   { _id: false },
 );
 
-const questionSchema = new Schema(
+const QuestionSchema = new Schema(
   {
     id: { type: String, required: true },
     question: { type: String, required: true },
     type: { type: String, enum: ['multiple-choice'], required: true },
-    options: { type: [optionSchema], required: true },
+    options: { type: [OptionSchema], required: true },
   },
   { _id: false },
 );
 
-const surveySchema = new Schema({
+const SurveySchema = new Schema({
   title: { type: String, required: true },
   status: {
     type: String,
     enum: ['draft', 'published', 'closed'],
     required: true,
   },
-  questions: { type: [questionSchema], required: true },
+  questions: { type: [QuestionSchema], required: true },
 });
 
 export interface SurveySchema extends Document {
@@ -42,4 +42,4 @@ export interface SurveySchema extends Document {
   }>;
 }
 
-export const SurveyModel = mongoose.model<SurveySchema>('Survey', surveySchema);
+export const SurveyModel = mongoose.model<SurveySchema>('Survey', SurveySchema);
