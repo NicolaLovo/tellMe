@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import router from '@/router'
 import { getAuth, signOut } from 'firebase/auth'
+// import SurveyCreateForm from './components/surveys/SurveyCreateForm/SurveyCreateForm.vue'
 import { APP_ROUTES } from './constants/APP_ROUTES'
 import { useUserStore } from './stores/useUserStore'
 

@@ -20,8 +20,8 @@ const removeLocalOption = (index: number) => {
   <div class="section">
     <div class="section-header">
       <label :for="'question-' + question.id">Domanda:</label>
-      <button type="button" @click="$emit('remove-question')" class="remove-btn">
-        Rimuovi Domanda
+      <button type="button" @click="$emit('remove-question')" class="btn danger small">
+        <i class="pi pi-trash"></i>
       </button>
     </div>
 
@@ -44,11 +44,13 @@ const removeLocalOption = (index: number) => {
           placeholder="Inserisci l'opzione"
           required
         />
-        <button type="button" @click="removeLocalOption(optionIndex)" class="remove-btn small">
-          Rimuovi Opzione
+        <button type="button" @click="removeLocalOption(optionIndex)" class="btn danger small">
+          <i class="pi pi-trash"></i>
         </button>
       </div>
-      <button type="button" @click="addLocalOption" class="add-option-btn">Aggiungi Opzione</button>
+      <button type="button" @click="addLocalOption" class="btn primary small">
+        Aggiungi Opzione
+      </button>
     </div>
   </div>
 </template>
@@ -70,46 +72,11 @@ const removeLocalOption = (index: number) => {
   margin-bottom: 15px;
 }
 
-.remove-btn {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 5px 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.remove-btn:hover {
-  background-color: #d32f2f;
-}
-
 .option-group {
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
   align-items: center;
-}
-
-.remove-btn.small {
-  padding: 8px 10px;
-  font-size: 0.9rem;
-}
-
-.add-option-btn {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.add-option-btn:hover {
-  background-color: #0056b3;
 }
 
 .uniform-input {
@@ -120,9 +87,6 @@ const removeLocalOption = (index: number) => {
   border-radius: 8px;
   box-sizing: border-box;
   margin-bottom: 15px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 label {
@@ -130,5 +94,51 @@ label {
   font-weight: bold;
   margin-bottom: 8px;
   color: #333;
+}
+
+/* PULSANTI UNIFORMI E PIÙ PICCOLI */
+.btn {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition:
+    background-color 0.3s ease,
+    transform 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Colori */
+.btn.primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn.primary:hover {
+  background-color: #0056b3;
+}
+
+.btn.danger {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn.danger:hover {
+  background-color: #d32f2f;
+}
+
+/* Dimensioni ridotte */
+.btn.small {
+  padding: 6px 10px;
+  font-size: 0.8rem;
 }
 </style>
