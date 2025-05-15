@@ -49,7 +49,7 @@ export const createSurveyController = async (
           question.options.length === 0 ||
           question.options.some((option) => !option.text?.trim())
         ) {
-          return res.status(400).json({
+          res.status(400).json({
             status: 'error',
             data: {
               message:
