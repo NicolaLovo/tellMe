@@ -24,7 +24,7 @@ export const createSurveyController = async (
       !Array.isArray(survey.questions) ||
       survey.questions.length === 0
     ) {
-      return res.status(400).json({
+      res.status(400).json({
         status: 'error',
         data: {
           message: 'Missing or invalid required fields',
@@ -35,7 +35,7 @@ export const createSurveyController = async (
     // Controllo ogni domanda
     for (const question of survey.questions) {
       if (!question.question?.trim()) {
-        return res.status(400).json({
+        res.status(400).json({
           status: 'error',
           data: {
             message: 'Each question must have a non-empty question text',

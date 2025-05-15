@@ -2,6 +2,7 @@
 import router from '@/router'
 import { getAuth, signOut } from 'firebase/auth'
 // import SurveyCreateForm from './components/surveys/SurveyCreateForm/SurveyCreateForm.vue'
+//import SurveyClientView from './components/surveys/visualiseSurvey/SurveyClientView.vue'
 import { APP_ROUTES } from './constants/APP_ROUTES'
 import { useUserStore } from './stores/useUserStore'
 
@@ -33,8 +34,9 @@ const logout = async () => {
       </div>
     </header>
 
-    <router-view />
+    <!-- <router-view /> -->
 
+    <survey-client-view />
     <!-- <SurveyCreateForm /> -->
   </div>
 </template>
