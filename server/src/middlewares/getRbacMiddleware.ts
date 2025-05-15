@@ -8,6 +8,12 @@ interface GetRbacMiddlewareProps {
   requiredRoles: UserRole[];
 }
 
+/**
+ * Decodes a JWT token and extracts the claims as a `TokenPayload` object.
+ *
+ * @param token - The JWT token string to decode.
+ * @returns The extracted `TokenPayload` claims if decoding is successful; otherwise, `null`.
+ */
 const decodeTokenClaims = (token: string): TokenPayload | null => {
   try {
     const decoded = jwtDecode(token);
@@ -26,6 +32,25 @@ const decodeTokenClaims = (token: string): TokenPayload | null => {
   }
 };
 
+const UNAUTHORIZED_RESPONSE: TmErrorResponse = {
+  status: 'error',
+  data: {
+    message: 'Unauthorized',
+  },
+};
+
+/**
+ * Creates an Express middleware function for Role-Based Access Control (RBAC).
+ *
+ * This middleware checks if the incoming request contains a valid authorization token
+ * and verifies that the user has all the required roles specified in `requiredRoles`.
+ * If the authorization header is missing, malformed, or the token is invalid, it responds
+ * with a 401 Unauthorized status. If the user does not have all required roles, it responds
+ * with a 403 Forbidden status. Otherwise, it calls `next()` to proceed to the next middleware.
+ *
+ * @param requiredRoles - An array of roles that the user must have to access the route.
+ * @returns An Express middleware function that enforces RBAC based on the provided roles.
+ */
 export const getRbacMiddleware = ({
   requiredRoles,
 }: GetRbacMiddlewareProps) => {
@@ -35,13 +60,6 @@ export const getRbacMiddleware = ({
     next: NextFunction,
   ) => {
     const authorization = req.headers.authorization;
-
-    const UNAUTHORIZED_RESPONSE: TmErrorResponse = {
-      status: 'error',
-      data: {
-        message: 'Unauthorized',
-      },
-    };
 
     if (!authorization) {
       res.status(401).end(UNAUTHORIZED_RESPONSE);
