@@ -22,8 +22,10 @@ const logout = async () => {
   <div>
     <header class="app-header">
       <button @click="goHome" class="home-btn">Home</button>
-      <div  style="display: flex; justify-content: flex-end; gap: 1rem; align-items: center;">
-        <div v-if="userStore.user?.roles?.includes('citizen')" class="role-div">Cittadino</div>
+      <div style="display: flex; justify-content: flex-end; gap: 1rem; align-items: center">
+        <div v-if="userStore.user?.roles?.includes('citizen')" class="role-div">
+          {{ userStore.user.email }}
+        </div>
         <div v-if="userStore.user?.roles?.includes('townCouncil')" class="role-div">Comune</div>
         <div v-if="userStore.user?.roles?.includes('agency')" class="role-div">Ente</div>
         <button v-if="!!userStore.user" @click="logout" class="logout-btn">Logout</button>
@@ -75,12 +77,11 @@ const logout = async () => {
   transform: scale(1.1);
 }
 
-.role-div{
+.role-div {
   background-color: #4f0adf;
   color: white;
   padding: 8px 16px;
   border-radius: 8px;
   font-size: 1rem;
 }
-
 </style>
