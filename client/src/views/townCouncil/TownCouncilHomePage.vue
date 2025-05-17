@@ -2,7 +2,7 @@
   <div class="home-container">
     <div class="content">
       <h1 class="title">Benvenuto comune!</h1>
-      <button class="create-button" @click="$router.push('/townhall/createsurvey')">
+      <button class="create-button" @click="$router.push('/towncouncil/createsurvey')">
         Crea Sondaggio
       </button>
     </div>

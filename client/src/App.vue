@@ -34,9 +34,8 @@ const logout = async () => {
       </div>
     </header>
 
-    <!-- <router-view /> -->
-
-    <survey-client-view />
+    <router-view />
+    
     <!-- <SurveyCreateForm /> -->
   </div>
 </template>

@@ -2,7 +2,7 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
 import { UserRole } from '@/types/auth/UserRole'
 import TownCouncilWelcomePage from '@/views/townCouncil/auth/TownCouncilWelcomePage.vue'
-import TownhallHomePage from '@/views/townCouncil/TownCouncilHomePage.vue'
+import TownCouncilHomePage from '@/views/townCouncil/TownCouncilHomePage.vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 import CitizenLoginPage from '../views/citizen/auth/LoginCitizenPage.vue'
@@ -10,6 +10,7 @@ import RegisterCitizenPage from '../views/citizen/auth/RegisterCitizenPage.vue'
 import CitizenWelcomePage from '../views/citizen/auth/CitizenWelcomePage.vue'
 import HomePage from '../views/HomePage.vue'
 import CitizenHomePage from '@/views/citizen/CitizenHomePage.vue'
+import SurveyCreationPage from '@/views/townCouncil/survey/SurveyCreationPage.vue'
 
 interface RouteMeta {
   requiresRoles?: UserRole[]
@@ -28,21 +29,17 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: APP_ROUTES.townCouncil.home,
-    name: 'TownhallHome',
-    component: TownhallHomePage,
+    name: 'TowncouncilHome',
+    component: TownCouncilHomePage,
     meta: {
-      /**
-       * RBAC: A user must have the 'townCouncil' role to access this route.
-       */
-      requiresRoles: ['townCouncil'],
+       requiresRoles: ['townCouncil'],
     } satisfies RouteMeta,
   },
-  /*{
-    path: APP_ROUTES.townhall.createsurvery,
-    name: 'SurveyCreator',
-    component: SurveyCreator,
-    meta: { requiresAuth: true },
-  },*/
+  {
+    path: APP_ROUTES.townCouncil.createsurvery,
+    name: 'SurveyCreation',
+    component: SurveyCreationPage,
+  },
   {
     path: APP_ROUTES.citizen.welcome,
     name: 'CitizenWelcome',
