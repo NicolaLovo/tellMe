@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createSurveyController } from '../../controllers/surveys/createSurveysController';
+import { createSurveyController } from '../../controllers/surveys/createSurveyController';
 import { getRbacMiddleware } from '../../middlewares/getRbacMiddleware';
 
 const surveyRouter = Router();
