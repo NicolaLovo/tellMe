@@ -1,13 +1,12 @@
 <script setup lang="ts">
+import { ApiClient } from '@/api/ApiClient'
 import { Survey } from '@/types/survey/Survey'
 import { v4 as uuidv4 } from 'uuid'
 import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import SurveyQuestionForm from './SurveyQuestionForm.vue'
-import { ApiClient } from '@/api/ApiClient' 
-import { TownCouncilApiClient } from '@/api/TownCouncil/TownCouncilApiClient'
+import { useUserStore } from '../../../stores/useUserStore';
 
-const router = useRouter()
+const userStore = useUserStore()
 
 const errorMessage = ref('')
 const survey = reactive<Survey>({
@@ -44,22 +43,20 @@ const removeOption = (questionIndex: number, optionIndex: number) => {
   survey.questions[questionIndex].options.splice(optionIndex, 1)
 }
 
-const apiClient = new TownCouncilApiClient({ jwtToken })
+const apiClient = new ApiClient({userStore.})
 
-const handleSubmit = async (survey: Survey) => {
+const handleSubmit = async () => {
   try {
-    const response = await apiClient.surveys.createSurvey(survey)
+    const response = await apiClient.townCouncil.createSurvey(survey)
 
-    if (response.status === 'success' && response.data?.surveyId) {
-      console.log('Created survey with ID:', response.data.surveyId)
-      // mostra messaggio di successo / reindirizza
+    if (response.status === 'success') {
+      console.log('Created survey')
     } else {
-      console.error('Errore nella risposta:', response.data?.message)
-      // mostra messaggio d'errore in UI
+      errorMessage.value = response.data?.message || 'Errore nella creazione del sondaggio.'
     }
   } catch (err) {
-    console.error('Failed to create survey:', err)
-    // mostra errore in UI
+    errorMessage.value = 'Errore nella creazione del sondaggio.'
+    console.error(err)
   }
 }
 </script>

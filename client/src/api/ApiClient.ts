@@ -9,20 +9,19 @@ export class ApiClient {
   private jwtToken: string | null
 
   private authApiClient: AuthApiClient
-  static townCouncil: any
+  private townCouncilApiClient: TownCouncilApiClient
+
   constructor({ jwtToken }: ApiClientProps) {
     this.jwtToken = jwtToken || null
     this.authApiClient = new AuthApiClient({ jwtToken: this.jwtToken })
-  }
-
-  private townCouncil = new TownCouncilApiClient()
-
-  get townCouncil() {
-    return this.townCouncil
+    this.townCouncilApiClient = new TownCouncilApiClient({ jwtToken: this.jwtToken })
   }
 
   get auth() {
     return this.authApiClient
   }
-}
 
+  get townCouncil() {
+    return this.townCouncilApiClient
+  }
+}

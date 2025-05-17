@@ -1,4 +1,6 @@
 import { HTTP_TMRESPONSES } from '@/constants/HTTP_TMRESPONSES'
+import { TmResponse } from '@/types/common/utils/TmResponse'
+import { Survey } from '@/types/survey/Survey'
 import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
 
 export class TownCouncilSurveysApiClient extends ApiClientChildren {
@@ -6,9 +8,9 @@ export class TownCouncilSurveysApiClient extends ApiClientChildren {
     super(props)
   }
 
-  public async createSurvey(data: any): Promise<TmResponse<any>> {
+  public async createSurvey(survey: Survey): Promise<TmResponse<any>> {
     try {
-      const response = await this.httpClient.post<TmResponse<any>>(`/api/v1/surveys`, data)
+      const response = await this.httpClient.post<TmResponse<any>>(`/api/v1/surveys`, survey)
       return response ?? HTTP_TMRESPONSES.error
     } catch (error) {
       console.error('Survey creation error:', error)
