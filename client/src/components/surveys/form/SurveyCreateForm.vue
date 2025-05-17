@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import SurveyQuestionForm from './SurveyQuestionForm.vue'
+import { ApiClient } from '@/api/ApiClient' 
 
 const router = useRouter()
 
@@ -48,16 +49,16 @@ const handleSubmit = () => {
    * Check that each question has at least one option.
    */
 
-  for (const question of survey.questions) {
-    if (question.options.length === 0) {
-      errorMessage.value = "Ogni domanda deve avere almeno un'opzione."
-      return
+  const handleSubmit = async (survey: Survey) => {
+    try {
+      const { surveyId } = await ApiClient.townCouncil.surveys.create(survey);
+      console.log('Created survey with ID:', surveyId);
+      // mostra messaggio di successo / reindirizza
+    } catch (err) {
+      console.error('Failed to create survey:', err);
+      // mostra errore UI
     }
   }
-
-  const surveyData = { ...survey, createdAt: new Date() }
-
-  alert(JSON.stringify(surveyData, null, 2))
 }
 </script>
 
