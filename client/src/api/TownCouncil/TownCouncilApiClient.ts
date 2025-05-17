@@ -13,22 +13,4 @@ export class TownCouncilApiClient extends ApiClientChildren {
     this.surveys = new TownCouncilSurveysApiClient(props)
   }
 
-  public async create(survey: Survey): Promise<TmResponse<{ success: boolean }>> {
-    try {
-      const response = await this.httpClient.post<TmResponse<{ success: boolean }>>(
-        `${API_URL}/api/v1/townCouncil/surveys`,
-        survey,
-      )
-
-      return response ?? HTTP_TMRESPONSES.error
-    } catch (error) {
-      console.error('Create Survey error:', error)
-      return {
-        status: 'error',
-        data: {
-          message: 'Error in Create Survey request',
-        },
-      }
-    }
-  }
 }
