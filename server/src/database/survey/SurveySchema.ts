@@ -1,4 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
+import { SurveyQuestion } from '../../types/survey/SurveyQuestion';
+import { SurveyStatus } from '../../types/survey/SurveyStatus';
 
 const OptionSchema = new Schema(
   {
@@ -28,18 +30,13 @@ const SurveySchema = new Schema({
   questions: { type: [QuestionSchema], required: true },
 });
 
-export interface SurveySchema extends Document {
+export interface SurveyModelSchema extends Document {
   title: string;
-  status: 'draft' | 'published' | 'closed';
-  questions: Array<{
-    id: string;
-    question: string;
-    type: 'multiple-choice';
-    options: Array<{
-      id: string;
-      text: string;
-    }>;
-  }>;
+  status: SurveyStatus;
+  questions: SurveyQuestion[];
 }
 
-export const SurveyModel = mongoose.model<SurveySchema>('Survey', SurveySchema);
+export const SurveyModel = mongoose.model<SurveyModelSchema>(
+  'Survey',
+  SurveySchema,
+);
