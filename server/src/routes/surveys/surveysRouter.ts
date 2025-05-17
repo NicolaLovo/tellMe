@@ -11,5 +11,6 @@ surveyRouter.post(
   }),
   createSurveyController,
 );
+surveyRouter.put('/:id/publish', )
 
 export default surveyRouter;
