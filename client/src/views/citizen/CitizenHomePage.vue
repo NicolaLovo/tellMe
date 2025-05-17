@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { useUserStore } from '@/stores/useUserStore'
+
+const userStore = useUserStore()
+</script>
+
 <template>
   <div class="user-container">
     <div class="content">
@@ -6,14 +12,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { useUserStore } from '@/stores/useUserStore'
-
-const userStore = useUserStore()
-
-// Nessuna logica al momento
-</script>
 
 <style scoped>
 .user-container {

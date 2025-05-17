@@ -46,18 +46,18 @@ export const useUserStore = defineStore('user', () => {
   const token = localStorage.getItem(LOCALSTORAGE_KEYS.jwtToken)
   const payload = decodeTokenClaims(token ?? '')
 
-  // Recupera lo stato utente da localStorage o imposta come null se non presente
+  // Retrieve user state from localStorage or set to null if not present
   const user = ref<User | null>(
     payload && token
       ? { uid: payload.uid, email: payload.email, roles: payload.roles, token }
       : null,
   )
 
-  // Funzione di login per impostare l'utente e salvarlo in localStorage
+  // Login function to set the user and save it in localStorage
   const login = ({ token }: { token: string }): User | null => {
     const payload = decodeTokenClaims(token)
 
-    // Recupera lo stato utente da localStorage o imposta come null se non presente
+    // Retrieves user state from localStorage or sets it to null if not present
     const data: User | null =
       payload && token
         ? {
@@ -73,7 +73,7 @@ export const useUserStore = defineStore('user', () => {
     return data
   }
 
-  // Funzione di logout per resettare l'utente e rimuoverlo da localStorage
+  // Logout function to reset the user and remove it from localStorage
   const logout = () => {
     user.value = null
     localStorage.removeItem(LOCALSTORAGE_KEYS.jwtToken)
@@ -85,48 +85,3 @@ export const useUserStore = defineStore('user', () => {
     logout,
   }
 })
-
-//vecchia versione - dovrei aver aggiunto la persistenza
-
-/*import type { User } from '@/types/auth/User'
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
-
-/**
- * A Pinia store for managing user state.
- *
- * @remarks
- * This store provides reactive state management for user-related data,
- * including login and logout functionality.
- *
- * @example
- * ```typescript
- * import { useUserStore } from '@/stores/user';
- *
- * const userStore = useUserStore();
- * ```
- *
- * @returns An object containing:
- * - `user`: A reactive reference to the current user or `null` if no user is logged in.
- * - `login`: A function to log in a user by setting the `user` state.
- * - `logout`: A function to log out the user by clearing the `user` state.
- */
-/*
-export const useUserStore = defineStore('user', () => {
-  const user = ref<User | null>(null)
-
-  const login = (body: { user: User | null }) => {
-    user.value = body.user
-  }
-
-  const logout = () => {
-    user.value = null
-  }
-
-  return {
-    user,
-    login,
-    logout,
-  }
-})
-*/

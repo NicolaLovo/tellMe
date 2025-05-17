@@ -93,7 +93,7 @@ const onClick = async () => {
 <style scoped>
 .btn {
   padding: 12px 25px;
-  background-color: #9578f4; /* Colore lilla */
+  background-color: #9578f4;
   color: white;
   font-size: 1rem;
   border: none;
@@ -106,7 +106,7 @@ const onClick = async () => {
 }
 
 .btn:hover {
-  background-color: #815aff; /* Lilla più scuro al passaggio del mouse */
+  background-color: #815aff;
   transform: scale(1.05);
 }
 

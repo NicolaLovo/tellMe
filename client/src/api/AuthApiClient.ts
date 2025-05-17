@@ -3,11 +3,17 @@ import { TmResponse } from '@/types/common/utils/TmResponse'
 import { API_URL } from '../constants/API_URL'
 import { ApiClientChildren, ApiClientChildrenProps } from './base/ApiClientChildren'
 
+/**
+ * API client class responsible for authentication
+ */
 export class AuthApiClient extends ApiClientChildren {
   constructor(props: ApiClientChildrenProps) {
     super(props)
   }
 
+  /**
+   * Sends a login request using a Firebase token
+   */
   public async login(body: { firebaseToken: string }): Promise<TmResponse<{ token: string }>> {
     try {
       const response = await this.httpClient.post<TmResponse<{ token: string }>>(
@@ -26,6 +32,9 @@ export class AuthApiClient extends ApiClientChildren {
     }
   }
 
+  /**
+   * Registers a new citizen user using an email and a Firebase token.
+   */
   public async registerCitizen(body: {
     email: string
     firebaseToken: string

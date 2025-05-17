@@ -11,6 +11,11 @@ type ResBody = TmResponse<{
   surveyId: string;
 }>;
 
+/**
+ * Controller for creating a new survey
+ * Ensures the survey is correctly filled before saving it into the database
+ * Returns the survey ID, if the save was successfull
+ */
 export const createSurveyController = async (
   req: Request<{}, ResBody, ReqBody>,
   res: Response<ResBody>,
@@ -32,7 +37,7 @@ export const createSurveyController = async (
       });
     }
 
-    // Controllo ogni domanda
+    // Validate each question
     for (const question of survey.questions) {
       if (!question.question?.trim()) {
         res.status(400).json({
@@ -43,6 +48,7 @@ export const createSurveyController = async (
         });
       }
 
+      // Validate multiple-choice question options
       if (question.type === 'multiple-choice') {
         if (
           !Array.isArray(question.options) ||
@@ -60,10 +66,11 @@ export const createSurveyController = async (
       }
     }
 
+    // Save the validated survey to the database
     const newSurvey = new SurveyModel(survey);
-
     await newSurvey.save();
 
+    // Return the new survey ID if successfull
     res.status(200).json({
       status: 'success',
       data: {

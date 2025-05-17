@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
+</script>
+
 <template>
   <div class="home-container">
     <div class="content">
@@ -11,10 +15,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { APP_ROUTES } from '@/constants/APP_ROUTES'
-</script>
 
 <style scoped>
 .home-container {

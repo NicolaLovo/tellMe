@@ -5,6 +5,11 @@ interface ApiClientProps {
   jwtToken?: string | null
 }
 
+/**
+ * Root API client class
+ * It provides access to other API clients
+ */
+
 export class ApiClient {
   private jwtToken: string | null
 
@@ -17,10 +22,16 @@ export class ApiClient {
     this.townCouncilApiClient = new TownCouncilApiClient({ jwtToken: this.jwtToken })
   }
 
+  /**
+   * Provides access to the Authentication API client.
+   */
   get auth() {
     return this.authApiClient
   }
 
+  /**
+   * Provides access to the API client for the Town Council
+   */
   get townCouncil() {
     return this.townCouncilApiClient
   }

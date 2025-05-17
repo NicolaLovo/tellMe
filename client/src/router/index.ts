@@ -1,21 +1,22 @@
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
 import { UserRole } from '@/types/auth/UserRole'
+import CitizenHomePage from '@/views/citizen/CitizenHomePage.vue'
 import TownCouncilWelcomePage from '@/views/townCouncil/auth/TownCouncilWelcomePage.vue'
+import SurveyCreationPage from '@/views/townCouncil/survey/SurveyCreationPage.vue'
 import TownCouncilHomePage from '@/views/townCouncil/TownCouncilHomePage.vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
+import CitizenWelcomePage from '../views/citizen/auth/CitizenWelcomePage.vue'
 import CitizenLoginPage from '../views/citizen/auth/LoginCitizenPage.vue'
 import RegisterCitizenPage from '../views/citizen/auth/RegisterCitizenPage.vue'
-import CitizenWelcomePage from '../views/citizen/auth/CitizenWelcomePage.vue'
 import HomePage from '../views/HomePage.vue'
-import CitizenHomePage from '@/views/citizen/CitizenHomePage.vue'
-import SurveyCreationPage from '@/views/townCouncil/survey/SurveyCreationPage.vue'
 
 interface RouteMeta {
   requiresRoles?: UserRole[]
 }
 
+// Application route definitions
 const routes: Array<RouteRecordRaw> = [
   {
     path: APP_ROUTES.home,
@@ -32,7 +33,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'TowncouncilHome',
     component: TownCouncilHomePage,
     meta: {
-       requiresRoles: ['townCouncil'],
+      requiresRoles: ['townCouncil'],
     } satisfies RouteMeta,
   },
   {
@@ -73,7 +74,7 @@ router.beforeEach((to, from, next) => {
   const meta = to.meta as RouteMeta | undefined
 
   // Redirect authenticated users from Home to their own Home page if authenticated
- if (to.path === APP_ROUTES.home && user) {
+  if (to.path === APP_ROUTES.home && user) {
     if (user.roles.includes('townCouncil')) {
       next({ path: APP_ROUTES.townCouncil.home })
       return

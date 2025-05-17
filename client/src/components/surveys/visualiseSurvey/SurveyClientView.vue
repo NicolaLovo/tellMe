@@ -1,43 +1,9 @@
-<template>
-  <div class="survey-viewer">
-    <header class="app-header">
-      <h1>{{ survey.title }}</h1>
-      <!-- Badge stato rimosso -->
-    </header>
-
-    <div v-for="question in survey.questions" :key="question.id" class="question">
-      <h3>{{ question.question }}</h3>
-      <div class="options">
-        <button
-          v-for="option in question.options"
-          :key="option.id"
-          :class="['btn', { selected: isSelected(question.id, option.id) }]"
-          @click="selectOption(question.id, option.id)"
-          :disabled="survey.status !== 'published'"
-          type="button"
-        >
-          {{ option.text }}
-        </button>
-      </div>
-    </div>
-
-    <button
-      class="btn submit-btn"
-      :disabled="!allAnswered || survey.status !== 'published'"
-      @click="submit"
-      type="button"
-    >
-      Invia risposte
-    </button>
-  </div>
-</template>
-
 <script setup>
 import { computed, reactive } from 'vue'
 
 const survey = reactive({
   title: 'Customer Satisfaction Survey',
-  status: 'published', // draft, published, closed
+  status: 'published',
   questions: [
     {
       id: 'q1',
@@ -87,10 +53,43 @@ function submit() {
 }
 </script>
 
+<template>
+  <div class="survey-viewer">
+    <header class="app-header">
+      <h1>{{ survey.title }}</h1>
+    </header>
+
+    <div v-for="question in survey.questions" :key="question.id" class="question">
+      <h3>{{ question.question }}</h3>
+      <div class="options">
+        <button
+          v-for="option in question.options"
+          :key="option.id"
+          :class="['btn', { selected: isSelected(question.id, option.id) }]"
+          @click="selectOption(question.id, option.id)"
+          :disabled="survey.status !== 'published'"
+          type="button"
+        >
+          {{ option.text }}
+        </button>
+      </div>
+    </div>
+
+    <button
+      class="btn submit-btn"
+      :disabled="!allAnswered || survey.status !== 'published'"
+      @click="submit"
+      type="button"
+    >
+      Invia risposte
+    </button>
+  </div>
+</template>
+
 <style scoped>
 .btn {
   padding: 12px 25px;
-  background-color: #9578f4; /* Colore lilla */
+  background-color: #9578f4;
   color: white;
   font-size: 1rem;
   border: none;
@@ -104,7 +103,7 @@ function submit() {
 }
 
 .btn:hover {
-  background-color: #815aff; /* Lilla più scuro al passaggio del mouse */
+  background-color: #815aff;
   transform: scale(1.05);
 }
 
@@ -112,21 +111,18 @@ function submit() {
   outline: none;
 }
 
-/* Quando il pulsante è selezionato diventa viola scuro */
 .btn.selected {
   background-color: #815aff !important;
   font-weight: 700;
   transform: scale(1.05);
 }
 
-/* Disabilitato */
 .btn:disabled {
   cursor: not-allowed;
   opacity: 0.6;
   transform: none;
 }
 
-/* Stile generale per il container */
 .survey-viewer {
   max-width: 600px;
   margin: 2rem auto;
@@ -162,7 +158,6 @@ function submit() {
   gap: 0.6rem;
 }
 
-/* Pulsante invio */
 .submit-btn {
   margin-top: 1rem;
   width: 100%;

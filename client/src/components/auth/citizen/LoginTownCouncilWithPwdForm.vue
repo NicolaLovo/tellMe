@@ -21,7 +21,7 @@ const onSubmit = async () => {
   }
 
   try {
-    // 1. Autentication with Firebase
+    // Autentication with Firebase
     const auth = getAuth()
     const userCredential = await signInWithEmailAndPassword(
       auth,
@@ -34,7 +34,7 @@ const onSubmit = async () => {
       return
     }
 
-    // 2. Obtain Firebase ID token
+    // Obtain Firebase ID token
     const firebaseToken = await userCredential.user.getIdToken()
 
     const apiClient = new ApiClient({})
@@ -77,7 +77,6 @@ const onSubmit = async () => {
     <input type="password" placeholder="Password" v-model="loginFormData.password" class="input" />
     <button type="submit" class="btn">Accedi</button>
   </form>
-  <!-- Messaggio di errore -->
   <p v-if="loginFormData.errorMessage" class="error">{{ loginFormData.errorMessage }}</p>
 </template>
 
@@ -98,7 +97,7 @@ const onSubmit = async () => {
 }
 
 .btn:hover {
-  background-color: #815aff; /* Lilla più scuro al passaggio del mouse */
+  background-color: #815aff;
   transform: scale(1.05);
 }
 
@@ -116,7 +115,7 @@ const onSubmit = async () => {
 }
 
 input:focus {
-  border-color: #815aff; /* blue border when focused */
-  outline: none; /* removes default browser outline */
+  border-color: #815aff;
+  outline: none;
 }
 </style>

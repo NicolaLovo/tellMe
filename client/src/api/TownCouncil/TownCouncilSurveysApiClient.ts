@@ -4,11 +4,18 @@ import { TmResponse } from '@/types/common/utils/TmResponse'
 import { Survey } from '@/types/survey/Survey'
 import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
 
+/**
+ * Class responsible for managing the Town Council surveys.
+ */
 export class TownCouncilSurveysApiClient extends ApiClientChildren {
   constructor(props: ApiClientChildrenProps) {
     super(props)
   }
 
+  /**
+   * Create a new survey, returns the id if it was successfully created, otherwise
+   * an error response if the request fails
+   */
   public async create(body: { survey: Survey }): Promise<TmResponse<{ surveyId: string }>> {
     try {
       const response = await this.httpClient.post<TmResponse<{ surveyId: string }>>(

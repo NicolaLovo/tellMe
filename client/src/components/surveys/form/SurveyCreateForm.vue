@@ -17,6 +17,8 @@ const router = useRouter()
 const userStore = useUserStore()
 
 const errorMessage = ref('')
+
+//Survey object with a default initial question
 const survey = reactive<Survey>({
   title: '',
   status: 'draft',
@@ -30,6 +32,7 @@ const survey = reactive<Survey>({
   ],
 })
 
+//Adds a new multiple-choice question to the survey
 const addMultipleChoiceQuestion = () => {
   survey.questions.push({
     id: uuidv4(),
@@ -39,34 +42,34 @@ const addMultipleChoiceQuestion = () => {
   })
 }
 
+//Removes a question from the survey
 const removeQuestion = (index: number) => {
   survey.questions.splice(index, 1)
 }
 
+//Adds a new option to a multiple-choice question
 const addOption = (questionIndex: number) => {
   survey.questions[questionIndex].options.push({ id: uuidv4(), text: '' })
 }
 
+//Removes an option from a question's options list
 const removeOption = (questionIndex: number, optionIndex: number) => {
   survey.questions[questionIndex].options.splice(optionIndex, 1)
 }
 
 const apiClient = new ApiClient({
-  /**
-   * We know that the user is logged in, so we can safely use the token
-   */
+  // We know that the user is logged in, so we can safely use the token
   jwtToken: userStore.user?.token as string,
 })
 
+//Handles the submission by calling the API to create the survey
 const handleSubmit = async () => {
   try {
     const response = await apiClient.townCouncil.surveys.create({ survey })
 
     if (response.status === 'success') {
       toast.success('Sondaggio creato correttamente')
-      setTimeout(() => {
-        router.push(APP_ROUTES.townCouncil.home)
-      }, 2000)
+      router.push(APP_ROUTES.townCouncil.home)
     } else {
       toast.error('Errore nella creazione del sondaggio.')
       errorMessage.value = response.data?.message || 'Errore nella creazione del sondaggio.'
@@ -134,7 +137,7 @@ const handleSubmit = async () => {
   justify-content: center;
   align-items: center;
   font-family: 'Arial', sans-serif;
-  padding: 20px; /* Padding per un po' di respiro ai bordi */
+  padding: 20px;
 }
 
 .survey-form {
@@ -143,7 +146,7 @@ const handleSubmit = async () => {
   border-radius: 12px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 650px; /* Aumentato leggermente per più spazio */
+  max-width: 650px;
 }
 
 h1 {
@@ -172,7 +175,7 @@ label {
   border: 1px solid #ddd;
   border-radius: 8px;
   box-sizing: border-box;
-  margin-bottom: 15px; /* Aggiunta una spaziatura tra i campi */
+  margin-bottom: 15px;
   display: block;
   margin-left: auto;
   margin-right: auto;
