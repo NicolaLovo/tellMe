@@ -32,7 +32,7 @@ export class AuthApiClient extends ApiClientChildren {
   }): Promise<TmResponse<{ token: string }>> {
     try {
       const response = await this.httpClient.post<TmResponse<{ token: string }>>(
-        `${API_URL}/api/v1/auth/register/citizen`,
+        `${API_URL}/api/v1/auth/citizen`,
         body,
       )
       return response ?? HTTP_TMRESPONSES.error
