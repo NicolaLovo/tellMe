@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { ApiClient } from '@/api/ApiClient'
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { Survey } from '@/types/survey/Survey'
 import { v4 as uuidv4 } from 'uuid'
 import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useUserStore } from '../../../stores/useUserStore'
 import SurveyQuestionForm from './SurveyQuestionForm.vue'
+
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
+
+const router = useRouter()
 
 const userStore = useUserStore()
 
@@ -52,11 +60,15 @@ const apiClient = new ApiClient({
 
 const handleSubmit = async () => {
   try {
-    const response = await apiClient.townCouncil.surveys.create(survey)
+    const response = await apiClient.townCouncil.surveys.create({ survey })
 
     if (response.status === 'success') {
-      console.log('Created survey')
+      toast.success('Sondaggio creato correttamente')
+      setTimeout(() => {
+        router.push(APP_ROUTES.townCouncil.home)
+      }, 2000)
     } else {
+      toast.error('Errore nella creazione del sondaggio.')
       errorMessage.value = response.data?.message || 'Errore nella creazione del sondaggio.'
     }
   } catch (err) {

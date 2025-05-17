@@ -9,11 +9,11 @@ export class TownCouncilSurveysApiClient extends ApiClientChildren {
     super(props)
   }
 
-  public async create(survey: Survey): Promise<TmResponse<{ surveyId: string }>> {
+  public async create(body: { survey: Survey }): Promise<TmResponse<{ surveyId: string }>> {
     try {
       const response = await this.httpClient.post<TmResponse<{ surveyId: string }>>(
         `${API_URL}/api/v1/townCouncil/surveys`,
-        { survey },
+        body,
       )
 
       return response ?? HTTP_TMRESPONSES.error
