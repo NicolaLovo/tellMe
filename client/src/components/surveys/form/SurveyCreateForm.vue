@@ -52,7 +52,7 @@ const apiClient = new ApiClient({
 
 const handleSubmit = async () => {
   try {
-    const response = await apiClient.townCouncil.createSurvey(survey)
+    const response = await apiClient.townCouncil.create(survey)
 
     if (response.status === 'success') {
       console.log('Created survey')
