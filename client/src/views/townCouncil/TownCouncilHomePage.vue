@@ -1,19 +1,17 @@
+
 <template>
   <div class="home-container">
     <div class="content">
       <h1 class="title">Benvenuto comune!</h1>
-      <button class="create-button" @click="$router.push('/towncouncil/createsurvey')">
-        Crea Sondaggio
-      </button>
+      <div class="button-div">
+        <button class="button" @click="$router.push('/towncouncil/createsurvey')">
+          Crea Sondaggio
+        </button>
+    
+      </div>
     </div>
   </div>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'TownhallHomePage',
-}
-</script>
 
 <style scoped>
 .home-container {
@@ -39,7 +37,14 @@ export default {
   margin-bottom: 20px;
 }
 
-.create-button {
+.button-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.button {
   background-color: #9578f4;
   color: white;
   font-size: 1.2rem;
@@ -50,6 +55,7 @@ export default {
   transition:
     background-color 0.3s ease,
     transform 0.2s ease;
+  width: 100%;
 }
 
 .create-button:hover {

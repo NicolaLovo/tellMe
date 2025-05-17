@@ -84,10 +84,9 @@ const handleSubmit = async () => {
 <template>
   <div class="survey-container">
     <div class="survey-form">
-      <h1>Crea il tuo Sondaggio</h1>
       <form @submit.prevent="handleSubmit">
         <div class="input-group">
-          <label for="survey-title">Titolo Sondaggio:</label>
+          <label for="survey-title">Titolo:</label>
           <input
             type="text"
             id="survey-title"
@@ -131,13 +130,12 @@ const handleSubmit = async () => {
   font-weight: bold;
 }
 .survey-container {
-  background-color: #f5f3ff;
-  min-height: 100vh;
+  min-height: 70vh;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'Arial', sans-serif;
-  padding: 20px;
+  padding: 10px; /* Padding per un po' di respiro ai bordi */
 }
 
 .survey-form {
@@ -146,14 +144,7 @@ const handleSubmit = async () => {
   border-radius: 12px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 650px;
-}
-
-h1 {
-  color: #5e4b8b;
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 20px;
+  max-width: 650px; /* Aumentato leggermente per più spazio */
 }
 
 .input-group {
@@ -175,7 +166,7 @@ label {
   border: 1px solid #ddd;
   border-radius: 8px;
   box-sizing: border-box;
-  margin-bottom: 15px;
+  margin-bottom: 15px; /* Aggiunta una spaziatura tra i campi */
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -213,7 +204,7 @@ label {
 
 .add-section-btn,
 .submit-btn {
-  background-color: #28a745;
+  background-color: #4f0adf;
   color: white;
   padding: 15px 30px;
   border: none;
@@ -227,24 +218,7 @@ label {
 
 .add-section-btn:hover,
 .submit-btn:hover {
-  background-color: #218838;
-}
-
-.home-btn {
-  background-color: #6c757d;
-  color: white;
-  padding: 12px 30px;
-  border: none;
-  border-radius: 10px;
-  margin-top: 15px;
-  cursor: pointer;
-  width: 100%;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.home-btn:hover {
-  background-color: #5a6268;
+  background-color: #36039f;
 }
 
 .option-group {
@@ -273,5 +247,10 @@ label {
 
 .add-option-btn:hover {
   background-color: #0056b3;
+}
+
+input:focus {
+  border-color: #815aff; /* blue border when focused */
+  outline: none;         /* removes default browser outline */
 }
 </style>
