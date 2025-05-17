@@ -75,71 +75,101 @@ Registers a citizen by verifying their Firebase token, validating their email, c
             
 # Group Town council API
 
-## Create Survey [/api/v1/townCouncil/surveys]
+## Create a new survey [/api/v1/townCouncil/surveys]
 
-### Crea un nuovo sondaggio [POST]
+### Create a new survey [POST]
 
-Crea un nuovo sondaggio e restituisce l'ID del sondaggio appena creato.
+Creates a new survey. Returns the ID of the newly created survey if successful. If the creation fails, returns an error response with details.
 
 + Request (application/json)
-    + Body
-
-            {
-              "survey": {
-                "title": "Sondaggio di esempio",
-                "status": "draft",
-                "questions": [
-                  {
-                    "question": "Qual è il tuo colore preferito?",
-                    "type": "multiple-choice",
-                    "options": [
-                      { "text": "Rosso" },
-                      { "text": "Blu" },
-                      { "text": "Verde" }
-                    ]
-                  },
-                  {
-                    "question": "Quale stagione preferisci?",
-                    "type": "multiple-choice",
-                    "options": [
-                      { "text": "Primavera" },
-                      { "text": "Estate" },
-                      { "text": "Autunno" },
-                      { "text": "Inverno" }
-                    ]
-                  }
-                ]
-              }
-            }
+    + Attributes (object)
+        + survey (Survey) - Survey object to be created
 
 + Response 200 (application/json)
-    + Body
-
-            {
-              "status": "success",
-              "data": {
-                "surveyId": "66471efbc59dd73ad9a5d1b8"
-              }
-            }
+    + Attributes (object)
+        + status: `success` (string) - Status of the response
+        + data (object)
+            + surveyId: `string` - The ID of the newly created survey
 
 + Response 400 (application/json)
+    + Attributes (object)
+        + status: `error` (string) - Status indicating an error
+        + data (object)
+            + message: `string` - Error message describing the failure
+            
 
-    + Body
+## List Surveys [/api/v1/townCouncil/surveys{?pageIndex,pageSize}]
 
-            {
-              "status": "error",
-              "data": {
-                "message": "Missing or invalid required fields"
-              }
-            }
+### List surveys [GET]
+
+Returns the list of surveys saved in the system.
+
++ Parameters
+    + pageIndex: 0 (optional, string) - 0-based index of the first item in the current page
+    + pageSize: 10 (optional, string) - Number of items to include in the current page
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + status: `success` (string) - Status of the response
+        + data (object)
+            + surveys (array[Survey]) - List of surveys
+            + metadata (object)
+                + totalCount: 25 (number) - Total number of surveys matching the query
+
++ Response 400 (application/json)
+    + Attributes (object)
+        + status: `error` (string) - Status indicating an error
+        + data (object)
+            + message: `string` - Error message describing the failure
+            
+            
+## Update Survey [/api/v1/townCouncil/surveys/{surveyId}]
+
+### Update a survey [PATCH]
+
+Updates the survey with the provided data. Returns the updated survey ID on success.
+
++ Parameters
+    + surveyId: `Survey ID` (string, required) - The ID of the survey to update
+
++ Request (application/json)
+    + Attributes (object)
+        + survey (Survey) - Survey object with updated fields
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + surveyId: `Survey ID` (string) - The ID of the updated survey
 
 + Response 500 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
 
-    + Body
+# Data Structures
 
-            {
-              "status": "error",
-              "data": {
-                "message": "Internal server error"
-              }
-            }
+## Survey (object)
++ title: `Survey Title` (string, required) - Title of the survey
++ status: `draft` (SurveyStatus, required) - Current status of the survey
++ questions (array[SurveyQuestion], required)
+    + Members
+        + (SurveyQuestion)
+
+## SurveyQuestion (object)
++ id: `Question ID` (string, required) - Unique identifier for the question
++ question: `Question` (string, required) - The question text
++ type: `multiple-choice` (string, required) - Type of the question (currently only 'multiple-choice' supported)
++ options (array[SurveyQuestionOption], required)
+    + Members
+        + (SurveyQuestionOption)
+
+## SurveyQuestionOption (object)
++ id: `Option ID` (string, required) - Unique identifier for the option
++ text: `Option description` (string, required) - Text for the option
+
+## SurveyStatus (enum)
++ `draft`
++ `published`
++ `closed`
