@@ -1,7 +1,9 @@
 FORMAT: 1A
 HOST: https://your-api-host.com
 
-# Authentication API
+# TellMe api
+
+# Group Authentication API
 
 This API allows users to log in using a Firebase token and receive a custom token with additional user claims.
 
@@ -34,7 +36,7 @@ Authenticates a user using a Firebase ID token. On success, returns a custom tok
             + message: `Internal server error` (string)
             
 
-## Citizen Registration [/api/v1/citizen]
+## Citizen [/api/v1/citizen]
 
 ### Register a new citizen user [POST]
 
@@ -71,7 +73,7 @@ Registers a citizen by verifying their Firebase token, validating their email, c
             
             
             
-# Town council API 
+# Group Town council API
 
 ## Create Survey [/api/v1/townCouncil/surveys]
 
