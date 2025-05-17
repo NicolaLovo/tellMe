@@ -5,7 +5,7 @@ HOST: https://your-api-host.com
 
 This API allows users to log in using a Firebase token and receive a custom token with additional user claims.
 
-## Login [/auth/login]
+## Login [/api/v1/auth/login]
 
 ### Login with Firebase Token [POST]
 
@@ -34,7 +34,7 @@ Authenticates a user using a Firebase ID token. On success, returns a custom tok
             + message: `Internal server error` (string)
             
 
-## Citizen Registration [/register/citizen]
+## Citizen Registration [/api/v1/citizen]
 
 ### Register a new citizen user [POST]
 
@@ -71,8 +71,9 @@ Registers a citizen by verifying their Firebase token, validating their email, c
             
             
             
+# Town council API 
 
-## Create Survey [/api/surveys/create]
+## Create Survey [/api/v1/townCouncil/surveys]
 
 ### Crea un nuovo sondaggio [POST]
 
