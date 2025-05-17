@@ -30,7 +30,7 @@ export const registerCitizenController = async (
     // Retrieve the current instance of the Firebase Authentication service
     const auth = getAuth();
 
-    // Decode the firebase token
+    // decode the firebase token to ensure it's valid
     const decodedFirebaseToken = await auth.verifyIdToken(firebaseToken);
 
     // Check email is not empty
@@ -87,8 +87,8 @@ export const registerCitizenController = async (
 
     // Create custom token
     const token = await auth.createCustomToken(
-      decodedFirebaseToken.uid, 
-      additionalClaims,       
+      decodedFirebaseToken.uid,
+      additionalClaims,
     );
 
     // Return the custom token

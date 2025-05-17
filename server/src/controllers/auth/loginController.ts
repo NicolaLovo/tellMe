@@ -21,8 +21,7 @@ export const loginController = async (
 
     const auth = getAuth();
 
-    // decode the token
-
+    // decode the firebase token to ensure it's valid
     const decodedFirebaseToken = await auth.verifyIdToken(firebaseToken);
 
     // retrieve user from database
@@ -46,6 +45,9 @@ export const loginController = async (
       uid: userEntity.uid,
     };
 
+    /**
+     * Encode custom claims in the token
+     */
     const token = await auth.createCustomToken(
       decodedFirebaseToken.uid,
       additionalClaims,

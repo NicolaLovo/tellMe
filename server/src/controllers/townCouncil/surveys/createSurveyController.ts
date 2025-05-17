@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { SurveyModel } from '../../database/survey/SurveySchema';
-import { TmResponse } from '../../types/common/utils/TmResponse';
-import { Survey } from '../../types/survey/Survey';
+import { SurveyModel } from '../../../database/survey/SurveySchema';
+import { TmResponse } from '../../../types/common/utils/TmResponse';
+import { Survey } from '../../../types/survey/Survey';
 
 interface ReqBody {
   survey: Survey;
