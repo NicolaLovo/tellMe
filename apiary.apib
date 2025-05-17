@@ -9,7 +9,7 @@ This API allows users to log in using a Firebase token and receive a custom toke
 
 ### Login with Firebase Token [POST]
 
-Authenticate a user using a Firebase ID token. On success, returns a custom token with additional user metadata (email and roles). On failure, returns an appropriate error message.
+Authenticates a user using a Firebase ID token. On success, returns a custom token with additional user metadata (email and roles). On failure, returns an appropriate error message.
 
 + Request (application/json)
     + Attributes (object)
@@ -32,3 +32,105 @@ Authenticate a user using a Firebase ID token. On success, returns a custom toke
         + status: `error` (string)
         + data (object)
             + message: `Internal server error` (string)
+            
+
+## Citizen Registration [/register/citizen]
+
+### Register a new citizen user [POST]
+
+Registers a citizen by verifying their Firebase token, validating their email, checking for uniqueness, saving the user in the database, and returning a custom token.
+
++ Request (application/json)
+
+    + Attributes (object)
+        + email: `citizen@example.com` (string, required) - The email address of the citizen
+        + firebaseToken: `eyJhbGci...` (string, required) - Firebase ID token to authenticate the user
+
++ Response 201 (application/json)
+
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + token: `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...` (string) - A Firebase custom token that can be used for authentication
+
++ Response 400 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Email is required` (string)  # If email is empty
+            + message: `Email is invalid` (string)   # If email format is invalid
+            + message: `Email is already in use` (string)  # If email is already taken
+
++ Response 500 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
+            
+            
+            
+
+## Create Survey [/api/surveys/create]
+
+### Crea un nuovo sondaggio [POST]
+
+Crea un nuovo sondaggio e restituisce l'ID del sondaggio appena creato.
+
++ Request (application/json)
+    + Body
+
+            {
+              "survey": {
+                "title": "Sondaggio di esempio",
+                "status": "draft",
+                "questions": [
+                  {
+                    "question": "Qual è il tuo colore preferito?",
+                    "type": "multiple-choice",
+                    "options": [
+                      { "text": "Rosso" },
+                      { "text": "Blu" },
+                      { "text": "Verde" }
+                    ]
+                  },
+                  {
+                    "question": "Hai un animale domestico?",
+                    "type": "text"
+                  }
+                ]
+              }
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+              "status": "success",
+              "data": {
+                "surveyId": "66471efbc59dd73ad9a5d1b8"
+              }
+            }
+
++ Response 400 (application/json)
+
+    + Body
+
+            {
+              "status": "error",
+              "data": {
+                "message": "Missing or invalid required fields"
+              }
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "status": "error",
+              "data": {
+                "message": "Internal server error"
+              }
+            }
