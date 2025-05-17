@@ -3,8 +3,8 @@ import { ApiClient } from '@/api/ApiClient'
 import { Survey } from '@/types/survey/Survey'
 import { v4 as uuidv4 } from 'uuid'
 import { reactive, ref } from 'vue'
+import { useUserStore } from '../../../stores/useUserStore'
 import SurveyQuestionForm from './SurveyQuestionForm.vue'
-import { useUserStore } from '../../../stores/useUserStore';
 
 const userStore = useUserStore()
 
@@ -43,7 +43,12 @@ const removeOption = (questionIndex: number, optionIndex: number) => {
   survey.questions[questionIndex].options.splice(optionIndex, 1)
 }
 
-const apiClient = new ApiClient({userStore.})
+const apiClient = new ApiClient({
+  /**
+   * We know that the user is logged in, so we can safely use the token
+   */
+  jwtToken: userStore.user?.token as string,
+})
 
 const handleSubmit = async () => {
   try {
