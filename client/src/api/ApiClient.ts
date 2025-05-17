@@ -15,10 +15,10 @@ export class ApiClient {
     this.authApiClient = new AuthApiClient({ jwtToken: this.jwtToken })
   }
 
-  private _townCouncil = new TownCouncilApiClient()
+  private townCouncil = new TownCouncilApiClient()
 
   get townCouncil() {
-    return this._townCouncil
+    return this.townCouncil
   }
 
   get auth() {

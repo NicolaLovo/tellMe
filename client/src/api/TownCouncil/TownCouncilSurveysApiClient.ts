@@ -1,26 +1,23 @@
-import axios from 'axios'
-import { Survey } from '../../types/survey/Survey'
+import { HTTP_TMRESPONSES } from '@/constants/HTTP_TMRESPONSES'
+import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
 
-interface CreateSurveyResponse {
-  surveyId: string
-}
+export class TownCouncilSurveysApiClient extends ApiClientChildren {
+  constructor(props: ApiClientChildrenProps) {
+    super(props)
+  }
 
-export class TownCouncilSurveysApiClient {
-  async create(survey: Survey): Promise<CreateSurveyResponse> {
+  public async createSurvey(data: any): Promise<TmResponse<any>> {
     try {
-      const response = await axios.post<CreateSurveyResponse>(
-        'http://localhost:3000/api/town-council/surveys',
-        { survey },
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
+      const response = await this.httpClient.post<TmResponse<any>>(`/api/v1/surveys`, data)
+      return response ?? HTTP_TMRESPONSES.error
+    } catch (error) {
+      console.error('Survey creation error:', error)
+      return {
+        status: 'error',
+        data: {
+          message: 'Error during survey creation',
         },
-      )
-
-      return response.data
-    } catch (error: any) {
-      const message = error.response?.data?.message || error.message || 'Unknown error'
-      throw new Error(message)
+      }
     }
   }
 }

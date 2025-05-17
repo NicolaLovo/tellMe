@@ -5,6 +5,7 @@ import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import SurveyQuestionForm from './SurveyQuestionForm.vue'
 import { ApiClient } from '@/api/ApiClient' 
+import { TownCouncilApiClient } from '@/api/TownCouncil/TownCouncilApiClient'
 
 const router = useRouter()
 
@@ -43,21 +44,22 @@ const removeOption = (questionIndex: number, optionIndex: number) => {
   survey.questions[questionIndex].options.splice(optionIndex, 1)
 }
 
-const handleSubmit = () => {
-  /**
-   * No need for text input validation, since all fields are required in the template.
-   * Check that each question has at least one option.
-   */
+const apiClient = new TownCouncilApiClient({ jwtToken })
 
-  const handleSubmit = async (survey: Survey) => {
-    try {
-      const { surveyId } = await ApiClient.townCouncil.surveys.create(survey);
-      console.log('Created survey with ID:', surveyId);
+const handleSubmit = async (survey: Survey) => {
+  try {
+    const response = await apiClient.surveys.createSurvey(survey)
+
+    if (response.status === 'success' && response.data?.surveyId) {
+      console.log('Created survey with ID:', response.data.surveyId)
       // mostra messaggio di successo / reindirizza
-    } catch (err) {
-      console.error('Failed to create survey:', err);
-      // mostra errore UI
+    } else {
+      console.error('Errore nella risposta:', response.data?.message)
+      // mostra messaggio d'errore in UI
     }
+  } catch (err) {
+    console.error('Failed to create survey:', err)
+    // mostra errore in UI
   }
 }
 </script>

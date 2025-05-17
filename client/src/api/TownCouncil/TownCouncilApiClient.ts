@@ -1,14 +1,35 @@
-// api/townCouncil/TownCouncilApiClient.ts
-import { TownCouncilSurveysApiClient } from "./TownCouncilSurveysApiClient"
+import { API_URL } from '@/constants/API_URL'
+import { HTTP_TMRESPONSES } from '@/constants/HTTP_TMRESPONSES'
+import { TmResponse } from '@/types/common/utils/TmResponse'
+import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
+import { TownCouncilSurveysApiClient } from './TownCouncilSurveysApiClient'
 
-export class TownCouncilApiClient {
-  private _surveys: TownCouncilSurveysApiClient
+export class TownCouncilApiClient extends ApiClientChildren {
+  public surveys: TownCouncilSurveysApiClient
 
-  constructor() {
-    this._surveys = new TownCouncilSurveysApiClient()
+  constructor(props: ApiClientChildrenProps) {
+    super(props)
+    this.surveys = new TownCouncilSurveysApiClient(props)
   }
 
-  get surveys(): TownCouncilSurveysApiClient {
-    return this._surveys
+  public async createSurvey(body: {
+    surveyId: string
+    answers: any
+  }): Promise<TmResponse<{ success: boolean }>> {
+    try {
+      const response = await this.httpClient.post<TmResponse<{ success: boolean }>>(
+        `${API_URL}/api/v1/town-council/surveys/create`,
+        body,
+      )
+      return response ?? HTTP_TMRESPONSES.error
+    } catch (error) {
+      console.error('Create Survey error:', error)
+      return {
+        status: 'error',
+        data: {
+          message: 'Error in Create Survey request',
+        },
+      }
+    }
   }
 }
