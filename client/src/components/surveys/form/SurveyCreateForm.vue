@@ -109,7 +109,7 @@ const handleSubmit = async () => {
           />
         </div>
         <div class="input-group">
-          <label for="reward-points">Punti Sondaggio:</label>
+          <label for="reward-points">Punti sondaggio:</label>
           <input
             type="number"
             id="reward-points"

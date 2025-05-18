@@ -13,6 +13,7 @@ export const APP_ROUTES = {
     welcome: '/towncouncil/welcome',
     home: '/towncouncil/home',
     createsurvery: '/towncouncil/createsurvey',
+    surveylist: '/towncouncil/surveys',
   },
   agency: {
     welcome: '/agency/welcome',

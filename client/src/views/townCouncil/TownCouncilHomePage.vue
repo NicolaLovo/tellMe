@@ -5,9 +5,11 @@
       <h1 class="title">Benvenuto comune!</h1>
       <div class="button-div">
         <button class="button" @click="$router.push('/towncouncil/createsurvey')">
-          Crea Sondaggio
+          Crea sondaggio
         </button>
-    
+        <button class="button" @click="$router.push('/towncouncil/surveys')">
+          Visualizza sondaggi
+        </button>
       </div>
     </div>
   </div>
