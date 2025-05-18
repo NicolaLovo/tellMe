@@ -13,6 +13,12 @@ const password = ref('')
 const errorMessage = ref('')
 const toast = useToast()
 
+//Check if the password has a valid format
+const isPasswordValid = (password: string) => {
+  const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/
+  return regex.test(password)
+}
+
 const registerWithToken = async (firebaseToken: string) => {
   const apiClient = new ApiClient({})
 
@@ -37,7 +43,13 @@ const registerWithToken = async (firebaseToken: string) => {
 }
 
 const registerWithEmailAndPassword = async () => {
-  errorMessage.value = '' // Reset errore prima di iniziare
+  errorMessage.value = ''
+
+  if (!isPasswordValid(password.value)) {
+    errorMessage.value =
+      'La password deve essere lunga almeno 6 caratteri, contenere un numero e un carattere speciale.'
+    return
+  }
 
   try {
     const credentials = await createUserWithEmailAndPassword(getAuth(), email.value, password.value)
