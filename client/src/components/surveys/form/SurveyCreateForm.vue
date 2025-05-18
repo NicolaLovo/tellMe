@@ -21,7 +21,9 @@ const errorMessage = ref('')
 //Survey object with a default initial question
 const survey = reactive<Survey>({
   title: '',
-  status: 'draft',
+  status: 'created',
+  creationDate: new Date(),
+  rewardPoints: 0,
   questions: [
     {
       id: uuidv4(),
@@ -251,6 +253,6 @@ label {
 
 input:focus {
   border-color: #815aff; /* blue border when focused */
-  outline: none;         /* removes default browser outline */
+  outline: none; /* removes default browser outline */
 }
 </style>

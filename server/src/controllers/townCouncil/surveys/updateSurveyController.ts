@@ -34,7 +34,7 @@ export const updateSurveyController = async (
     }
 
     // Check if the survey is a draft, if not return an error
-    if (survey.status !== 'draft') {
+    if (survey.status !== 'created') {
       res.status(400).json({
         status: 'error',
         data: {
