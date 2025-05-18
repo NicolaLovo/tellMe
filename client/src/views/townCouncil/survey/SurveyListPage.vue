@@ -31,32 +31,49 @@ onMounted(fetchSurveys)
 </script>
 
 <template>
-  <div class="survey-list">
-    <h1>Lista dei Sondaggi</h1>
-    <!-- Table of surveys -->
-    <table v-if="surveys.length" class="survey-table">
-      <thead>
-        <tr>
-          <th>Titolo</th>
-          <th>Stato</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="survey in surveys">
-          <td>{{ survey.title }}</td>
-          <td>
-            <div class="status-div">{{ survey.status }}</div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="survey-list-page">
+    <h1>Lista dei sondaggi</h1>
+    <div class="survey-list">
+      <table v-if="surveys.length" class="survey-table">
+        <thead>
+          <tr>
+            <th>Titolo</th>
+            <th>Stato</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="survey in surveys">
+            <td>{{ survey.title }}</td>
+            <td>
+              <div class="status-div">{{ survey.status }}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-    <!-- Message when no surveys found -->
-    <p v-else>Non ci sono sondaggi disponibili.</p>
+      <!-- Message when no surveys found -->
+      <p v-else>Non ci sono sondaggi disponibili.</p>
+    </div>
   </div>
 </template>
 
 <style>
+h1 {
+  color: #5e4b8b;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+thead {
+  color: #ffffff;
+}
+
+.survey-list-page {
+  background-color: #f0f0f0;
+  min-height: 100vh;
+}
+
 .survey-list {
   padding: 20px;
   font-family: 'Arial', sans-serif;
@@ -64,25 +81,26 @@ onMounted(fetchSurveys)
 
 .survey-table {
   width: 100%;
+  background-color: #ffffff;
   border-collapse: collapse;
   margin-top: 16px;
 }
 
-.survey-table th,
+.survey-table th {
+  border: 1px solid #5e4b8b;
+  padding: 8px;
+  text-align: left;
+  font-size: 1.2rem;
+}
+
 .survey-table td {
-  border: 1px solid #ddd;
+  border: 1px solid #5e4b8b;
   padding: 8px;
   text-align: left;
 }
 
 .survey-table th {
-  background-color: #f2f2f2;
-}
-
-.error {
-  color: red;
-  font-weight: bold;
-  margin-bottom: 10px;
+  background-color: #4f0adf  ;
 }
 
 .survey-creation-page {
@@ -94,20 +112,12 @@ onMounted(fetchSurveys)
   padding: 20px; /* Padding per un po' di respiro ai bordi */
 }
 
-h1 {
-  color: #5e4b8b;
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
 .status-div {
   background-color: #4f0adf;
   color: white;
   padding: 8px 16px;
   border-radius: 8px;
   font-size: 1rem;
+  width: min-content;
 }
-
-
 </style>
