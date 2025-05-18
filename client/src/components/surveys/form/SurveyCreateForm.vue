@@ -98,6 +98,18 @@ const handleSubmit = async () => {
             required
           />
         </div>
+        <div class="input-group">
+          <label for="reward-points">Punti Sondaggio:</label>
+          <input
+            type="number"
+            id="reward-points"
+            v-model.number="survey.rewardPoints"
+            placeholder="Inserisci il numero di punti"
+            class="uniform-input"
+            min="0"
+            required
+          />
+        </div>
 
         <div
           v-for="(questionItem, questionIndex) in survey.questions"
