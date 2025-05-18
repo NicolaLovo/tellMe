@@ -67,7 +67,7 @@ export const createSurveyController = async (
     }
 
     // Save the validated survey to the database
-    const newSurvey = new SurveyModel(survey);
+    const newSurvey = new SurveyModel({ ...survey, creationDate: new Date() });
     await newSurvey.save();
 
     // Return the new survey ID if successfull

@@ -25,6 +25,7 @@ const QuestionSchema = new Schema(
 // Main schema for survey
 const SurveySchema = new Schema({
   title: { type: String, required: true },
+  creationDate: { type: Date, required: true },
   status: {
     type: String,
     enum: ['draft', 'published', 'closed'],
@@ -36,6 +37,7 @@ const SurveySchema = new Schema({
 // Interface defining the Survey document shape in MongoDB
 export interface SurveyModelSchema extends Document {
   title: string;
+  creationDate: Date;
   status: SurveyStatus;
   questions: SurveyQuestion[];
 }

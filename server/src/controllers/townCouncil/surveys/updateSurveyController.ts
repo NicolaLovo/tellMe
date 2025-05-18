@@ -44,10 +44,28 @@ export const updateSurveyController = async (
       return;
     }
 
+    const updateBody: Partial<Survey> = {};
+
+    /**
+     * Allow update only of the following fields:
+     * - title
+     * - status
+     * - questions
+     */
+    if (updateBody.title) {
+      updateBody.title = req.body.survey.title;
+    }
+    if (updateBody.status) {
+      updateBody.status = req.body.survey.status;
+    }
+    if (updateBody.questions) {
+      updateBody.questions = req.body.survey.questions;
+    }
+
     /**
      * Update the survey with the provided data
      */
-    await survey.updateOne({ $set: req.body.survey });
+    await survey.updateOne({ $set: updateBody });
 
     // Return the survey ID in the response
     res.status(200).json({
