@@ -15,22 +15,21 @@ const removeLocalOption = (index: number) => {
   emit('remove-option', index)
 }
 </script>
-
 <template>
   <div class="section">
     <label :for="'question-' + question.id">Domanda:</label>
     <div class="section-header">
-        <input
-          type="text"
-          :id="'question-' + question.id"
-          v-model="question.question"
-          class="uniform-input"
-          placeholder="Scrivi la tua domanda"
-          required
-        />
-        <button type="button" @click="$emit('remove-question')" class="btn danger small">
-          <i class="pi pi-trash"></i>
-        </button>
+      <input
+        type="text"
+        :id="'question-' + question.id"
+        v-model="question.question"
+        class="uniform-input"
+        placeholder="Scrivi la tua domanda"
+        required
+      />
+      <button type="button" @click="$emit('remove-question')" class="btn danger small">
+        <i class="pi pi-trash"></i>
+      </button>
     </div>
 
     <div>
@@ -43,7 +42,12 @@ const removeLocalOption = (index: number) => {
           placeholder="Inserisci l'opzione"
           required
         />
-        <button type="button" @click="removeLocalOption(optionIndex)" class="btn danger small">
+        <button
+          v-if="question.options.length > 2"
+          type="button"
+          @click="removeLocalOption(optionIndex)"
+          class="btn danger small"
+        >
           <i class="pi pi-trash"></i>
         </button>
       </div>
@@ -149,7 +153,7 @@ label {
 }
 
 input:focus {
-  border-color: #815aff; /* blue border when focused */
-  outline: none;         /* removes default browser outline */
+  border-color: #815aff;
+  outline: none;
 }
 </style>

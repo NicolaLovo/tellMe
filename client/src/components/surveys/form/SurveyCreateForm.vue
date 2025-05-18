@@ -29,7 +29,10 @@ const survey = reactive<Survey>({
       id: uuidv4(),
       question: '',
       type: 'multiple-choice',
-      options: [{ id: uuidv4(), text: '' }],
+      options: [
+        { id: uuidv4(), text: '' },
+        { id: uuidv4(), text: '' },
+      ],
     },
   ],
 })
@@ -67,6 +70,13 @@ const apiClient = new ApiClient({
 //Handles the submission by calling the API to create the survey
 const handleSubmit = async () => {
   try {
+    for (const [index, question] of survey.questions.entries()) {
+      if (question.options.length < 2) {
+        toast.error(`La domanda ${index + 1} deve avere almeno 2 opzioni.`)
+        return
+      }
+    }
+
     const response = await apiClient.townCouncil.surveys.create({ survey })
 
     if (response.status === 'success') {
