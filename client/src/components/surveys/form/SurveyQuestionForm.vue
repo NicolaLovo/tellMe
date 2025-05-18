@@ -18,23 +18,20 @@ const removeLocalOption = (index: number) => {
 
 <template>
   <div class="section">
+    <label :for="'question-' + question.id">Domanda:</label>
     <div class="section-header">
-      <label :for="'question-' + question.id">Domanda:</label>
-      <div class="section-header-actions">
+        <input
+          type="text"
+          :id="'question-' + question.id"
+          v-model="question.question"
+          class="uniform-input"
+          placeholder="Scrivi la tua domanda"
+          required
+        />
         <button type="button" @click="$emit('remove-question')" class="btn danger small">
           <i class="pi pi-trash"></i>
         </button>
-      </div>
     </div>
-
-    <input
-      type="text"
-      :id="'question-' + question.id"
-      v-model="question.question"
-      class="uniform-input"
-      placeholder="Scrivi la tua domanda"
-      required
-    />
 
     <div>
       <label>Opzioni:</label>
@@ -51,7 +48,7 @@ const removeLocalOption = (index: number) => {
         </button>
       </div>
       <button type="button" @click="addLocalOption" class="btn primary small">
-        Aggiungi Opzione
+        Aggiungi opzione
       </button>
     </div>
   </div>
@@ -69,12 +66,13 @@ const removeLocalOption = (index: number) => {
 
 .section-header {
   display: flex;
-  align-items: center;
-  margin-bottom: 15px;
   gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
 }
 
 .section-header-actions {
+  display: flex;
   margin-left: auto;
 }
 
@@ -96,7 +94,6 @@ const removeLocalOption = (index: number) => {
   border: 1px solid #ddd;
   border-radius: 8px;
   box-sizing: border-box;
-  margin-bottom: 15px;
 }
 
 label {
@@ -127,12 +124,12 @@ label {
 }
 
 .btn.primary {
-  background-color: #28a745;
+  background-color: #9578f4;
   color: white;
 }
 
 .btn.primary:hover {
-  background-color: #218838;
+  background-color: #815aff;
 }
 
 .btn.danger {
@@ -149,5 +146,10 @@ label {
   font-size: 0.8rem;
   display: block;
   margin: 0 auto;
+}
+
+input:focus {
+  border-color: #815aff; /* blue border when focused */
+  outline: none;         /* removes default browser outline */
 }
 </style>

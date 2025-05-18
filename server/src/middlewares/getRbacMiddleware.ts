@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { jwtDecode } from 'jwt-decode';
-import { TmErrorResponse } from '../../../client/src/types/common/utils/TmResponse';
 import { TokenPayload } from '../types/auth/TokenPayload';
 import { UserRole } from '../types/auth/UserRole';
+import { TmErrorResponse } from '../types/common/utils/TmResponse';
 
 interface GetRbacMiddlewareProps {
   requiredRoles: UserRole[];

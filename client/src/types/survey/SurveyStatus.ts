@@ -1,1 +1,1 @@
-export type SurveyStatus = 'draft' | 'published' | 'closed'
+export type SurveyStatus = 'created' | 'published' | 'closed'

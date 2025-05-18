@@ -1,3 +1,10 @@
+export type TmErrorResponse = {
+  status: 'error';
+  data: {
+    message: string;
+  };
+};
+
 /**
  * Represents a response type that can either indicate success or error.
  *
@@ -13,12 +20,7 @@
  */
 export type TmResponse<T> =
   | {
-      status: 'success'
-      data: T
+      status: 'success';
+      data: T;
     }
-  | {
-      status: 'error'
-      data: {
-        message: string
-      }
-    }
+  | TmErrorResponse;
