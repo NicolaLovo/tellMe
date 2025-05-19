@@ -1,11 +1,12 @@
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
 import { UserRole } from '@/types/auth/UserRole'
+import ChangeCredentials from '@/views/citizen/auth/ChangeCredentials.vue'
 import CitizenHomePage from '@/views/citizen/CitizenHomePage.vue'
 import TownCouncilWelcomePage from '@/views/townCouncil/auth/TownCouncilWelcomePage.vue'
 import SurveyCreationPage from '@/views/townCouncil/survey/SurveyCreationPage.vue'
-import TownCouncilHomePage from '@/views/townCouncil/TownCouncilHomePage.vue'
 import SurveyListPage from '@/views/townCouncil/survey/SurveyListPage.vue'
+import TownCouncilHomePage from '@/views/townCouncil/TownCouncilHomePage.vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 import CitizenWelcomePage from '../views/citizen/auth/CitizenWelcomePage.vue'
@@ -66,6 +67,14 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.citizen.home,
     name: 'CitizenHome',
     component: CitizenHomePage,
+  },
+  {
+    path: APP_ROUTES.citizen.changecredentials,
+    name: 'ChangeCredentials',
+    component: ChangeCredentials,
+    meta: {
+      requiresRoles: ['citizen'],
+    } satisfies RouteMeta,
   },
 ]
 

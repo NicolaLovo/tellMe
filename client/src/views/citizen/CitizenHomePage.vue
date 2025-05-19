@@ -1,14 +1,24 @@
 <script setup lang="ts">
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
+import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
+const router = useRouter()
+
+function goToChangePassword() {
+  router.push(APP_ROUTES.citizen.changecredentials)
+}
 </script>
 
 <template>
   <div class="user-container">
     <div class="content">
       <h1 class="title">Benvenuto {{ userStore.user?.email }}!</h1>
-      <div class="button-group">hello</div>
+      <div class="button-group">Hello</div>
+      <div class="button-group">
+        <button class="btn" @click="goToChangePassword">Cambia Password</button>
+      </div>
     </div>
   </div>
 </template>
@@ -43,5 +53,20 @@ const userStore = useUserStore()
   font-size: 1.2rem;
   color: #333;
   margin-bottom: 30px;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #5e4b8b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #4a3b74;
 }
 </style>
