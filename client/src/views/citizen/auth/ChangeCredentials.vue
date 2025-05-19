@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import {
   EmailAuthProvider,
   getAuth,
@@ -12,24 +13,31 @@ const oldPassword = ref('')
 const newPassword = ref('')
 const errorMessage = ref('')
 const router = useRouter()
-
 const submitForm = async () => {
   const auth = getAuth()
   const user = auth.currentUser
+
+  const password = newPassword.value
+
+  if (!password) {
+    errorMessage.value = 'Inserisci la nuova password'
+    return
+  }
+
+  if (password.length < 6 || !/[0-9]/.test(password) || !/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+    errorMessage.value =
+      'La password deve avere almeno 6 caratteri, un numero e un carattere speciale.'
+    return
+  }
 
   if (user) {
     try {
       const credential = EmailAuthProvider.credential(user.email!, oldPassword.value)
       await reauthenticateWithCredential(user, credential)
 
-      // Update the password
-      if (newPassword.value) {
-        await updatePassword(user, newPassword.value)
-      }
+      await updatePassword(user, password)
 
-      // Success notification
-      alert('Password aggiornata con successo')
-      router.push('/UtenteLoggato')
+      router.push(APP_ROUTES.citizen.home)
     } catch (error: any) {
       errorMessage.value = error.message
     }
