@@ -22,12 +22,12 @@ const submitForm = async () => {
       const credential = EmailAuthProvider.credential(user.email!, oldPassword.value)
       await reauthenticateWithCredential(user, credential)
 
-      // Aggiornare la password
+      // Update the password
       if (newPassword.value) {
         await updatePassword(user, newPassword.value)
       }
 
-      // Successo
+      // Success notification
       alert('Password aggiornata con successo')
       router.push('/UtenteLoggato')
     } catch (error: any) {
