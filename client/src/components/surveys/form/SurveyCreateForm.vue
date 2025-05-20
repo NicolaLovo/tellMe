@@ -20,6 +20,7 @@ const errorMessage = ref('')
 
 //Survey object with a default initial question
 const survey = reactive<Survey>({
+  _id: '',
   title: '',
   status: 'created',
   creationDate: new Date(),

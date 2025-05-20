@@ -4,6 +4,7 @@ import { useUserStore } from '@/stores/useUserStore'
 import type { Survey } from '@/types/survey/Survey'
 import { onMounted, ref } from 'vue'
 import { useToast } from 'vue-toastification'
+import PublishSurveyButton from '../buttons/PublishSurveyButton.vue'
 
 const surveys = ref<Survey[]>([])
 const totalSurveys = ref<number>(0)
@@ -39,6 +40,7 @@ onMounted(fetchSurveys)
           <tr>
             <th>Titolo</th>
             <th>Stato</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -46,6 +48,13 @@ onMounted(fetchSurveys)
             <td>{{ survey.title }}</td>
             <td>
               <div class="status-div">{{ survey.status }}</div>
+            </td>
+            <td>
+              <PublishSurveyButton
+                v-if="survey.status === 'created'"
+                :surveyId="survey._id"
+                @on-publish="fetchSurveys"
+              />
             </td>
           </tr>
         </tbody>
@@ -92,7 +101,7 @@ thead {
   border: 1px solid #5e4b8b;
   padding: 8px;
   text-align: left;
-  font-size: 1.2rem;  
+  font-size: 1.2rem;
   background-color: #4f0adf;
 }
 

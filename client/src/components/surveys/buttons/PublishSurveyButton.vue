@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ApiClient } from '@/api/ApiClient'
 import { useUserStore } from '@/stores/useUserStore'
+import { useToast } from 'vue-toastification'
 
 const props = defineProps<{
   surveyId: string
@@ -8,6 +9,7 @@ const props = defineProps<{
 
 const emit = defineEmits(['on-publish'])
 const userStore = useUserStore()
+const toast = useToast()
 
 const onClick = async () => {
   try {
@@ -24,6 +26,14 @@ const onClick = async () => {
         },
       },
     )
+
+    if (response.status === 'success') {
+      emit('on-publish')
+      toast.success('Sondaggio pubblicato con successo!')
+    } else {
+      console.error('Errore nel caricamento dei sondaggi.')
+      toast.error('Errore nella pubblicazione del sondaggio.')
+    }
   } catch (err) {
     console.error('Errore durante la pubblicazione del sondaggio:', err)
   }
@@ -36,31 +46,24 @@ const onClick = async () => {
 
 <style scoped>
 .btn {
-  padding: 8px 12px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  padding: 12px 25px;
+  background-color: #9578f4; /* Colore lilla */
+  color: white;
+  font-size: 1rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  text-align: center;
   transition:
     background-color 0.3s ease,
-    transform 0.1s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+    transform 0.2s ease;
 }
 
 .btn:hover {
-  transform: translateY(-1px);
+  background-color: #815aff; /* Lilla più scuro al passaggio del mouse */
+  transform: scale(1.05);
 }
 
-.btn.primary {
-  background-color: #9578f4;
-  color: white;
-}
-
-.btn.primary:hover {
-  background-color: #815aff;
+.btn:focus {
+  outline: none;
 }
 </style>

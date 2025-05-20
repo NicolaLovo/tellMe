@@ -52,13 +52,13 @@ export const updateSurveyController = async (
      * - status
      * - questions
      */
-    if (updateBody.title) {
+    if (req.body.survey.title) {
       updateBody.title = req.body.survey.title;
     }
-    if (updateBody.status) {
+    if (req.body.survey.status) {
       updateBody.status = req.body.survey.status;
     }
-    if (updateBody.questions) {
+    if (req.body.survey.questions) {
       updateBody.questions = req.body.survey.questions;
     }
 
