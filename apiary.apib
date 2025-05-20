@@ -5,7 +5,7 @@ HOST: https://your-api-host.com
 
 # Group Authentication API
 
-This API allows users to log in using a Firebase token and receive a custom token with additional user claims.
+These APIs allow users to authenticate using a Firebase token and receive a custom token with additional user claims.
 
 ## Login [/api/v1/auth/login]
 
@@ -36,46 +36,39 @@ Authenticates a user using a Firebase ID token. On success, returns a custom tok
             + message: `Internal server error` (string)
             
 
-## Citizen [/api/v1/citizen]
+## Citizen [/api/v1/auth/citizens]
 
 ### Register a new citizen user [POST]
 
 Registers a citizen by verifying their Firebase token, validating their email, checking for uniqueness, saving the user in the database, and returning a custom token.
 
 + Request (application/json)
-
     + Attributes (object)
         + email: `citizen@example.com` (string, required) - The email address of the citizen
         + firebaseToken: `eyJhbGci...` (string, required) - Firebase ID token to authenticate the user
 
 + Response 201 (application/json)
-
     + Attributes (object)
         + status: `success` (string)
         + data (object)
             + token: `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...` (string) - A Firebase custom token that can be used for authentication
 
 + Response 400 (application/json)
-
     + Attributes (object)
         + status: `error` (string)
         + data (object)
-            + message: `Email is required` (string)  # If email is empty
-            + message: `Email is invalid` (string)   # If email format is invalid
-            + message: `Email is already in use` (string)  # If email is already taken
+            + message: `Error` (string) - If some of the request fields are invalid
 
 + Response 500 (application/json)
-
     + Attributes (object)
         + status: `error` (string)
         + data (object)
             + message: `Internal server error` (string)
             
             
-            
 # Group Town council API
 
-## Create a new survey [/api/v1/townCouncil/surveys]
+## Surveys [/api/v1/townCouncil/surveys{?pageIndex,pageSize}]
 
 ### Create a new survey [POST]
 
@@ -87,18 +80,15 @@ Creates a new survey. Returns the ID of the newly created survey if successful. 
 
 + Response 200 (application/json)
     + Attributes (object)
-        + status: `success` (string) - Status of the response
+        + status: `success` (string) 
         + data (object)
-            + surveyId: `string` - The ID of the newly created survey
+            + surveyId: `string` (string) - The ID of the newly created survey
 
 + Response 400 (application/json)
     + Attributes (object)
-        + status: `error` (string) - Status indicating an error
+        + status: `error` (string) 
         + data (object)
-            + message: `string` - Error message describing the failure
-            
-
-## List Surveys [/api/v1/townCouncil/surveys{?pageIndex,pageSize}]
+            + message: `string` (string) - Error message describing the failure
 
 ### List surveys [GET]
 
@@ -110,7 +100,7 @@ Returns the list of surveys saved in the system.
 
 + Response 200 (application/json)
     + Attributes (object)
-        + status: `success` (string) - Status of the response
+        + status: `success` (string) 
         + data (object)
             + surveys (array[Survey]) - List of surveys
             + metadata (object)
@@ -118,14 +108,14 @@ Returns the list of surveys saved in the system.
 
 + Response 400 (application/json)
     + Attributes (object)
-        + status: `error` (string) - Status indicating an error
+        + status: `error` (string) 
         + data (object)
-            + message: `string` - Error message describing the failure
+            + message: `string` (string) - Error message describing the failure
             
             
-## Update Survey [/api/v1/townCouncil/surveys/{surveyId}]
+## Survey [/api/v1/townCouncil/surveys/{surveyId}]
 
-### Update a survey [PATCH]
+### Update a survey [PUT]
 
 Updates the survey with the provided data. Returns the updated survey ID on success.
 
@@ -152,7 +142,9 @@ Updates the survey with the provided data. Returns the updated survey ID on succ
 
 ## Survey (object)
 + title: `Survey Title` (string, required) - Title of the survey
-+ status: `draft` (SurveyStatus, required) - Current status of the survey
++ rewardPoints: 5 (number, required) - Reward points assigned for the completition of the survey
++ creationDate: `2025-05-20T12:30:00` (string, required) - Timestamp of the creation date of the survey
++ status: `created` (SurveyStatus, required) - Current status of the survey
 + questions (array[SurveyQuestion], required)
     + Members
         + (SurveyQuestion)
@@ -160,7 +152,7 @@ Updates the survey with the provided data. Returns the updated survey ID on succ
 ## SurveyQuestion (object)
 + id: `Question ID` (string, required) - Unique identifier for the question
 + question: `Question` (string, required) - The question text
-+ type: `multiple-choice` (string, required) - Type of the question (currently only 'multiple-choice' supported)
++ type: `multiple-choice` (string, required) - Type of the question, currently only 'multiple-choice' supported
 + options (array[SurveyQuestionOption], required)
     + Members
         + (SurveyQuestionOption)
@@ -170,6 +162,6 @@ Updates the survey with the provided data. Returns the updated survey ID on succ
 + text: `Option description` (string, required) - Text for the option
 
 ## SurveyStatus (enum)
-+ `draft`
++ `created`
 + `published`
 + `closed`
