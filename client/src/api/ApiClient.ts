@@ -9,7 +9,6 @@ interface ApiClientProps {
  * Root API client class
  * It provides access to other API clients
  */
-
 export class ApiClient {
   private jwtToken: string | null
 

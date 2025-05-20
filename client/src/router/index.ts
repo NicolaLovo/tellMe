@@ -5,7 +5,7 @@ import ChangeCredentials from '@/views/citizen/auth/ChangeCredentials.vue'
 import CitizenHomePage from '@/views/citizen/CitizenHomePage.vue'
 import TownCouncilWelcomePage from '@/views/townCouncil/auth/TownCouncilWelcomePage.vue'
 import SurveyCreationPage from '@/views/townCouncil/survey/SurveyCreationPage.vue'
-import SurveyListPage from '@/views/townCouncil/survey/SurveyListPage.vue'
+import SurveyListPage from '@/components/surveys/form/SurveyList.vue'
 import TownCouncilHomePage from '@/views/townCouncil/TownCouncilHomePage.vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -43,11 +43,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'SurveyCreation',
     component: SurveyCreationPage,
   },
-  {
-    path: APP_ROUTES.townCouncil.surveylist,
-    name: 'SurveyList',
-    component: SurveyListPage,
-  },
+  // {
+  //   path: APP_ROUTES.townCouncil.surveylist,
+  //   name: 'SurveyList',
+  //   component: SurveyListPage,
+  // },
   {
     path: APP_ROUTES.citizen.welcome,
     name: 'CitizenWelcome',

@@ -32,7 +32,7 @@ onMounted(fetchSurveys)
 
 <template>
   <div class="survey-list-page">
-    <h1>Lista dei sondaggi</h1>
+    <h2>Lista dei sondaggi</h2>
     <div class="survey-list">
       <table v-if="surveys.length" class="survey-table">
         <thead>
@@ -58,11 +58,11 @@ onMounted(fetchSurveys)
 </template>
 
 <style>
-h1 {
+h2 {
   color: #5e4b8b;
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 20px;
+  font-size: 2rem;
+  text-align: left;
+  padding-left: 20px;
 }
 
 thead {
@@ -72,6 +72,7 @@ thead {
 .survey-list-page {
   background-color: #f0f0f0;
   min-height: 100vh;
+  padding-top: 20px;
 }
 
 .survey-list {
@@ -81,26 +82,24 @@ thead {
 
 .survey-table {
   width: 100%;
-  background-color: #ffffff;
-  border-collapse: collapse;
-  margin-top: 16px;
+  background-color: #f5f3ff;
+  /* border-radius: 12px; */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 .survey-table th {
   border: 1px solid #5e4b8b;
   padding: 8px;
   text-align: left;
-  font-size: 1.2rem;
+  font-size: 1.2rem;  
+  background-color: #4f0adf;
 }
 
 .survey-table td {
   border: 1px solid #5e4b8b;
   padding: 8px;
   text-align: left;
-}
-
-.survey-table th {
-  background-color: #4f0adf  ;
 }
 
 .survey-creation-page {

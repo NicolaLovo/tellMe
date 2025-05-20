@@ -52,7 +52,7 @@ const logout = async () => {
 }
 
 .home-btn {
-  background-color: #6226e3;
+  background-color: #4f0adf;
   color: white;
   padding: 8px 16px;
   border: none;
@@ -77,7 +77,7 @@ const logout = async () => {
 }
 
 .logout-btn:hover {
-  background-color: #815aff;
+  background-color: #36039f;
   transform: scale(1.1);
 }
 
