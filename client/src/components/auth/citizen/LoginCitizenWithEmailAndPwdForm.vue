@@ -23,6 +23,11 @@ const onSubmit = async () => {
       return
     }
 
+    if (!loginFormData.password) {
+      loginFormData.errorMessage = 'La password non deve essere vuota.'
+      return
+    }
+
     // 1. Autentication with Firebase
     const auth = getAuth()
     const userCredential = await signInWithEmailAndPassword(
@@ -76,14 +81,23 @@ const onSubmit = async () => {
   <form @submit.prevent="onSubmit">
     <input type="email" placeholder="Email" v-model="loginFormData.email" class="input" />
     <input type="password" placeholder="Password" v-model="loginFormData.password" class="input" />
+
+    <!-- Messaggio di errore -->
+    <p v-if="loginFormData.errorMessage" class="error-message">{{ loginFormData.errorMessage }}</p>
+
     <button type="submit" class="btn">Accedi</button>
   </form>
-
-  <!-- Messaggio di errore -->
-  <p v-if="loginFormData.errorMessage" class="error">{{ loginFormData.errorMessage }}</p>
 </template>
 
 <style scoped>
+.error-message {
+  color: #d32f2f;
+  background-color: #fce4ec;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 0.95rem;
+}
 .btn {
   padding: 12px 25px;
   background-color: #9578f4; /* Colore lilla */
