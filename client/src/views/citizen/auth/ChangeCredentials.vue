@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import {
-  EmailAuthProvider,
-  getAuth,
-  reauthenticateWithCredential,
-  updatePassword,
-} from 'firebase/auth'
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
+import { getAuth, updatePassword } from 'firebase/auth'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-const oldPassword = ref('')
 const newPassword = ref('')
 const errorMessage = ref('')
 const router = useRouter()
@@ -17,19 +12,24 @@ const submitForm = async () => {
   const auth = getAuth()
   const user = auth.currentUser
 
+  const password = newPassword.value
+
+  if (!password) {
+    errorMessage.value = 'Inserisci la nuova password'
+    return
+  }
+
+  if (password.length < 6 || !/[0-9]/.test(password) || !/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+    errorMessage.value =
+      'La password deve avere almeno 6 caratteri, un numero e un carattere speciale.'
+    return
+  }
+
   if (user) {
     try {
-      const credential = EmailAuthProvider.credential(user.email!, oldPassword.value)
-      await reauthenticateWithCredential(user, credential)
+      await updatePassword(user, password)
 
-      // Aggiornare la password
-      if (newPassword.value) {
-        await updatePassword(user, newPassword.value)
-      }
-
-      // Successo
-      alert('Password aggiornata con successo')
-      router.push('/UtenteLoggato')
+      router.push(APP_ROUTES.citizen.home)
     } catch (error: any) {
       errorMessage.value = error.message
     }
@@ -45,11 +45,6 @@ const submitForm = async () => {
       <h1 class="title">Modifica la tua Password</h1>
 
       <form @submit.prevent="submitForm" class="form">
-        <div class="input-group">
-          <label for="oldPassword">Vecchia Password:</label>
-          <input type="password" v-model="oldPassword" id="oldPassword" required />
-        </div>
-
         <div class="input-group">
           <label for="newPassword">Nuova Password:</label>
           <input type="password" v-model="newPassword" id="newPassword" required />
