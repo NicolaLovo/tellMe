@@ -18,6 +18,11 @@ const onSubmit = async () => {
   loginFormData.errorMessage = ''
 
   try {
+    if (!loginFormData.email) {
+      loginFormData.errorMessage = "L'email non deve essere vuota."
+      return
+    }
+
     // 1. Autentication with Firebase
     const auth = getAuth()
     const userCredential = await signInWithEmailAndPassword(
@@ -113,7 +118,6 @@ const onSubmit = async () => {
 
 input:focus {
   border-color: #815aff; /* blue border when focused */
-  outline: none;         /* removes default browser outline */
+  outline: none; /* removes default browser outline */
 }
-
 </style>

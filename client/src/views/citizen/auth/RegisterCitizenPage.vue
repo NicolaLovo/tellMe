@@ -42,7 +42,7 @@ const registerWithEmailAndPassword = async () => {
   errorMessage.value = ''
 
   if (!email.value) {
-    errorMessage.value = "L'email è obbligatoria."
+    errorMessage.value = "L'email non deve essere vuota."
     return
   }
 
