@@ -1,7 +1,9 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import { UserRole } from '../../types/auth/UserRole';
 
-// Define the User schema
+/**
+ * Define the User schema
+ */
 const userSchema: Schema = new Schema({
   uid: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
