@@ -15,7 +15,7 @@ function goToChangePassword() {
   <div class="user-container">
     <div class="content">
       <h1 class="title">Benvenuto {{ userStore.user?.email }}!</h1>
-      <div class="button-group">Hello</div>
+
       <div class="button-group">
         <button class="btn" @click="goToChangePassword">Cambia Password</button>
       </div>

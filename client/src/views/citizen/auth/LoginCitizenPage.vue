@@ -26,7 +26,7 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
 
 <style scoped>
 .login-container {
-  background-color: white;
+  background-color: #f0f0f0;
   min-height: 100vh;
   display: flex;
   justify-content: center;
