@@ -19,7 +19,9 @@ interface ReqBody {
   firebaseToken: string;
 }
 
-// Controller function to handle the registration of a citizen user
+/**
+ * Controller function to handle the registration of a citizen user
+ */
 export const registerCitizenController = async (
   req: Request<{}, ResBody, ReqBody>,
   res: Response<ResBody>,

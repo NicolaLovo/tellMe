@@ -45,9 +45,7 @@ export const loginController = async (
       uid: userEntity.uid,
     };
 
-    /**
-     * Encode custom claims in the token
-     */
+    // Encode custom claims in the token
     const token = await auth.createCustomToken(
       decodedFirebaseToken.uid,
       additionalClaims,
