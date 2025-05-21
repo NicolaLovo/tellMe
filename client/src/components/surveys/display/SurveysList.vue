@@ -4,6 +4,7 @@ import { useUserStore } from '@/stores/useUserStore'
 import type { Survey } from '@/types/survey/Survey'
 import { onMounted, ref } from 'vue'
 import { useToast } from 'vue-toastification'
+import PublishSurveyButton from '../buttons/PublishSurveyButton.vue'
 
 const surveys = ref<Survey[]>([])
 const totalSurveys = ref<number>(0)
@@ -32,13 +33,14 @@ onMounted(fetchSurveys)
 
 <template>
   <div class="survey-list-page">
-    <h1>Lista dei sondaggi</h1>
+    <h2>Lista dei sondaggi</h2>
     <div class="survey-list">
       <table v-if="surveys.length" class="survey-table">
         <thead>
           <tr>
             <th>Titolo</th>
             <th>Stato</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -46,6 +48,13 @@ onMounted(fetchSurveys)
             <td>{{ survey.title }}</td>
             <td>
               <div class="status-div">{{ survey.status }}</div>
+            </td>
+            <td>
+              <PublishSurveyButton
+                v-if="survey.status === 'created'"
+                :surveyId="survey._id"
+                @on-publish="fetchSurveys"
+              />
             </td>
           </tr>
         </tbody>
@@ -58,11 +67,11 @@ onMounted(fetchSurveys)
 </template>
 
 <style>
-h1 {
+h2 {
   color: #5e4b8b;
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 20px;
+  font-size: 2rem;
+  text-align: left;
+  padding-left: 20px;
 }
 
 thead {
@@ -72,6 +81,7 @@ thead {
 .survey-list-page {
   background-color: #f0f0f0;
   min-height: 100vh;
+  padding-top: 20px;
 }
 
 .survey-list {
@@ -81,9 +91,10 @@ thead {
 
 .survey-table {
   width: 100%;
-  background-color: #ffffff;
-  border-collapse: collapse;
-  margin-top: 16px;
+  background-color: #f5f3ff;
+  /* border-radius: 12px; */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 .survey-table th {
@@ -91,16 +102,13 @@ thead {
   padding: 8px;
   text-align: left;
   font-size: 1.2rem;
+  background-color: #4f0adf;
 }
 
 .survey-table td {
   border: 1px solid #5e4b8b;
   padding: 8px;
   text-align: left;
-}
-
-.survey-table th {
-  background-color: #4f0adf  ;
 }
 
 .survey-creation-page {

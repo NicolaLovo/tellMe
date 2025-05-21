@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import SurveyCreateForm from '@/components/surveys/form/SurveyCreateForm.vue'
+import SurveyCreateForm from '@/components/surveys/forms/SurveyCreateForm.vue'
 </script>
 
 <template>
   <div class="survey-creation-page">
     <h1 class="title">Crea un nuovo sondaggio</h1>
     <p class="description">Compila il modulo sottostante per creare un nuovo sondaggio.</p>
-  <SurveyCreateForm />
+    <SurveyCreateForm />
   </div>
 </template>
 

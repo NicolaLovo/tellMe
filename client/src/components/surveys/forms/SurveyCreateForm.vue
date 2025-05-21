@@ -18,8 +18,11 @@ const userStore = useUserStore()
 
 const errorMessage = ref('')
 
-//Survey object with a default initial question
+/**
+ * Survey object with a default initial question
+ */
 const survey = reactive<Survey>({
+  _id: '',
   title: '',
   status: 'created',
   creationDate: new Date(),
@@ -37,7 +40,9 @@ const survey = reactive<Survey>({
   ],
 })
 
-//Adds a new multiple-choice question to the survey
+/**
+ * Adds a new multiple-choice question to the survey
+ */
 const addMultipleChoiceQuestion = () => {
   survey.questions.push({
     id: uuidv4(),
@@ -47,17 +52,23 @@ const addMultipleChoiceQuestion = () => {
   })
 }
 
-//Removes a question from the survey
+/**
+ * Removes a question from the survey
+ */
 const removeQuestion = (index: number) => {
   survey.questions.splice(index, 1)
 }
 
-//Adds a new option to a multiple-choice question
+/**
+ * Adds a new option to a multiple-choice question
+ */
 const addOption = (questionIndex: number) => {
   survey.questions[questionIndex].options.push({ id: uuidv4(), text: '' })
 }
 
-//Removes an option from a question's options list
+/**
+ * Removes an option from a question's options list
+ */
 const removeOption = (questionIndex: number, optionIndex: number) => {
   survey.questions[questionIndex].options.splice(optionIndex, 1)
 }
@@ -67,25 +78,57 @@ const apiClient = new ApiClient({
   jwtToken: userStore.user?.token as string,
 })
 
-//Handles the submission by calling the API to create the survey
+/**
+ * Handles the submission by calling the API to create the survey
+ */
 const handleSubmit = async () => {
   try {
+    // check if title is empty
+    if (!survey.title) {
+      errorMessage.value = 'Il titolo del sondaggio non può essere vuoto.'
+      return
+    }
+
+    //check if no questions are present
+    if (survey.questions.length === 0) {
+      errorMessage.value = 'Il sondaggio deve avere almeno una domanda.'
+      return
+    }
+
     for (const [index, question] of survey.questions.entries()) {
       if (question.options.length < 2) {
-        toast.error(`La domanda ${index + 1} deve avere almeno 2 opzioni.`)
+        errorMessage.value = `La domanda ${index + 1} deve avere almeno 2 opzioni.`
         return
       }
     }
+
+    // check if reward points are valid
+    if (survey.rewardPoints < 0) {
+      errorMessage.value = 'I punti del sondaggio non possono essere negativi.'
+      return
+    }
+
+    // check if some options are empty
+    for (const question of survey.questions) {
+      for (const option of question.options) {
+        if (!option.text) {
+          errorMessage.value = 'Tutte le opzioni devono essere compilate.'
+          return
+        }
+      }
+    }
+
+    errorMessage.value = ''
 
     const response = await apiClient.townCouncil.surveys.create({ survey })
 
     if (response.status === 'success') {
       toast.success('Sondaggio creato correttamente')
       router.push(APP_ROUTES.townCouncil.home)
-    } else {
-      toast.error('Errore nella creazione del sondaggio.')
-      errorMessage.value = response.data?.message || 'Errore nella creazione del sondaggio.'
+      return
     }
+    toast.error('Errore nella creazione del sondaggio.')
+    errorMessage.value = response.data.message
   } catch (err) {
     errorMessage.value = 'Errore nella creazione del sondaggio.'
     console.error(err)

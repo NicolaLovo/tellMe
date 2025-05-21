@@ -3,13 +3,17 @@ import { HTTP_TMRESPONSES } from '@/constants/HTTP_TMRESPONSES'
 import { TmResponse } from '@/types/common/utils/TmResponse'
 import { Survey } from '@/types/survey/Survey'
 import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
+import { TownCouncilSurveyApiClient } from './TownCouncilSurveyApiClient'
 
 /**
  * Class responsible for managing the Town Council surveys.
  */
 export class TownCouncilSurveysApiClient extends ApiClientChildren {
+  public survey: TownCouncilSurveyApiClient
+  
   constructor(props: ApiClientChildrenProps) {
     super(props)
+    this.survey = new TownCouncilSurveyApiClient(props)
   }
 
   /**

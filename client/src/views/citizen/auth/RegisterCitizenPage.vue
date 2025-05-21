@@ -3,6 +3,8 @@ import { ApiClient } from '@/api/ApiClient'
 import RegisterCitizenWithGoogleButton from '@/components/auth/citizen/RegisterCitizenWithGoogleButton.vue'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
+import { isEmailValid } from '@/tools/forms/isEmailValid'
+import { isPasswordValid } from '@/tools/forms/isPasswordValid'
 import { navigateAuthenticatedUserToHome } from '@/tools/navigateAuthenticatedUserToHome'
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
 import { ref } from 'vue'
@@ -12,12 +14,6 @@ const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
 const toast = useToast()
-
-//Check if the password has a valid format
-const isPasswordValid = (password: string) => {
-  const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/
-  return regex.test(password)
-}
 
 const registerWithToken = async (firebaseToken: string) => {
   const apiClient = new ApiClient({})
@@ -44,6 +40,16 @@ const registerWithToken = async (firebaseToken: string) => {
 
 const registerWithEmailAndPassword = async () => {
   errorMessage.value = ''
+
+  if (!email.value) {
+    errorMessage.value = "L'email non deve essere vuota."
+    return
+  }
+
+  if (!isEmailValid(email.value)) {
+    errorMessage.value = "L'email inserita non è valida."
+    return
+  }
 
   if (!isPasswordValid(password.value)) {
     errorMessage.value =

@@ -1,7 +1,9 @@
 import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
 import { TownCouncilSurveysApiClient } from './TownCouncilSurveysApiClient'
 
-//API client for the Town Council
+/**
+ * Api client for the Town Council
+ */
 export class TownCouncilApiClient extends ApiClientChildren {
   public surveys: TownCouncilSurveysApiClient
 

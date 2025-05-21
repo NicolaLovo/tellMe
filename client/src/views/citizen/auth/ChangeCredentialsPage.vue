@@ -1,18 +1,13 @@
 <script setup lang="ts">
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
-import {
-  EmailAuthProvider,
-  getAuth,
-  reauthenticateWithCredential,
-  updatePassword,
-} from 'firebase/auth'
+import { getAuth, updatePassword } from 'firebase/auth'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-const oldPassword = ref('')
 const newPassword = ref('')
 const errorMessage = ref('')
 const router = useRouter()
+
 const submitForm = async () => {
   const auth = getAuth()
   const user = auth.currentUser
@@ -32,9 +27,6 @@ const submitForm = async () => {
 
   if (user) {
     try {
-      const credential = EmailAuthProvider.credential(user.email!, oldPassword.value)
-      await reauthenticateWithCredential(user, credential)
-
       await updatePassword(user, password)
 
       router.push(APP_ROUTES.citizen.home)
@@ -53,11 +45,6 @@ const submitForm = async () => {
       <h1 class="title">Modifica la tua Password</h1>
 
       <form @submit.prevent="submitForm" class="form">
-        <div class="input-group">
-          <label for="oldPassword">Vecchia Password:</label>
-          <input type="password" v-model="oldPassword" id="oldPassword" required />
-        </div>
-
         <div class="input-group">
           <label for="newPassword">Nuova Password:</label>
           <input type="password" v-model="newPassword" id="newPassword" required />

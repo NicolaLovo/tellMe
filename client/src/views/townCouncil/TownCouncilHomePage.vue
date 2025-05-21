@@ -1,36 +1,37 @@
+<script setup lang="ts">
+import SurveysList from '@/components/surveys/display/SurveysList.vue'
+</script>
 
 <template>
-  <div class="home-container">
-    <div class="content">
-      <h1 class="title">Benvenuto comune!</h1>
+  <div class="top-div">
+    <h1 class="title">Benvenuto comune!</h1>
+    <div class="buttons-container">
       <div class="button-div">
         <button class="button" @click="$router.push('/towncouncil/createsurvey')">
           Crea sondaggio
         </button>
-        <button class="button" @click="$router.push('/towncouncil/surveys')">
+        <!-- <button class="button" @click="$router.push('/towncouncil/surveys')">
           Visualizza sondaggi
-        </button>
+        </button> -->
       </div>
     </div>
   </div>
+  <SurveysList />
 </template>
 
 <style scoped>
-.home-container {
+.top-div {
   background-color: #f0f0f0;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Arial', sans-serif;
 }
 
-.content {
-  text-align: center;
-  background-color: #f5f3ff;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+.buttons-container {
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align to left instead of center */
+  justify-content: center;
+  font-family: 'Arial', sans-serif;
+  padding: 20px; /* Add padding for spacing from edges */
 }
 
 .title {
@@ -47,7 +48,7 @@
 }
 
 .button {
-  background-color: #9578f4;
+  background-color: #4f0adf;
   color: white;
   font-size: 1.2rem;
   padding: 15px 30px;
@@ -60,12 +61,12 @@
   width: 100%;
 }
 
-.create-button:hover {
-  background-color: #815aff;
+.button:hover {
+  background-color: #36039f;
   transform: scale(1.05);
 }
 
-.create-button:focus {
+.button:focus {
   outline: none;
 }
 </style>

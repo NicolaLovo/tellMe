@@ -1,9 +1,29 @@
 import { HttpClient } from './HttpClient'
 
 export interface ApiClientChildrenProps {
+  /**
+   * JWT token for authentication. Set to null if not authenticated.
+   */
   jwtToken: string | null
 }
 
+/**
+ * Abstract base class for API client children that provides common functionality
+ * such as JWT token management and HTTP client instantiation.
+ *
+ * @remarks
+ * Extend this class to implement specific API clients that require authentication
+ * and HTTP request handling.
+ *
+ * @example
+ * ```typescript
+ * class UserApiClient extends ApiClientChildren {
+ *   // Implement user-specific API methods here
+ * }
+ * ```
+ *
+ * @public
+ */
 export abstract class ApiClientChildren {
   protected jwtToken: string | null
   protected httpClient: HttpClient
