@@ -82,7 +82,7 @@ const onSubmit = async () => {
     <input type="email" placeholder="Email" v-model="loginFormData.email" class="input" />
     <input type="password" placeholder="Password" v-model="loginFormData.password" class="input" />
 
-    <!-- Messaggio di errore -->
+    <!-- form validation message -->
     <p v-if="loginFormData.errorMessage" class="error-message">{{ loginFormData.errorMessage }}</p>
 
     <button type="submit" class="btn">Accedi</button>

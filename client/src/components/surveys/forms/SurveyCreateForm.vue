@@ -18,7 +18,9 @@ const userStore = useUserStore()
 
 const errorMessage = ref('')
 
-//Survey object with a default initial question
+/**
+ * Survey object with a default initial question
+ */
 const survey = reactive<Survey>({
   _id: '',
   title: '',
@@ -38,7 +40,9 @@ const survey = reactive<Survey>({
   ],
 })
 
-//Adds a new multiple-choice question to the survey
+/**
+ * Adds a new multiple-choice question to the survey
+ */
 const addMultipleChoiceQuestion = () => {
   survey.questions.push({
     id: uuidv4(),
@@ -48,17 +52,23 @@ const addMultipleChoiceQuestion = () => {
   })
 }
 
-//Removes a question from the survey
+/**
+ * Removes a question from the survey
+ */
 const removeQuestion = (index: number) => {
   survey.questions.splice(index, 1)
 }
 
-//Adds a new option to a multiple-choice question
+/**
+ * Adds a new option to a multiple-choice question
+ */
 const addOption = (questionIndex: number) => {
   survey.questions[questionIndex].options.push({ id: uuidv4(), text: '' })
 }
 
-//Removes an option from a question's options list
+/**
+ * Removes an option from a question's options list
+ */
 const removeOption = (questionIndex: number, optionIndex: number) => {
   survey.questions[questionIndex].options.splice(optionIndex, 1)
 }
@@ -68,7 +78,9 @@ const apiClient = new ApiClient({
   jwtToken: userStore.user?.token as string,
 })
 
-//Handles the submission by calling the API to create the survey
+/**
+ * Handles the submission by calling the API to create the survey
+ */
 const handleSubmit = async () => {
   try {
     // check if title is empty

@@ -66,7 +66,7 @@ const onClick = async () => {
     }
 
     if (!token) {
-      errorMessage.value = 'Autenticazione fallita. Riprova più tardi.'
+      errorMessage.value = 'Registrazione non riuscita, prova più tardi.'
       return
     }
 

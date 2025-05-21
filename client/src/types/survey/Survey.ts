@@ -7,5 +7,8 @@ export interface Survey {
   rewardPoints: number
   creationDate: Date
   status: SurveyStatus
+  /**
+   * Questions in the survey
+   */
   questions: SurveyQuestion[]
 }

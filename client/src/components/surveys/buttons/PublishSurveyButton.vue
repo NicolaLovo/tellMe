@@ -27,13 +27,16 @@ const onClick = async () => {
       },
     )
 
-    if (response.status === 'success') {
-      emit('on-publish')
-      toast.success('Sondaggio pubblicato con successo!')
-    } else {
-      console.error('Errore nel caricamento dei sondaggi.')
+    if (response.status === 'error') {
       toast.error('Errore nella pubblicazione del sondaggio.')
+      return
     }
+
+    /**
+     * Notify the parent component that the survey has been published
+     */
+    emit('on-publish')
+    toast.success('Sondaggio pubblicato con successo!')
   } catch (err) {
     console.error('Errore durante la pubblicazione del sondaggio:', err)
   }

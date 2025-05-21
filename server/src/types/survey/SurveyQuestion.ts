@@ -1,13 +1,15 @@
-// Interface representing a single option in a multiple-choice question
 interface SurveyQuestionOption {
   id: string;
   text: string;
 }
 
-// Type representing a survey question with an id, text, type, and options
 export type SurveyQuestion = {
   id: string;
   question: string;
+  /**
+   * Enumberative type of the questions.
+   * Extend this type to add more question types in the future.
+   */
   type: 'multiple-choice';
   options: SurveyQuestionOption[];
 };

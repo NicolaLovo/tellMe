@@ -1,10 +1,12 @@
-import { Survey } from '@/types/survey/Survey'
-import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
-import { TmResponse } from '@/types/common/utils/TmResponse'
 import { API_URL } from '@/constants/API_URL'
 import { HTTP_TMRESPONSES } from '@/constants/HTTP_TMRESPONSES'
+import { TmResponse } from '@/types/common/utils/TmResponse'
+import { Survey } from '@/types/survey/Survey'
+import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
 
-//API client for the Town Council survey 
+/**
+ * Api client for the Town Council survey
+ */
 export class TownCouncilSurveyApiClient extends ApiClientChildren {
   constructor(props: ApiClientChildrenProps) {
     super(props)

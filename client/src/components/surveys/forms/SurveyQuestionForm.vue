@@ -6,14 +6,6 @@ defineProps<{
 }>()
 
 const emit = defineEmits(['remove-question', 'add-option', 'remove-option'])
-
-const addLocalOption = () => {
-  emit('add-option')
-}
-
-const removeLocalOption = (index: number) => {
-  emit('remove-option', index)
-}
 </script>
 <template>
   <div class="section">
@@ -27,7 +19,7 @@ const removeLocalOption = (index: number) => {
         placeholder="Scrivi la tua domanda"
         required
       />
-      <button type="button" @click="$emit('remove-question')" class="btn danger small">
+      <button type="button" @click="emit('remove-question')" class="btn danger small">
         <i class="pi pi-trash"></i>
       </button>
     </div>
@@ -45,13 +37,13 @@ const removeLocalOption = (index: number) => {
         <button
           v-if="question.options.length > 2"
           type="button"
-          @click="removeLocalOption(optionIndex)"
+          @click="emit('remove-option', optionIndex)"
           class="btn danger small"
         >
           <i class="pi pi-trash"></i>
         </button>
       </div>
-      <button type="button" @click="addLocalOption" class="btn primary small">
+      <button type="button" @click="emit('add-option')" class="btn primary small">
         Aggiungi opzione
       </button>
     </div>

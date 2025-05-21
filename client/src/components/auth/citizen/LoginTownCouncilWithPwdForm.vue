@@ -37,8 +37,8 @@ const onSubmit = async () => {
     // Obtain Firebase ID token
     const firebaseToken = await userCredential.user.getIdToken()
 
+    // Call the backend API to login
     const apiClient = new ApiClient({})
-
     const serverResponse = await apiClient.auth.login({
       firebaseToken,
     })

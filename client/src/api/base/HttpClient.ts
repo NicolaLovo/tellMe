@@ -1,9 +1,24 @@
 import axios, { AxiosResponse } from 'axios'
 
 interface HttpClientProps {
+  /**
+   * JWT token for authentication. Set to null if not authenticated.
+   */
   jwtToken?: string | null
 }
 
+/**
+ * A simple HTTP client wrapper for making GET, POST, PUT, and DELETE requests using Axios.
+ *
+ * Handles JWT authentication by including a Bearer token in the Authorization header if provided.
+ * Each method returns the response data or `null` if an error occurs.
+ *
+ * @example
+ * ```typescript
+ * const client = new HttpClient({ jwtToken: 'your-jwt-token' });
+ * const data = await client.get<MyType>('https://api.example.com/resource');
+ * ```
+ */
 export class HttpClient {
   private jwtToken: string | null
   constructor({ jwtToken }: HttpClientProps) {

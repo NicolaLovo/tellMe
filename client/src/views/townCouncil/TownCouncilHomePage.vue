@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import SurveyList from '@/components/surveys/form/SurveyList.vue';
-
+import SurveysList from '@/components/surveys/display/SurveysList.vue'
 </script>
-
 
 <template>
   <div class="top-div">
@@ -15,16 +13,15 @@ import SurveyList from '@/components/surveys/form/SurveyList.vue';
         <!-- <button class="button" @click="$router.push('/towncouncil/surveys')">
           Visualizza sondaggi
         </button> -->
-        </div>
-      </div>    
+      </div>
     </div>
-    <SurveyList />
+  </div>
+  <SurveysList />
 </template>
 
 <style scoped>
 .top-div {
   background-color: #f0f0f0;
-
 }
 
 .buttons-container {
