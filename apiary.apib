@@ -65,10 +65,126 @@ Registers a citizen by verifying their Firebase token, validating their email, c
         + data (object)
             + message: `Internal server error` (string)
             
-            
-# Group Town council API
 
-## Surveys [/api/v1/townCouncil/surveys{?pageIndex,pageSize}]
+## Citizen Surveys [/api/v1/auth/citizens/{uid}/surveys{?pageIndex,pageSize}]
+
+### List published surveys for a citizen [GET]
+
+Returns a paginated list of surveys available to a citizen. Only surveys with `status: published` are returned. Supports pagination via `pageIndex` and `pageSize`.
+
++ Parameters
+    + uid: `user456` (string, required) - Unique identifier of the citizen
+    + pageIndex: `0` (optional, string) - 0-based index of the first item in the current page (default: 0)
+    + pageSize: `10` (optional, string) - Number of items to include in the current page (default: 10)
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + surveys (array[Survey]) - List of published surveys
+            + metadata (object)
+                + totalCount: 25 (number) - Total number of published surveys
+
++ Body
+
+    {
+        "status": "success",
+        "data": {
+            "surveys": [
+                {
+                    "title": "Citizen Feedback",
+                    "rewardPoints": 10,
+                    "creationDate": "2025-05-20T12:30:00Z",
+                    "status": "published",
+                    "questions": [
+                        {
+                            "id": "q1",
+                            "question": "How do you rate our services?",
+                            "type": "multiple-choice",
+                            "options": [
+                                {
+                                    "id": "opt1",
+                                    "text": "Excellent"
+                                },
+                                {
+                                    "id": "opt2",
+                                    "text": "Good"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "metadata": {
+                "totalCount": 25
+            }
+        }
+    }
+
++ Response 400 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Invalid pagination parameters` (string)
+
++ Response 500 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
+
+## Survey Answers [/api/v1/auth/citizens/{uid}/surveys/{surveyId}/answer]
+
+### Get a citizen's survey answer [GET]
+
+Retrieves the survey answer submitted by a specific citizen (`uid`) for a specific survey (`surveyId`). If no answer is found, returns a 404 error.
+
++ Parameters
+    + uid: `user456` (string, required) - Unique identifier of the citizen
+    + surveyId: `survey789` (string, required) - Unique identifier of the survey
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + answer (SurveyAnswer)
+
++ Body
+
+    {
+        "status": "success",
+        "data": {
+            "answer": {
+                "_id": {
+                    "surveyId": "survey789",
+                    "uid": "user456"
+                },
+                "creationDate": "2025-05-27T12:00:00Z",
+                "answer": [
+                    {
+                        "id": "q1",
+                        "answer": "Very satisfied",
+                        "type": "multiple-choice"
+                    }
+                ]
+            }
+        }
+    }
+
++ Response 404 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Survey answer not found` (string)
+
++ Response 500 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
+
+
+## Surveys [/api/v1/surveys{?pageIndex,pageSize}]
 
 ### Create a new survey [POST]
 
@@ -113,7 +229,60 @@ Returns the list of surveys saved in the system.
             + message: `string` (string) - Error message describing the failure
             
             
-## Survey [/api/v1/townCouncil/surveys/{surveyId}]
+## Survey [/api/v1/surveys/{surveyId}]
+
+### Get a survey [GET]
+
+Retrieves the survey identified by the given `surveyId`.
+
++ Parameters
+    + surveyId: `12345` (string, required) - The ID of the survey to retrieve
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + survey (Survey)
+
++ Body
+
+    {
+        "status": "success",
+        "data": {
+            "survey": {
+                "title": "Customer Satisfaction Survey",
+                "rewardPoints": 10,
+                "creationDate": "2025-05-20T12:30:00",
+                "status": "published",
+                "questions": [
+                    {
+                        "id": "q1",
+                        "question": "How satisfied are you with our service?",
+                        "type": "multiple-choice",
+                        "options": [
+                            { "id": "o1", "text": "Very satisfied" },
+                            { "id": "o2", "text": "Satisfied" },
+                            { "id": "o3", "text": "Neutral" },
+                            { "id": "o4", "text": "Dissatisfied" }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+
++ Response 404 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Survey not found` (string)
+
++ Response 500 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
+
 
 ### Update a survey [PUT]
 
@@ -165,3 +334,17 @@ Updates the survey with the provided data. Returns the updated survey ID on succ
 + `created`
 + `published`
 + `closed`
+
+## SurveyAnswer (object)
++ _id (object, required)
+    + surveyId: `abc123` (string, required) - ID of the survey
+    + uid: `user456` (string, required) - ID of the user who answered
++ creationDate: `2025-05-27T12:00:00Z` (string, required) - Timestamp when the answer was created
++ answer (array[SurveyQuestionAnswer], required) - Answers to the survey questions
+    + Members
+        + (SurveyQuestionAnswer)
+
+## SurveyQuestionAnswer (object)
++ id: `q1` (string, required) - ID of the question being answered
++ answer: `Very satisfied` (string, required) - User's answer to the question
++ type: `multiple-choice` (string, required) - Type of the question (currently only 'multiple-choice')
