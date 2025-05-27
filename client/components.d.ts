@@ -9,6 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Button: typeof import('primevue/button')['default']
+    Divider: typeof import('primevue/divider')['default']
     LoginCitizenWithEmailAndPwdForm: typeof import('./src/components/auth/citizen/LoginCitizenWithEmailAndPwdForm.vue')['default']
     LoginCitizenWithGoogleButton: typeof import('./src/components/auth/citizen/LoginCitizenWithGoogleButton.vue')['default']
     LoginTownCouncilWithPwdForm: typeof import('./src/components/auth/citizen/LoginTownCouncilWithPwdForm.vue')['default']
@@ -20,5 +21,6 @@ declare module 'vue' {
     SurveyCreateForm: typeof import('./src/components/surveys/forms/SurveyCreateForm.vue')['default']
     SurveyQuestionForm: typeof import('./src/components/surveys/forms/SurveyQuestionForm.vue')['default']
     SurveysList: typeof import('./src/components/surveys/display/SurveysList.vue')['default']
+    Tag: typeof import('primevue/tag')['default']
   }
 }

@@ -30,7 +30,6 @@ import SurveysList from '@/components/surveys/display/SurveysList.vue'
   flex-direction: column;
   align-items: flex-start; /* Align to left instead of center */
   justify-content: center;
-  font-family: 'Arial', sans-serif;
   padding: 20px; /* Add padding for spacing from edges */
 }
 

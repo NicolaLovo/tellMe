@@ -9,6 +9,7 @@ import PrimeVue from 'primevue/config'
 import { createApp } from 'vue'
 import Toast from 'vue-toastification'
 import App from './App.vue'
+import './assets/base.css'
 import { FIREBASE_CONFIG } from './constants/database/FIREBASE_CONFIG'
 import router from './router'
 

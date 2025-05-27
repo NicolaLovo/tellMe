@@ -16,7 +16,6 @@ import SurveyCreateForm from '@/components/surveys/forms/SurveyCreateForm.vue'
   min-height: 100vh;
   justify-content: center;
   align-items: center;
-  font-family: 'Arial', sans-serif;
   padding: 20px; /* Padding per un po' di respiro ai bordi */
 }
 

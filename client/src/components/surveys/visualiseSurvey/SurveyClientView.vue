@@ -126,7 +126,6 @@ function submit() {
 .survey-viewer {
   max-width: 600px;
   margin: 2rem auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 0 1rem;
   color: #3a2f5a;
 }

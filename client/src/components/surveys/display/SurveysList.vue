@@ -86,7 +86,6 @@ thead {
 
 .survey-list {
   padding: 20px;
-  font-family: 'Arial', sans-serif;
 }
 
 .survey-table {
@@ -116,7 +115,6 @@ thead {
   min-height: 100vh;
   justify-content: center;
   align-items: center;
-  font-family: 'Arial', sans-serif;
   padding: 20px; /* Padding per un po' di respiro ai bordi */
 }
 
