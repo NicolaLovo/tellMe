@@ -22,10 +22,10 @@ app.use(
 );
 app.use(
   '/api/v1/citizens/',
-  /*getRbacMiddleware({
+  getRbacMiddleware({
     requiredRoles: ['citizen'],
   }),
-  */ citizensRouter,
+   citizensRouter,
 );
 
 app.get('/test', (req, res) => {

@@ -1,67 +1,134 @@
-<script setup>
-import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
+<script setup lang="ts">
+import { ApiClient } from '@/api/ApiClient'
+import { useUserStore } from '@/stores/useUserStore'
+import { isEmailValid } from '@/tools/forms/isEmailValid'
+import { isPasswordValid } from '@/tools/forms/isPasswordValid'
+import { navigateAuthenticatedUserToHome } from '@/tools/navigateAuthenticatedUserToHome'
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
 import { ref } from 'vue'
+import { useToast } from 'vue-toastification'
 
 const email = ref('')
 const password = ref('')
+const errorMessage = ref('')
+const toast = useToast()
 
-const onSubmit = () => {
-  console.log('Email:', email.value)
-  console.log('Password:', password.value)
+const registerWithToken = async (firebaseToken: string) => {
+  const apiClient = new ApiClient({})
+  const userStore = useUserStore()
+
+  const registerResponse = await apiClient.auth.registerAgency({
+    email: email.value,
+    firebaseToken,
+  })
+
+  if (registerResponse.status === 'error') {
+    toast.error(registerResponse.data.message)
+    return
+  }
+
+  toast.success('Registrazione avvenuta con successo!')
+  userStore.login({ token: registerResponse.data.token })
+  navigateAuthenticatedUserToHome({ user: userStore.user })
+}
+
+const registerWithEmailAndPassword = async () => {
+  errorMessage.value = ''
+
+  if (!email.value) {
+    errorMessage.value = "L'email non deve essere vuota."
+    return
+  }
+
+  if (!isEmailValid(email.value)) {
+    errorMessage.value = "L'email inserita non è valida."
+    return
+  }
+
+  if (!isPasswordValid(password.value)) {
+    errorMessage.value =
+      'La password deve essere lunga almeno 6 caratteri, contenere un numero e un carattere speciale.'
+    return
+  }
+
+  try {
+    const credentials = await createUserWithEmailAndPassword(getAuth(), email.value, password.value)
+    const firebaseToken = await credentials.user.getIdToken()
+    await registerWithToken(firebaseToken)
+  } catch (error: any) {
+    switch (error.code) {
+      case 'auth/email-already-in-use':
+        errorMessage.value = 'Questa email è già registrata.'
+        break
+      case 'auth/invalid-email':
+        errorMessage.value = "L'email inserita non è valida."
+        break
+      case 'auth/weak-password':
+        errorMessage.value = 'La password è troppo debole. Deve contenere almeno 6 caratteri.'
+        break
+      default:
+        console.error('Errore imprevisto:', error.code)
+        errorMessage.value = 'Si è verificato un errore: ' + error.message
+    }
+  }
 }
 </script>
 
 <template>
   <div class="register-container">
     <div class="content">
-      <h1 class="title">Registrazione Ente</h1>
+      <h1 class="title">Registrazione Agenzia</h1>
       <p class="subtitle">Crea il tuo account per iniziare.</p>
 
-      <form @submit.prevent="onSubmit">
-        <InputText v-model="email" placeholder="Email" class="input" />
-        <input type="password" v-model="password" placeholder="Password" class="input" />
-        <Button label="Registrati" icon="pi pi-user-plus" class="btn" type="submit" />
+      <form @submit.prevent="registerWithEmailAndPassword">
+        <input type="email" placeholder="Email" v-model="email" class="input" />
+        <input type="password" placeholder="Password" v-model="password" class="input" />
+        <button type="submit" class="btn">Registrati</button>
       </form>
+
+      <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
     </div>
   </div>
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+.error-message {
+  color: #d32f2f;
+  background-color: #fce4ec;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 0.95rem;
+}
 
 .register-container {
-  background: #ffffff;
+  background-color: #f0f0f0;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Montserrat', sans-serif;
-  padding: 20px;
 }
 
 .content {
-  background: #fff;
-  padding: 50px 40px 60px;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(102, 78, 255, 0.15);
-  max-width: 450px;
-  width: 100%;
   text-align: center;
+  background-color: #f5f3ff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 90%;
 }
 
 .title {
-  font-size: 2.8rem;
+  font-size: 2.5rem;
   color: #5e4b8b;
-  font-weight: 700;
   margin-bottom: 10px;
 }
 
 .subtitle {
-  font-size: 1.3rem;
-  color: #6b6b6b;
-  margin-bottom: 35px;
-  font-weight: 500;
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 30px;
 }
 
 .input {
@@ -70,8 +137,7 @@ const onSubmit = () => {
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 1rem;
-  width: 100%;
-  box-sizing: border-box;
+  width: 95%;
 }
 
 .btn {
@@ -86,7 +152,6 @@ const onSubmit = () => {
     background-color 0.3s ease,
     transform 0.2s ease;
   width: 100%;
-  margin-top: 15px;
 }
 
 .btn:hover {

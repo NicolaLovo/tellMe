@@ -55,4 +55,28 @@ export class AuthApiClient extends ApiClientChildren {
       }
     }
   }
+
+  /**
+   * Registers a new agency user using an email and a Firebase token.
+   */
+  public async registerAgency(body: {
+    email: string
+    firebaseToken: string
+  }): Promise<TmResponse<{ token: string }>> {
+    try {
+      const response = await this.httpClient.post<TmResponse<{ token: string }>>(
+        `${API_URL}/api/v1/auth/agencies`,
+        body,
+      )
+      return response ?? HTTP_TMRESPONSES.error
+    } catch (error) {
+      console.error('Register Agency error:', error)
+      return {
+        status: 'error',
+        data: {
+          message: 'Errore nella richiesta di registrazione agenzia',
+        },
+      }
+    }
+  }
 }
