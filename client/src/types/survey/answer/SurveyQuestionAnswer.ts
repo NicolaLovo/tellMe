@@ -1,6 +1,6 @@
 // Single  answer to a survey question
 export type SurveyQuestionAnswer = {
-  id: string
-  answer: string
+  questionId: string
+  optionId: string
   type: 'multiple-choice'
 }

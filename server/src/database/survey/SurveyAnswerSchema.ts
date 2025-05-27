@@ -3,8 +3,8 @@ import { SurveyQuestionAnswer } from '../../types/survey/answer/SurveyQuestionAn
 
 // Sub-schema for individual question answers
 const SurveyQuestionAnswerSchema = new mongoose.Schema({
-  id: { type: String, required: true },
-  answer: { type: String, required: true },
+  questionId: { type: String, required: true },
+  optionId: { type: String, required: true },
   type: {
     type: String,
     enum: ['multiple-choice'],
