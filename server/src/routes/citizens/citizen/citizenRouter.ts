@@ -1,8 +1,10 @@
 import { Router } from 'express';
-import citizenSurveyRouter from './surveys/citizenSurveyRouter';
+import { readSurveyAnswerController } from '../../../controllers/citizen/surveys/readSurveyAnswerController';
+import { listCitizenSurveysController } from '../../../controllers/citizen/surveys/listCitizenSurveysController';
 
 const citizenRouter = Router();
 
-citizenRouter.use('/surveys', citizenSurveyRouter);
+citizenRouter.get('/:uid/surveys', listCitizenSurveysController);
+citizenRouter.get('/:uid/surveys/:surveyId/answer', readSurveyAnswerController);
 
 export default citizenRouter;
