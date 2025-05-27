@@ -138,10 +138,6 @@ const registerWithEmailAndPassword = async () => {
 }
 
 .content {
-  text-align: center;
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   max-width: 600px;
   width: 90%;
 }
