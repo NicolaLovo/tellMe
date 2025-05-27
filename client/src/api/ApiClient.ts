@@ -1,4 +1,5 @@
 import { AuthApiClient } from './AuthApiClient'
+import { CitizenApiClient } from './Citizen/CitizenApiClient'
 import { TownCouncilApiClient } from './TownCouncil/TownCouncilApiClient'
 
 interface ApiClientProps {
@@ -14,11 +15,13 @@ export class ApiClient {
 
   private authApiClient: AuthApiClient
   private townCouncilApiClient: TownCouncilApiClient
+  citizenApiClient: CitizenApiClient
 
   constructor({ jwtToken }: ApiClientProps) {
     this.jwtToken = jwtToken || null
     this.authApiClient = new AuthApiClient({ jwtToken: this.jwtToken })
     this.townCouncilApiClient = new TownCouncilApiClient({ jwtToken: this.jwtToken })
+    this.citizenApiClient = new CitizenApiClient({ jwtToken: this.jwtToken })
   }
 
   /**
