@@ -42,7 +42,7 @@ export class CitizenSurveysApiClient extends ApiClientChildren {
     }>
   > {
     try {
-      const baseUrl = `${API_URL}/api/v1/citizens//${params.citizenId}/surveys`
+      const baseUrl = `${API_URL}/api/v1/citizens/${params.citizenId}/surveys`
       const urlWithQueries = this.appendQueriesToUrl(baseUrl, queries)
 
       type ReturnType = TmResponse<{
