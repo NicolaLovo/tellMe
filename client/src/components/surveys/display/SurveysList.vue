@@ -32,98 +32,33 @@ onMounted(fetchSurveys)
 </script>
 
 <template>
-  <div class="survey-list-page">
-    <h2>Lista dei sondaggi</h2>
-    <div class="survey-list">
-      <table v-if="surveys.length" class="survey-table">
-        <thead>
-          <tr>
-            <th>Titolo</th>
-            <th>Stato</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="survey in surveys">
-            <td>{{ survey.title }}</td>
-            <td>
-              <div class="status-div">{{ survey.status }}</div>
-            </td>
-            <td>
+  <Card>
+    <template #title> Lista dei sondaggi </template>
+    <template #content>
+      <div>
+        <DataTable v-if="surveys.length" :value="surveys" responsiveLayout="scroll">
+          <Column field="title" header="Titolo"></Column>
+          <Column header="Stato">
+            <template #body="slotProps">
+              <Tag>{{ slotProps.data.status }}</Tag>
+            </template>
+          </Column>
+          <Column>
+            <template #body="slotProps">
               <PublishSurveyButton
-                v-if="survey.status === 'created'"
-                :surveyId="survey._id"
+                v-if="slotProps.data.status === 'created'"
+                :surveyId="slotProps.data._id"
                 @on-publish="fetchSurveys"
               />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </template>
+          </Column>
+        </DataTable>
 
-      <!-- Message when no surveys found -->
-      <p v-else>Non ci sono sondaggi disponibili.</p>
-    </div>
-  </div>
+        <!-- Message when no surveys found -->
+        <p v-else>Non ci sono sondaggi disponibili.</p>
+      </div></template
+    >
+  </Card>
 </template>
 
-<style>
-h2 {
-  color: #5e4b8b;
-  font-size: 2rem;
-  text-align: left;
-  padding-left: 20px;
-}
-
-thead {
-  color: #ffffff;
-}
-
-.survey-list-page {
-  background-color: #f0f0f0;
-  min-height: 100vh;
-  padding-top: 20px;
-}
-
-.survey-list {
-  padding: 20px;
-}
-
-.survey-table {
-  width: 100%;
-  background-color: #f5f3ff;
-  /* border-radius: 12px; */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.survey-table th {
-  border: 1px solid #5e4b8b;
-  padding: 8px;
-  text-align: left;
-  font-size: 1.2rem;
-  background-color: #4f0adf;
-}
-
-.survey-table td {
-  border: 1px solid #5e4b8b;
-  padding: 8px;
-  text-align: left;
-}
-
-.survey-creation-page {
-  background-color: #f0f0f0;
-  min-height: 100vh;
-  justify-content: center;
-  align-items: center;
-  padding: 20px; /* Padding per un po' di respiro ai bordi */
-}
-
-.status-div {
-  background-color: #4f0adf;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 1rem;
-  width: min-content;
-}
-</style>
+<style></style>

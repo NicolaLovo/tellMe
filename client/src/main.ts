@@ -43,6 +43,11 @@ const tellMePreset = definePreset(Material, {
       margin: 0;
       }`,
     },
+    card: {
+      css: `.p-card {
+      border: 1px solid var(--p-indigo-500);
+      }`,
+    },
   },
 })
 
