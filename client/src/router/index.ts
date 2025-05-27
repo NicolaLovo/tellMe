@@ -1,7 +1,12 @@
+import SurveyCitizenView from '@/components/surveys/visualiseSurvey/SurveyCitizenView.vue'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
 import { UserRole } from '@/types/auth/UserRole'
+import AgencyHomePage from '@/views/agency/AgencyHomePage.vue'
+import AgencyWelcomePage from '@/views/agency/auth/AgencyWelcomePage.vue'
+import LoginAgencyPage from '@/views/agency/auth/LoginAgencyPage.vue'
 import ChangeCredentialsPage from '@/views/citizen/auth/ChangeCredentialsPage.vue'
+import RegisterAgencyPage from '@/views/citizen/auth/RegisterAgencyPage.vue'
 import CitizenHomePage from '@/views/citizen/CitizenHomePage.vue'
 import TownCouncilWelcomePage from '@/views/townCouncil/auth/TownCouncilWelcomePage.vue'
 import SurveyCreationPage from '@/views/townCouncil/survey/SurveyCreationPage.vue'
@@ -12,9 +17,6 @@ import CitizenWelcomePage from '../views/citizen/auth/CitizenWelcomePage.vue'
 import CitizenLoginPage from '../views/citizen/auth/LoginCitizenPage.vue'
 import RegisterCitizenPage from '../views/citizen/auth/RegisterCitizenPage.vue'
 import HomePage from '../views/HomePage.vue'
-import SurveyCitizenView from '@/components/surveys/visualiseSurvey/SurveyCitizenView.vue'
-import { registerAgencyController } from '../../../server/src/controllers/auth/registerAgencyController';
-import RegisterAgencyPage from '@/views/citizen/auth/RegisterAgencyPage.vue'
 
 interface RouteMeta {
   requiresRoles?: UserRole[]
@@ -53,11 +55,6 @@ const routes: Array<RouteRecordRaw> = [
     name: 'SurveyCreation',
     component: SurveyCreationPage,
   },
-  // {
-  //   path: APP_ROUTES.townCouncil.surveylist,
-  //   name: 'SurveyList',
-  //   component: SurveyListPage,
-  // },
   {
     path: APP_ROUTES.citizen.welcome,
     name: 'CitizenWelcome',
@@ -90,6 +87,24 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.citizen.surveyanswer,
     name: 'SurveyAnswer',
     component: SurveyCitizenView,
+  },
+  {
+    path: APP_ROUTES.agency.home,
+    name: 'AgencyHome',
+    component: AgencyHomePage,
+    meta: {
+      requiresRoles: ['agency'],
+    } satisfies RouteMeta,
+  },
+  {
+    path: APP_ROUTES.agency.welcome,
+    name: 'AgencyWelcome',
+    component: AgencyWelcomePage,
+  },
+  {
+    path: APP_ROUTES.agency.login,
+    name: 'AgencyLogin',
+    component: LoginAgencyPage,
   },
 ]
 

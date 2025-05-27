@@ -21,5 +21,6 @@ export const APP_ROUTES = {
   agency: {
     welcome: '/agency/welcome',
     home: '/agency/home',
+    login: '/agency/login',
   },
 } as const
