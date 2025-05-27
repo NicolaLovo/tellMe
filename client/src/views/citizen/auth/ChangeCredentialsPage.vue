@@ -41,28 +41,41 @@ const submitForm = async () => {
 
 <template>
   <div class="change-credentials-container">
-    <div class="content">
-      <h1 class="title">Modifica la tua Password</h1>
+    <Card class="content">
+      <template #title>
+        <h1>Modifica la tua Password</h1>
+      </template>
+      <template #content>
+        <form @submit.prevent="submitForm">
+          <div class="form-content">
+            <div class="input-field">
+              <label for="password" style="align-self: flex-start; margin-bottom: 0.5rem"
+                >Password</label
+              >
+              <Password
+                id="password"
+                v-model="newPassword"
+                placeholder="Password"
+                toggleMask
+                :feedback="false"
+                inputStyle="width: 100%;"
+              />
+            </div>
 
-      <form @submit.prevent="submitForm" class="form">
-        <div class="input-group">
-          <label for="newPassword">Nuova Password:</label>
-          <input type="password" v-model="newPassword" id="newPassword" required />
-        </div>
+            <div class="button-group">
+              <Button type="submit" label="Salva Cambiamenti" class="btn" style="width: 200px" />
+            </div>
+          </div>
+        </form>
 
-        <div class="button-group">
-          <button type="submit" class="btn">Salva Cambiamenti</button>
-        </div>
-      </form>
-
-      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-    </div>
+        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+      </template>
+    </Card>
   </div>
 </template>
 
 <style scoped>
 .change-credentials-container {
-  background-color: white;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -70,77 +83,23 @@ const submitForm = async () => {
 }
 
 .content {
-  text-align: center;
-  background-color: #f5f3ff;
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
   width: 90%;
+  max-width: 600px;
 }
 
-.title {
-  font-size: 2.5rem;
-  color: #5e4b8b;
-  margin-bottom: 20px;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.input-group {
+.form-content {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-}
-
-.input-group label {
-  font-size: 1rem;
-  color: #333;
-}
-
-.input-group input {
+  gap: 10px;
   width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
 }
 
-.button-group {
+.input-field {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-}
+  flex-direction: column;
 
-.btn {
-  width: 200px;
-  padding: 12px 25px;
-  background-color: #8e7cc3;
-  color: white;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
-}
-
-.btn:hover {
-  background-color: #7a68a1;
-  transform: scale(1.05);
-}
-
-.btn:focus {
-  outline: none;
-}
-
-.error {
-  color: red;
-  margin-top: 20px;
+  width: 100%;
+  margin-bottom: 15px;
 }
 </style>
