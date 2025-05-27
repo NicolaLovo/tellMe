@@ -10,7 +10,7 @@ import { TownCouncilSurveyApiClient } from './TownCouncilSurveyApiClient'
  */
 export class TownCouncilSurveysApiClient extends ApiClientChildren {
   public survey: TownCouncilSurveyApiClient
-  
+
   constructor(props: ApiClientChildrenProps) {
     super(props)
     this.survey = new TownCouncilSurveyApiClient(props)
@@ -23,7 +23,7 @@ export class TownCouncilSurveysApiClient extends ApiClientChildren {
   public async create(body: { survey: Survey }): Promise<TmResponse<{ surveyId: string }>> {
     try {
       const response = await this.httpClient.post<TmResponse<{ surveyId: string }>>(
-        `${API_URL}/api/v1/townCouncil/surveys`,
+        `${API_URL}/api/v1/surveys`,
         body,
       )
 
@@ -67,7 +67,7 @@ export class TownCouncilSurveysApiClient extends ApiClientChildren {
     }>
   > {
     try {
-      const baseUrl = `${API_URL}/api/v1/townCouncil/surveys`
+      const baseUrl = `${API_URL}/api/v1/surveys`
       const urlWithQueries = this.appendQueriesToUrl(baseUrl, queries)
 
       type ReturnType = TmResponse<{

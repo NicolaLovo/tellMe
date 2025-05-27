@@ -9,6 +9,10 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Button: typeof import('primevue/button')['default']
+    Card: typeof import('primevue/card')['default']
+    CitizenSurveysList: typeof import('./src/components/surveys/display/CitizenSurveysList.vue')['default']
+    Column: typeof import('primevue/column')['default']
+    DataTable: typeof import('primevue/datatable')['default']
     Divider: typeof import('primevue/divider')['default']
     LoginCitizenWithEmailAndPwdForm: typeof import('./src/components/auth/citizen/LoginCitizenWithEmailAndPwdForm.vue')['default']
     LoginCitizenWithGoogleButton: typeof import('./src/components/auth/citizen/LoginCitizenWithGoogleButton.vue')['default']
