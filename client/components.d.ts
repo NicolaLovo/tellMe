@@ -17,6 +17,7 @@ declare module 'vue' {
     RegisterCitizenWithGoogleButton: typeof import('./src/components/auth/citizen/RegisterCitizenWithGoogleButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SurveyCitizenView: typeof import('./src/components/surveys/visualiseSurvey/SurveyCitizenView.vue')['default']
     SurveyClientView: typeof import('./src/components/surveys/visualiseSurvey/SurveyClientView.vue')['default']
     SurveyCreateForm: typeof import('./src/components/surveys/forms/SurveyCreateForm.vue')['default']
     SurveyQuestionForm: typeof import('./src/components/surveys/forms/SurveyQuestionForm.vue')['default']
