@@ -23,6 +23,9 @@ app.use(Toast)
 
 const tellMePreset = definePreset(Material, {
   semantic: {
+    /**
+     * Set primary color shade
+     */
     primary: {
       50: '{indigo.50}',
       100: '{indigo.100}',
@@ -54,6 +57,12 @@ const tellMePreset = definePreset(Material, {
 app.use(PrimeVue, {
   theme: {
     preset: tellMePreset,
+    options: {
+      /**
+       * Disable dark mode selector in the theme switcher.
+       */
+      darkModeSelector: false,
+    },
   },
 })
 

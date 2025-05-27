@@ -79,17 +79,55 @@ const onSubmit = async () => {
 
 <template>
   <form @submit.prevent="onSubmit">
-    <input type="email" placeholder="Email" v-model="loginFormData.email" class="input" />
-    <input type="password" placeholder="Password" v-model="loginFormData.password" class="input" />
+    <div class="form-content">
+      <div class="input-field">
+        <label for="email" style="align-self: flex-start; margin-bottom: 0.5rem">Email</label>
+        <InputText
+          id="email"
+          type="email"
+          v-model="loginFormData.email"
+          placeholder="Email"
+          style="width: 100%"
+        />
+      </div>
+      <div class="input-field">
+        <label for="password" style="align-self: flex-start; margin-bottom: 0.5rem">Password</label>
+        <Password
+          id="password"
+          v-model="loginFormData.password"
+          placeholder="Password"
+          toggleMask
+          :feedback="false"
+          inputStyle="width: 100%;"
+        />
+      </div>
 
-    <!-- form validation message -->
-    <p v-if="loginFormData.errorMessage" class="error-message">{{ loginFormData.errorMessage }}</p>
+      <p v-if="loginFormData.errorMessage" class="error-message">
+        {{ loginFormData.errorMessage }}
+      </p>
 
-    <button type="submit" class="btn">Accedi</button>
+      <Button type="submit" label="Accedi" class="btn" style="width: 100%" />
+    </div>
   </form>
 </template>
 
 <style scoped>
+.form-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  margin-bottom: 15px;
+}
+
 .error-message {
   color: #d32f2f;
   background-color: #fce4ec;
@@ -97,41 +135,5 @@ const onSubmit = async () => {
   border-radius: 8px;
   margin-top: 15px;
   font-size: 0.95rem;
-}
-.btn {
-  padding: 12px 25px;
-  background-color: #9578f4; /* Colore lilla */
-  color: white;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
-  width: 100%;
-}
-
-.btn:hover {
-  background-color: #815aff; /* Lilla più scuro al passaggio del mouse */
-  transform: scale(1.05);
-}
-
-.btn:focus {
-  outline: none;
-}
-
-.input {
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  width: 95%;
-}
-
-input:focus {
-  border-color: #815aff; /* blue border when focused */
-  outline: none; /* removes default browser outline */
 }
 </style>
