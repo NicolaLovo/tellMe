@@ -1,57 +1,3 @@
-<script setup>
-import { computed, reactive } from 'vue'
-
-const survey = reactive({
-  title: 'Customer Satisfaction Survey',
-  status: 'published',
-  questions: [
-    {
-      id: 'q1',
-      question: 'How satisfied are you with our product?',
-      type: 'multiple-choice',
-      options: [
-        { id: 'o1', text: 'Very satisfied' },
-        { id: 'o2', text: 'Satisfied' },
-        { id: 'o3', text: 'Neutral' },
-        { id: 'o4', text: 'Dissatisfied' },
-        { id: 'o5', text: 'Very dissatisfied' },
-      ],
-    },
-    {
-      id: 'q2',
-      question: 'Would you recommend our product to others?',
-      type: 'multiple-choice',
-      options: [
-        { id: 'o1', text: 'Yes' },
-        { id: 'o2', text: 'No' },
-      ],
-    },
-  ],
-})
-
-const answers = reactive({})
-
-function selectOption(questionId, optionId) {
-  answers[questionId] = optionId
-}
-
-function isSelected(questionId, optionId) {
-  return answers[questionId] === optionId
-}
-
-const allAnswered = computed(() => {
-  return survey.questions.every((q) => answers[q.id])
-})
-
-function submit() {
-  if (!allAnswered.value) {
-    alert('Per favore rispondi a tutte le domande!')
-    return
-  }
-  console.log('Risposte inviate:', JSON.stringify(answers, null, 2))
-  alert('Grazie per aver completato il sondaggio!')
-}
-</script>
 
 <template>
   <div class="survey-viewer">
@@ -85,6 +31,52 @@ function submit() {
     </button>
   </div>
 </template>
+
+<script setup>
+import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const surveyId = route.params.id
+
+const survey = ref(null)
+const answers = ref({})
+
+function selectOption(questionId, optionId) {
+  answers.value[questionId] = optionId
+}
+
+function isSelected(questionId, optionId) {
+  return answers.value[questionId] === optionId
+}
+
+const allAnswered = computed(() => {
+  if (!survey.value) return false
+  return survey.value.questions.every((q) => answers.value[q.id])
+})
+
+function submit() {
+  if (!allAnswered.value) {
+    alert('Per favore rispondi a tutte le domande!')
+    return
+  }
+  console.log('Risposte inviate:', JSON.stringify(answers.value, null, 2))
+  alert('Grazie per aver completato il sondaggio!')
+}
+
+onMounted(async () => {
+  try {
+    const response = await fetch(`/api/surveys/${surveyId}`)
+    if (!response.ok) throw new Error('Errore caricamento sondaggio')
+    const data = await response.json()
+    survey.value = data
+  } catch (e) {
+    console.error(e)
+  }
+})
+
+</script>
+
 
 <style scoped>
 .btn {

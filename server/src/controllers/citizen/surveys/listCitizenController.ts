@@ -48,6 +48,7 @@ export const listCitizenSurveysController = async (
     const filter = { status: 'published' };
 
     const surveys = await SurveyModel.find(filter)
+      .sort({ creationDate: -1 })
       .skip(page * size)
       .limit(size)
       .exec();
