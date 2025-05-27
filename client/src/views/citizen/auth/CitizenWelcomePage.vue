@@ -23,8 +23,6 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
 
 const userStore = useUserStore()
-
-// Nessuna logica al momento
 </script>
 
 <style scoped>
