@@ -14,5 +14,5 @@ export interface SurveyAnswer {
   /**
    * Answers to the survey questions
    */
-  questions: SurveyQuestionAnswer[]
+  answer: SurveyQuestionAnswer[]
 }

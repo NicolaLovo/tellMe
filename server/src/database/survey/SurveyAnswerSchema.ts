@@ -48,7 +48,7 @@ export interface SurveyAnswerModelSchema extends Document {
 /**
  * Mongoose model for Survey collection based on the SurveySchema
  */
-export const SurveyAnswer = mongoose.model<SurveyAnswerModelSchema>(
+export const SurveyAnswerModel = mongoose.model<SurveyAnswerModelSchema>(
   'SurveyAnswer',
   SurveyAnswerSchema,
 );

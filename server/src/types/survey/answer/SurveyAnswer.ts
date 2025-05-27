@@ -1,4 +1,4 @@
-import { SurveyQuestionAnswer } from './SurveyQuestionAnswer'
+import { SurveyQuestionAnswer } from './SurveyQuestionAnswer';
 
 export interface SurveyAnswer {
   /**
@@ -7,12 +7,12 @@ export interface SurveyAnswer {
    * so that each user can only answer a survey once
    */
   _id: {
-    surveyId: string
-    uid: string
-  }
-  creationDate: Date
+    surveyId: string;
+    uid: string;
+  };
+  creationDate: Date;
   /**
    * Answers to the survey questions
    */
-  questions: SurveyQuestionAnswer[]
+  answer: SurveyQuestionAnswer[];
 }

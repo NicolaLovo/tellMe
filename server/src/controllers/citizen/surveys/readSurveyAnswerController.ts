@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
+import { SurveyAnswerModel } from '../../../database/survey/SurveyAnswerSchema';
 import { TmResponse } from '../../../types/common/utils/TmResponse';
+import { SurveyAnswer } from '../../../types/survey/answer/SurveyAnswer';
 
 interface ReqParams {
   uid: string;
@@ -7,20 +9,39 @@ interface ReqParams {
 }
 
 type ResBody = TmResponse<{
-  ciao: string;
+  answer: SurveyAnswer;
 }>;
 
 export const readSurveyAnswerController = async (
-  req: Request<{}, ResBody, ReqParams>,
+  req: Request<ReqParams, ResBody, {}>,
   res: Response<ResBody>,
 ): Promise<void> => {
   try {
-    console.log(req.params);
+    const surveyAnswerData = await SurveyAnswerModel.findOne({
+      _id: {
+        surveyId: req.params.surveyId,
+        uid: req.params.uid,
+      },
+    });
+
+    if (!surveyAnswerData) {
+      res.status(404).json({
+        status: 'error',
+        data: {
+          message: 'Survey answer not found',
+        },
+      });
+      return;
+    }
 
     res.status(200).json({
       status: 'success',
       data: {
-        ciao: 'test',
+        answer: {
+          _id: surveyAnswerData._id,
+          creationDate: surveyAnswerData.creationDate,
+          answer: surveyAnswerData.answers,
+        },
       },
     });
   } catch (error) {
