@@ -21,7 +21,7 @@ export class TownCouncilSurveyApiClient extends ApiClientChildren {
   ): Promise<TmResponse<{ surveyId: string }>> {
     try {
       const response = await this.httpClient.put<TmResponse<{ surveyId: string }>>(
-        `${API_URL}/api/v1/townCouncil/surveys/${params.surveyId}`,
+        `${API_URL}/api/v1/surveys/${params.surveyId}`,
         body,
       )
 
