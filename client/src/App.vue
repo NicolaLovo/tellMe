@@ -23,7 +23,15 @@ const logout = async () => {
 <template>
   <header class="app-header">
     <Button @click="goHome" label="Home" />
-    <div style="display: flex; justify-content: flex-end; gap: 1rem; align-items: center">
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 1rem;
+        align-items: center;
+      "
+    >
       <Tag
         v-if="userStore.user?.roles?.includes('citizen')"
         :value="userStore.user.email"
