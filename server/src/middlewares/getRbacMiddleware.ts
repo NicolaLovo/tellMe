@@ -62,13 +62,13 @@ export const getRbacMiddleware = ({
     const authorization = req.headers.authorization;
 
     if (!authorization) {
-      res.status(401).end(UNAUTHORIZED_RESPONSE);
+      res.status(401).json(UNAUTHORIZED_RESPONSE);
       return;
     }
 
     const parts = authorization.split(' ');
     if (parts.length !== 2) {
-      res.status(401).end(UNAUTHORIZED_RESPONSE);
+      res.status(401).json(UNAUTHORIZED_RESPONSE);
       return;
     }
 
