@@ -6,6 +6,8 @@ import { onMounted, ref } from 'vue'
 import { useToast } from 'vue-toastification'
 import PublishSurveyButton from '../buttons/PublishSurveyButton.vue'
 
+const pageIndex = ref(0)
+const pageSize = ref(10)
 const surveys = ref<Survey[]>([])
 const totalSurveys = ref<number>(0)
 const toast = useToast()
@@ -13,9 +15,22 @@ const toast = useToast()
 const userStore = useUserStore()
 const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
 
+const nextPage = () => {
+  pageIndex.value++
+  fetchSurveys()
+}
+
+const prevPage = () => {
+  pageIndex.value--
+  fetchSurveys()
+}
+
 const fetchSurveys = async () => {
   try {
-    const response = await apiClient.townCouncil.surveys.list({})
+    const response = await apiClient.townCouncil.surveys.list({
+      pageIndex: pageIndex.value.toString(),
+      pageSize: pageSize.value.toString(),
+    })
 
     if (response.status === 'success') {
       surveys.value = response.data.surveys
@@ -60,6 +75,16 @@ onMounted(fetchSurveys)
         </tbody>
       </table>
 
+      <div v-if="totalSurveys > pageSize" class="pagination-controls">
+        <button :disabled="pageIndex === 0" @click="prevPage">← Pagina precedente</button>
+
+        <span> Pagina {{ pageIndex + 1 }} di {{ Math.ceil(totalSurveys / pageSize) }} </span>
+
+        <button :disabled="(pageIndex + 1) * pageSize >= totalSurveys" @click="nextPage">
+          Pagina successiva →
+        </button>
+      </div>
+
       <!-- Message when no surveys found -->
       <p v-else>Non ci sono sondaggi disponibili.</p>
     </div>
@@ -67,6 +92,28 @@ onMounted(fetchSurveys)
 </template>
 
 <style>
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.pagination-controls button {
+  background-color: #4f0adf;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 h2 {
   color: #5e4b8b;
   font-size: 2rem;

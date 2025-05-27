@@ -3,6 +3,7 @@ import express from 'express';
 import expressListEndpoints from 'express-list-endpoints';
 import { getRbacMiddleware } from './middlewares/getRbacMiddleware';
 import authRouter from './routes/auth/authRouter';
+import citizenRouter from './routes/citizen/citizenRouter';
 import townCouncilRouter from './routes/townCouncil/townCouncilRouter';
 
 // Importing the express module to create an Express application
@@ -18,6 +19,13 @@ app.use(
     requiredRoles: ['townCouncil'],
   }),
   townCouncilRouter,
+);
+app.use(
+  '/api/v1/citizen/',
+  /*getRbacMiddleware({
+    requiredRoles: ['citizen'],
+  }),
+  */ citizenRouter,
 );
 
 app.get('/test', (req, res) => {
