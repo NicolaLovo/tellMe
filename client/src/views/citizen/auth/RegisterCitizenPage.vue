@@ -82,41 +82,55 @@ const registerWithEmailAndPassword = async () => {
 
 <template>
   <div class="register-container">
-    <div class="content">
-      <h1 class="title">Registrazione</h1>
-      <p class="subtitle">Crea il tuo account per iniziare.</p>
+    <Card class="content">
+      <template #title>
+        <h1>Registrazione</h1>
+      </template>
+      <template #content>
+        <p>Crea il tuo account per iniziare.</p>
 
-      <form @submit.prevent="registerWithEmailAndPassword">
-        <input type="email" placeholder="Email" v-model="email" class="input" />
-        <input type="password" placeholder="Password" v-model="password" class="input" />
-        <button type="submit" class="btn">Registrati</button>
-      </form>
-      <div style="margin-top: 10px">
-        <RegisterCitizenWithGoogleButton />
-      </div>
+        <form @submit.prevent="registerWithEmailAndPassword">
+          <div class="input-field">
+            <label for="email" style="align-self: flex-start; margin-bottom: 0.5rem">Email</label>
+            <InputText
+              id="email"
+              type="email"
+              v-model="email"
+              placeholder="Email"
+              style="width: 100%"
+            />
+          </div>
+          <div class="input-field">
+            <label for="password" style="align-self: flex-start; margin-bottom: 0.5rem"
+              >Password</label
+            >
+            <Password
+              id="password"
+              v-model="password"
+              placeholder="Password"
+              toggleMask
+              :feedback="false"
+              inputStyle="width: 100%;"
+            />
+          </div>
+          <Button type="submit" label="Registrati" style="width: 100%" />
+        </form>
+        <div style="margin-top: 10px">
+          <RegisterCitizenWithGoogleButton />
+        </div>
 
-      <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
 
-      <p class="alternative">
-        Hai già un account?
-        <router-link :to="APP_ROUTES.citizen.login" class="link">Accedi</router-link>
-      </p>
-    </div>
+        <p class="alternative">
+          Hai già un account?
+          <router-link :to="APP_ROUTES.citizen.login" class="link">Accedi</router-link>
+        </p>
+      </template>
+    </Card>
   </div>
 </template>
-
 <style scoped>
-.error-message {
-  color: #d32f2f;
-  background-color: #fce4ec;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 15px;
-  font-size: 0.95rem;
-}
-
 .register-container {
-  background-color: #f0f0f0;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -125,7 +139,6 @@ const registerWithEmailAndPassword = async () => {
 
 .content {
   text-align: center;
-  background-color: #f5f3ff;
   padding: 40px;
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -133,48 +146,29 @@ const registerWithEmailAndPassword = async () => {
   width: 90%;
 }
 
-.title {
-  font-size: 2.5rem;
-  color: #5e4b8b;
-  margin-bottom: 10px;
-}
-
-.subtitle {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 30px;
-}
-
-.input {
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  width: 95%;
-}
-
-.btn {
-  padding: 12px 25px;
-  background-color: #9578f4;
-  color: white;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
+.form-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
   width: 100%;
 }
 
-.btn:hover {
-  background-color: #815aff;
-  transform: scale(1.05);
+.input-field {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  margin-bottom: 15px;
 }
 
-.btn:focus {
-  outline: none;
+.error-message {
+  color: #d32f2f;
+  background-color: #fce4ec;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 0.95rem;
 }
 
 .alternative {
@@ -190,28 +184,5 @@ const registerWithEmailAndPassword = async () => {
 
 .link:hover {
   text-decoration: underline;
-}
-
-.btn-google {
-  padding: 12px 25px;
-  background-color: #db4437; /* Google Red */
-  color: white;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.btn-google:hover {
-  background-color: #c1351d;
-}
-
-.btn-google:focus {
-  outline: none;
 }
 </style>
