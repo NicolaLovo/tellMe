@@ -3,16 +3,12 @@ import { SurveyModel } from '../../../database/survey/SurveySchema';
 import { TmResponse } from '../../../types/common/utils/TmResponse';
 import { Survey } from '../../../types/survey/Survey';
 
-interface ReqBody {
-  survey: Partial<Survey>;
-}
-
 type ResBody = TmResponse<{
-  surveyId: string;
+  survey: Survey;
 }>;
 
-export const updateSurveyController = async (
-  req: Request<{ surveyId: string }, ResBody, ReqBody>,
+export const readSurveyController = async (
+  req: Request<{ surveyId: string }, ResBody, {}>,
   res: Response<ResBody>,
 ): Promise<void> => {
   try {
@@ -33,45 +29,21 @@ export const updateSurveyController = async (
       return;
     }
 
-    // Check if the survey is a draft, if not return an error
-    if (survey.status !== 'created') {
-      res.status(400).json({
-        status: 'error',
-        data: {
-          message: 'Only surveys in draft status can be published',
-        },
-      });
-      return;
-    }
-
-    const updateBody: Partial<Survey> = {};
-
-    /**
-     * Allow update only of the following fields:
-     * - title
-     * - status
-     * - questions
-     */
-    if (req.body.survey.title) {
-      updateBody.title = req.body.survey.title;
-    }
-    if (req.body.survey.status) {
-      updateBody.status = req.body.survey.status;
-    }
-    if (req.body.survey.questions) {
-      updateBody.questions = req.body.survey.questions;
-    }
-
-    /**
-     * Update the survey with the provided data
-     */
-    await survey.updateOne({ $set: updateBody });
-
     // Return the survey ID in the response
     res.status(200).json({
       status: 'success',
       data: {
-        surveyId: survey.id.toString(),
+        survey: {
+          /**
+           * Assume it is a string
+           */
+          _id: survey._id as string,
+          title: survey.title,
+          status: survey.status,
+          creationDate: survey.creationDate,
+          questions: survey.questions,
+          rewardPoints: survey.rewardPoints,
+        },
       },
     });
   } catch (error) {
