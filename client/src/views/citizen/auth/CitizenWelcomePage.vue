@@ -28,7 +28,6 @@ const userStore = useUserStore()
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Arial', sans-serif;
 }
 
 .content {
