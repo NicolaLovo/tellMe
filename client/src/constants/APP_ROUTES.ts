@@ -9,13 +9,14 @@ export const APP_ROUTES = {
     login: '/citizen/login',
     home: '/citizen/home',
     changecredentials: '/citizen/changecredentials',
-    surveyanswer: '/citizen/surveyanswer'
+    surveyanswer: '/citizen/surveyanswer',
   },
   townCouncil: {
     welcome: '/towncouncil/welcome',
     home: '/towncouncil/home',
     createsurvery: '/towncouncil/createsurvey',
     // surveylist: '/towncouncil/surveys',
+    registeragency: '/towncouncil/registeragency',
   },
   agency: {
     welcome: '/agency/welcome',

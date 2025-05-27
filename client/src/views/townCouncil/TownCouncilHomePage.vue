@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SurveysList from '@/components/surveys/display/SurveysList.vue'
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
 </script>
 
 <template>
@@ -7,7 +8,14 @@ import SurveysList from '@/components/surveys/display/SurveysList.vue'
     <h1>Benvenuto comune!</h1>
     <div class="buttons-container">
       <div class="button-div">
-        <Button label="Crea sondaggio" @click="$router.push('/towncouncil/createsurvey')" />
+        <Button
+          label="Crea sondaggio"
+          @click="$router.push(APP_ROUTES.townCouncil.createsurvery)"
+        />
+        <Button
+          label="Registra ente"
+          @click="$router.push(APP_ROUTES.townCouncil.registeragency)"
+        />
       </div>
     </div>
     <SurveysList />
@@ -16,8 +24,8 @@ import SurveysList from '@/components/surveys/display/SurveysList.vue'
 
 <style scoped>
 .container {
-  padding: 20px; /* Add padding for spacing from edges */
-  gap: 10px; /* Add gap between elements */
+  padding: 20px;
+  gap: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -25,7 +33,7 @@ import SurveysList from '@/components/surveys/display/SurveysList.vue'
 .buttons-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Align to left instead of center */
+  align-items: flex-start;
   justify-content: center;
 }
 

@@ -13,6 +13,8 @@ import CitizenLoginPage from '../views/citizen/auth/LoginCitizenPage.vue'
 import RegisterCitizenPage from '../views/citizen/auth/RegisterCitizenPage.vue'
 import HomePage from '../views/HomePage.vue'
 import SurveyCitizenView from '@/components/surveys/visualiseSurvey/SurveyCitizenView.vue'
+import { registerAgencyController } from '../../../server/src/controllers/auth/registerAgencyController';
+import RegisterAgencyPage from '@/views/citizen/auth/RegisterAgencyPage.vue'
 
 interface RouteMeta {
   requiresRoles?: UserRole[]
@@ -34,6 +36,14 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.townCouncil.home,
     name: 'TowncouncilHome',
     component: TownCouncilHomePage,
+    meta: {
+      requiresRoles: ['townCouncil'],
+    } satisfies RouteMeta,
+  },
+  {
+    path: APP_ROUTES.townCouncil.registeragency,
+    name: 'RegisterAgency',
+    component: RegisterAgencyPage,
     meta: {
       requiresRoles: ['townCouncil'],
     } satisfies RouteMeta,
