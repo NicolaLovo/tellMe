@@ -17,3 +17,8 @@ h2 {
   color: #5e4b8b;
   font-size: 2rem;
 }
+
+div {
+  display: flex;
+  flex-direction: column;
+}

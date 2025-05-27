@@ -5,6 +5,7 @@ import type { Survey } from '@/types/survey/Survey'
 import { onMounted, ref } from 'vue'
 import { useToast } from 'vue-toastification'
 import PublishSurveyButton from '../buttons/PublishSurveyButton.vue'
+import { formatDateWithMoment, formatDateWithMomentHs } from '../../../tools/formatDateWithMoment'
 
 const surveys = ref<Survey[]>([])
 const totalSurveys = ref<number>(0)
@@ -37,19 +38,36 @@ onMounted(fetchSurveys)
     <template #content>
       <div>
         <DataTable v-if="surveys.length" :value="surveys" responsiveLayout="scroll">
-          <Column field="title" header="Titolo"></Column>
-          <Column header="Stato">
+          <Column header="Titolo">
             <template #body="slotProps">
-              <Tag>{{ slotProps.data.status }}</Tag>
+              <div style="align-items: center">
+                {{ slotProps.data.title }}
+              </div>
             </template>
           </Column>
-          <Column>
+          <Column header="Data di creazione">
             <template #body="slotProps">
-              <PublishSurveyButton
-                v-if="slotProps.data.status === 'created'"
-                :surveyId="slotProps.data._id"
-                @on-publish="fetchSurveys"
-              />
+              <div style="align-items: center">
+                {{ formatDateWithMomentHs(slotProps.data.creationDate) }}
+              </div>
+            </template>
+          </Column>
+          <Column header="Stato">
+            <template #body="slotProps">
+              <div style="align-items: center">
+                <Tag>{{ slotProps.data.status }}</Tag>
+              </div>
+            </template>
+          </Column>
+          <Column header="">
+            <template #body="slotProps">
+              <div style="align-items: center">
+                <PublishSurveyButton
+                  v-if="slotProps.data.status === 'created'"
+                  :surveyId="slotProps.data._id"
+                  @on-publish="fetchSurveys"
+                />
+              </div>
             </template>
           </Column>
         </DataTable>

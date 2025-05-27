@@ -137,186 +137,92 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="survey-container">
-    <div class="survey-form">
-      <form @submit.prevent="handleSubmit">
-        <div class="input-group">
-          <label for="survey-title">Titolo:</label>
-          <input
-            type="text"
-            id="survey-title"
-            v-model="survey.title"
-            placeholder="Inserisci il titolo del sondaggio"
-            class="uniform-input"
-            required
+  <form @submit.prevent="handleSubmit">
+    <div class="survey-container">
+      <div class="input-group">
+        <label for="survey-title">Titolo:</label>
+        <InputText
+          id="survey-title"
+          v-model="survey.title"
+          placeholder="Inserisci il titolo del sondaggio"
+          class="uniform-input"
+          required
+        />
+      </div>
+      <div class="input-group">
+        <label for="reward-points">Punti sondaggio:</label>
+        <InputNumber
+          id="reward-points"
+          v-model="survey.rewardPoints"
+          placeholder="Inserisci il numero di punti"
+          class="uniform-input"
+          :min="0"
+          required
+          inputId="reward-points"
+          :useGrouping="false"
+          :showButtons="false"
+          mode="decimal"
+        />
+      </div>
+
+      <div
+        v-for="(questionItem, questionIndex) in survey.questions"
+        :key="questionItem.id"
+        class="section"
+        style="width: 100%"
+      >
+        <SurveyQuestionForm
+          :question="questionItem"
+          @remove-question="removeQuestion(questionIndex)"
+          @add-option="addOption(questionIndex)"
+          @remove-option="removeOption(questionIndex, $event)"
+        />
+      </div>
+
+      <div class="center-div">
+        <div style="width: 200px">
+          <Button
+            type="button"
+            @click="addMultipleChoiceQuestion"
+            label="Aggiungi Domanda"
+            icon="pi pi-plus"
           />
         </div>
-        <div class="input-group">
-          <label for="reward-points">Punti sondaggio:</label>
-          <input
-            type="number"
-            id="reward-points"
-            v-model.number="survey.rewardPoints"
-            placeholder="Inserisci il numero di punti"
-            class="uniform-input"
-            min="0"
-            required
-          />
+      </div>
+
+      <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+      <div class="center-div">
+        <div style="width: 200px">
+          <Button type="submit" label="Crea Sondaggio" icon="pi pi-check" />
         </div>
-
-        <div
-          v-for="(questionItem, questionIndex) in survey.questions"
-          :key="questionItem.id"
-          class="section"
-        >
-          <SurveyQuestionForm
-            :question="questionItem"
-            @remove-question="removeQuestion(questionIndex)"
-            @add-option="addOption(questionIndex)"
-            @remove-option="removeOption(questionIndex, $event)"
-          />
-        </div>
-
-        <button type="button" @click="addMultipleChoiceQuestion" class="add-section-btn">
-          Aggiungi Domanda
-        </button>
-
-        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-
-        <button type="submit" class="submit-btn">Crea Sondaggio</button>
-      </form>
+      </div>
     </div>
-  </div>
+  </form>
 </template>
 
 <style scoped>
-.error-message {
-  color: red;
-  margin-top: 10px;
-  margin-bottom: 15px;
-  font-weight: bold;
-}
 .survey-container {
-  min-height: 70vh;
-  display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px; /* Padding per un po' di respiro ai bordi */
+  padding: 10px;
+  gap: 10px;
+  width: 100%;
 }
 
-.survey-form {
-  background-color: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+.center-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  max-width: 650px; /* Aumentato leggermente per più spazio */
+}
+
+.form-content {
+  gap: 4px;
 }
 
 .input-group {
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: #333;
-}
-
-.uniform-input {
   width: 100%;
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-sizing: border-box;
-  margin-bottom: 15px; /* Aggiunta una spaziatura tra i campi */
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.section {
-  margin: 20px 0;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: #f9f9ff;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.remove-btn {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 5px 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.remove-btn:hover {
-  background-color: #d32f2f;
-}
-
-.add-section-btn,
-.submit-btn {
-  background-color: #4f0adf;
-  color: white;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 10px;
-  margin-top: 20px;
-  cursor: pointer;
-  width: 100%;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.add-section-btn:hover,
-.submit-btn:hover {
-  background-color: #36039f;
-}
-
-.option-group {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-  align-items: center;
-}
-
-.remove-btn.small {
-  padding: 8px 10px;
-  font-size: 0.9rem;
-}
-
-.add-option-btn {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.add-option-btn:hover {
-  background-color: #0056b3;
-}
-
-input:focus {
-  border-color: #815aff; /* blue border when focused */
-  outline: none; /* removes default browser outline */
 }
 </style>

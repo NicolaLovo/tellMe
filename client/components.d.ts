@@ -13,6 +13,8 @@ declare module 'vue' {
     Column: typeof import('primevue/column')['default']
     DataTable: typeof import('primevue/datatable')['default']
     Divider: typeof import('primevue/divider')['default']
+    InputNumber: typeof import('primevue/inputnumber')['default']
+    InputText: typeof import('primevue/inputtext')['default']
     LoginCitizenWithEmailAndPwdForm: typeof import('./src/components/auth/citizen/LoginCitizenWithEmailAndPwdForm.vue')['default']
     LoginCitizenWithGoogleButton: typeof import('./src/components/auth/citizen/LoginCitizenWithGoogleButton.vue')['default']
     LoginTownCouncilWithPwdForm: typeof import('./src/components/auth/citizen/LoginTownCouncilWithPwdForm.vue')['default']
