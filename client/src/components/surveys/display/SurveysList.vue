@@ -47,82 +47,33 @@ onMounted(fetchSurveys)
 </script>
 
 <template>
-  <div class="survey-list-page">
-    <h2>Lista dei sondaggi</h2>
+  <Card>
+    <template #title> Lista dei sondaggi </template>
+    <template #content>
+      <div>
+        <DataTable v-if="surveys.length" :value="surveys" responsiveLayout="scroll">
+          <Column field="title" header="Titolo"></Column>
+          <Column header="Stato">
+            <template #body="slotProps">
+              <Tag>{{ slotProps.data.status }}</Tag>
+            </template>
+          </Column>
+          <Column>
+            <template #body="slotProps">
+              <PublishSurveyButton
+                v-if="slotProps.data.status === 'created'"
+                :surveyId="slotProps.data._id"
+                @on-publish="fetchSurveys"
+              />
+            </template>
+          </Column>
+        </DataTable>
 
-    <DataTable
-      :value="surveys"
-      :paginator="true"
-      :rows="pageSize"
-      :totalRecords="totalSurveys"
-      :lazy="true"
-      :first="pageIndex * pageSize"
-      @page="onPageChange"
-      dataKey="_id"
-      emptyMessage="Non ci sono sondaggi disponibili."
-      class="survey-table"
+        <!-- Message when no surveys found -->
+        <p v-else>Non ci sono sondaggi disponibili.</p>
+      </div></template
     >
-      <Column field="title" header="Titolo" />
-      <Column
-        field="status"
-        header="Stato"
-        :body="(survey) => survey.status"
-        bodyClass="status-div"
-      />
-      <Column header="">
-        <template #body="slotProps">
-          <div class="action-buttons-wrapper">
-            <PublishSurveyButton
-              v-if="slotProps.data.status === 'created'"
-              :surveyId="slotProps.data._id"
-              @on-publish="fetchSurveys"
-            />
-          </div>
-        </template>
-      </Column>
-    </DataTable>
-  </div>
+  </Card>
 </template>
 
-<style>
-.survey-list-page {
-  background-color: #f0f0f0;
-  min-height: 100vh;
-  padding-top: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-h2 {
-  color: #5e4b8b;
-  font-size: 2rem;
-  text-align: left;
-  margin-bottom: 1rem;
-}
-
-/* Style the status cell */
-.status-div {
-  background-color: #4f0adf;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 1rem;
-  width: max-content;
-  display: inline-block;
-}
-
-/* Optional: style DataTable */
-.survey-table {
-  background-color: #f5f3ff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-/* Wrapper per pulsanti azioni, per spacing */
-.action-buttons-wrapper {
-  display: flex;
-  gap: 12px; /* spazio tra i pulsanti */
-  align-items: center;
-}
-</style>
+<style></style>
