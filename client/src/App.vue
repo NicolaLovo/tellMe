@@ -38,7 +38,11 @@ const logout = async () => {
         severity="info"
       />
       <Tag v-if="userStore.user?.roles?.includes('townCouncil')" value="Comune" severity="info" />
-      <Tag v-if="userStore.user?.roles?.includes('agency')" value="Ente" severity="info" />
+      <Tag
+        v-if="userStore.user?.roles?.includes('agency')"
+        :value="userStore.user.email"
+        severity="info"
+      />
       <Button v-if="!!userStore.user" @click="logout" label="Logout" />
     </div>
   </header>

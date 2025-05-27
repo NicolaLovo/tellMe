@@ -26,5 +26,10 @@ export const navigateAuthenticatedUserToHome = ({ user }: { user: User | null })
     return
   }
 
+  if (roles.includes('agency')) {
+    router.push(APP_ROUTES.agency.home)
+    return
+  }
+
   router.push(APP_ROUTES.home)
 }

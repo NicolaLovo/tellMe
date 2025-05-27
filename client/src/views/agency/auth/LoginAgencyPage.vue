@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import LoginCitizenWithEmailAndPwdForm from '@/components/auth/LoginUserWithEmailAndPwdForm.vue'
-import LoginCitizenWithGoogleButton from '@/components/auth/citizen/LoginCitizenWithGoogleButton.vue'
-import { APP_ROUTES } from '@/constants/APP_ROUTES'
+import LoginUserWithEmailAndPwdForm from '@/components/auth/LoginUserWithEmailAndPwdForm.vue'
 </script>
 
 <template>
@@ -10,17 +8,9 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
       <template #title>
         <h1>Login</h1>
       </template>
+
       <template #content>
-        <LoginCitizenWithEmailAndPwdForm />
-
-        <div style="margin-top: 10px">
-          <LoginCitizenWithGoogleButton />
-        </div>
-
-        <p class="alternative">
-          Non hai un account?
-          <RouterLink :to="APP_ROUTES.citizen.register" class="link">Registrati</RouterLink>
-        </p>
+        <LoginUserWithEmailAndPwdForm />
       </template>
     </Card>
   </div>
