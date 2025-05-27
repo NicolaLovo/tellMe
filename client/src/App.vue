@@ -41,6 +41,7 @@ const logout = async () => {
 
 <style scoped>
 .app-header {
+  padding: 6px;
   display: flex;
   justify-content: space-between;
   align-items: center;

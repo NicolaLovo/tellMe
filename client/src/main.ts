@@ -37,6 +37,13 @@ const tellMePreset = definePreset(Material, {
       950: '{indigo.950}',
     },
   },
+  components: {
+    divider: {
+      css: `.p-divider-horizontal {
+      margin: 0;
+      }`,
+    },
+  },
 })
 
 app.use(PrimeVue, {
