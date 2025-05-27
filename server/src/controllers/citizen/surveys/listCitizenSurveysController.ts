@@ -58,7 +58,7 @@ export const listCitizenSurveysController = async (
     res.status(200).json({
       status: 'success',
       data: {
-        surveys,
+        surveys: surveys as Survey[],
         metadata: {
           totalCount,
         },

@@ -3,6 +3,6 @@ import citizenRouter from './citizen/citizenRouter';
 
 const citizensRouter = Router();
 
-citizensRouter.use('/:id', citizenRouter);
+citizensRouter.use('', citizenRouter);
 
 export default citizensRouter;
