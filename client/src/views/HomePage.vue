@@ -23,7 +23,6 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Arial', sans-serif;
 }
 
 .content {

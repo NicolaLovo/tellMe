@@ -19,7 +19,6 @@ import LoginTownCouncilWithPwdForm from '@/components/auth/citizen/LoginTownCoun
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Arial', sans-serif;
 }
 
 .content {

@@ -201,7 +201,6 @@ const handleSubmit = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Arial', sans-serif;
   padding: 10px; /* Padding per un po' di respiro ai bordi */
 }
 
