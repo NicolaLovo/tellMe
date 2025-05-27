@@ -1,6 +1,5 @@
 import 'primeicons/primeicons.css'
 import 'vue-toastification/dist/index.css'
-import './assets/base.css'
 
 import { definePreset } from '@primeuix/themes'
 import Material from '@primeuix/themes/material'
