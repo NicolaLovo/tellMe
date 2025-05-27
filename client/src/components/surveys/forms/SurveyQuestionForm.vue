@@ -72,7 +72,7 @@ const emit = defineEmits(['remove-question', 'add-option', 'remove-option'])
           />
         </div>
 
-        <div style="width: 100%; gap: 10px">
+        <div style="display: flex; flex-direction: column; width: 100%; gap: 10px">
           <label>Opzioni:</label>
           <div
             v-for="(option, optionIndex) in question.options"
@@ -111,6 +111,7 @@ const emit = defineEmits(['remove-question', 'add-option', 'remove-option'])
 
 <style scoped>
 .option-group {
+  display: flex;
   flex-direction: row;
   gap: 10px;
   align-items: center;
@@ -118,6 +119,8 @@ const emit = defineEmits(['remove-question', 'add-option', 'remove-option'])
 }
 
 .section {
+  display: flex;
+  flex-direction: column;
   gap: 10px;
   width: 100%;
 }

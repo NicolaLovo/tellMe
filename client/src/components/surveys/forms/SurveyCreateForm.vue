@@ -180,22 +180,19 @@ const handleSubmit = async () => {
       </div>
 
       <div class="center-div">
-        <div style="width: 200px">
-          <Button
-            type="button"
-            @click="addMultipleChoiceQuestion"
-            label="Aggiungi Domanda"
-            icon="pi pi-plus"
-          />
-        </div>
+        <Button
+          type="button"
+          @click="addMultipleChoiceQuestion"
+          label="Aggiungi Domanda"
+          icon="pi pi-plus"
+          style="width: 200px"
+        />
       </div>
 
       <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
 
       <div class="center-div">
-        <div style="width: 200px">
-          <Button type="submit" label="Crea Sondaggio" icon="pi pi-check" />
-        </div>
+        <Button type="submit" label="Crea Sondaggio" icon="pi pi-check" style="width: 200px" />
       </div>
     </div>
   </form>
@@ -203,6 +200,9 @@ const handleSubmit = async () => {
 
 <style scoped>
 .survey-container {
+  display: flex;
+  flex-direction: column;
+
   justify-content: center;
   align-items: center;
   padding: 10px;
@@ -219,10 +219,15 @@ const handleSubmit = async () => {
 }
 
 .form-content {
+  display: flex;
+  flex-direction: column;
+
   gap: 4px;
 }
 
 .input-group {
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
 </style>
