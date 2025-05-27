@@ -23,6 +23,8 @@ const logout = async () => {
 <template>
   <div>
     <header class="app-header">
+      <Button label="halo" />
+
       <button @click="goHome" class="home-btn">Home</button>
       <div style="display: flex; justify-content: flex-end; gap: 1rem; align-items: center">
         <div v-if="userStore.user?.roles?.includes('citizen')" class="role-div">
