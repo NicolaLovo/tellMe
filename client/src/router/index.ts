@@ -12,6 +12,7 @@ import CitizenWelcomePage from '../views/citizen/auth/CitizenWelcomePage.vue'
 import CitizenLoginPage from '../views/citizen/auth/LoginCitizenPage.vue'
 import RegisterCitizenPage from '../views/citizen/auth/RegisterCitizenPage.vue'
 import HomePage from '../views/HomePage.vue'
+import SurveyCitizenView from '@/components/surveys/visualiseSurvey/SurveyCitizenView.vue'
 
 interface RouteMeta {
   requiresRoles?: UserRole[]
@@ -74,6 +75,11 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       requiresRoles: ['citizen'],
     } satisfies RouteMeta,
+  },
+  {
+    path: APP_ROUTES.citizen.surveyanswer,
+    name: 'SurveyAnswer',
+    component: SurveyCitizenView,
   },
 ]
 

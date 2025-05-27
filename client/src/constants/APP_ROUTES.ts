@@ -8,7 +8,8 @@ export const APP_ROUTES = {
     register: '/citizen/register',
     login: '/citizen/login',
     home: '/citizen/home',
-    changecredentials: '/citizen/changecredentials'
+    changecredentials: '/citizen/changecredentials',
+    surveyanswer: '/citizen/surveyanswer'
   },
   townCouncil: {
     welcome: '/towncouncil/welcome',

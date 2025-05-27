@@ -52,6 +52,7 @@ export const listTownCouncilSurveysController = async (
 
     // Fetch surveys from the database
     const surveys = await SurveyModel.find()
+      .sort({ creationDate: -1 })
       .skip(page * size)
       .limit(size)
       .exec();
