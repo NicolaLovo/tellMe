@@ -40,7 +40,7 @@ export const readSurveyAnswerController = async (
         answer: {
           _id: surveyAnswerData._id,
           creationDate: surveyAnswerData.creationDate,
-          answer: surveyAnswerData.answers,
+          answers: surveyAnswerData.answers,
         },
       },
     });
