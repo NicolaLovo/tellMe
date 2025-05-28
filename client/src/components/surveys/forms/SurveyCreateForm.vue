@@ -48,7 +48,10 @@ const addMultipleChoiceQuestion = () => {
     id: uuidv4(),
     question: '',
     type: 'multiple-choice',
-    options: [{ id: uuidv4(), text: '' }],
+    options: [
+      { id: uuidv4(), text: '' },
+      { id: uuidv4(), text: '' },
+    ],
   })
 }
 
