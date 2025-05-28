@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CitizenSurveysList from '@/components/surveys/display/CitizenSurveysList.vue'
+import SurveyCitizenView from '@/components/surveys/visualiseSurvey/SurveyCitizenView.vue'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
 import { useRouter } from 'vue-router'
@@ -32,6 +33,7 @@ function goToChangePassword() {
     </Card>
     <div class="surveys-content">
       <CitizenSurveysList />
+      <SurveyCitizenView />
     </div>
   </div>
 </template>
