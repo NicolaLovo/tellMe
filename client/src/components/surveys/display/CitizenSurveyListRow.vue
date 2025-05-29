@@ -1,0 +1,45 @@
+<script setup lang="ts">
+import { ApiClient } from '@/api/ApiClient'
+import CompileSurveyButton from '@/components/surveys/buttons/CompileSurveyButton.vue'
+import { useUserStore } from '@/stores/useUserStore'
+import type { Survey } from '@/types/survey/Survey'
+import { onMounted, ref } from 'vue'
+
+const props = defineProps<{
+  survey: Survey
+}>()
+
+const userStore = useUserStore()
+const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
+
+// This ref controls visibility of the button
+const canAnswer = ref(false)
+
+const checkIfAlreadyAnswered = async () => {
+  try {
+    const response = await apiClient.citizenApiClient.surveys.surveyanswer.read({
+      uid: userStore.user?.uid as string,
+      surveyId: props.survey._id,
+    })
+    // If the answer doesn't exist, show the button
+    canAnswer.value = response.status === 'error'
+  } catch (err) {
+    console.error('Errore durante il controllo delle risposte:', err)
+    canAnswer.value = false
+  }
+}
+
+onMounted(checkIfAlreadyAnswered)
+</script>
+
+<template>
+  <td>{{ survey.title }}</td>
+  <td>
+    <div>{{ survey.status }}</div>
+  </td>
+  <td>
+    <CompileSurveyButton v-if="canAnswer" :surveyId="survey._id" />
+  </td>
+</template>
+
+<style></style>

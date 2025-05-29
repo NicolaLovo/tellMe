@@ -3,12 +3,15 @@ import { HTTP_TMRESPONSES } from '@/constants/HTTP_TMRESPONSES'
 import { TmResponse } from '@/types/common/utils/TmResponse'
 import { Survey } from '@/types/survey/Survey'
 import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
-
+import { CitizenSurveysAnswerApiClient } from './CitizenSurveyAnswerApiClient'
 
 //api/v1 / citizens /: id / surveys
 export class CitizenSurveysApiClient extends ApiClientChildren {
+  surveyanswer: CitizenSurveysAnswerApiClient
+
   constructor(props: ApiClientChildrenProps) {
     super(props)
+    this.surveyanswer = new CitizenSurveysAnswerApiClient(props)
   }
 
   /**

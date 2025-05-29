@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SurveysList from '@/components/surveys/display/SurveysList.vue'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
+import Button from 'primevue/button'
 </script>
 
 <template>
@@ -43,4 +44,9 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
   align-items: center;
   gap: 20px;
 }
+
+button {
+  width: 100%;
+}
+
 </style>
