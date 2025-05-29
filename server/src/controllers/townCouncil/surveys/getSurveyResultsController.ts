@@ -1,10 +1,21 @@
 import { Request, Response } from 'express';
+import { SurveyResult } from '../../../../../client/src/types/survey/SuveyResult';
 import { SurveyAnswerModel } from '../../../database/survey/SurveyAnswerSchema';
+import { TmResponse } from '../../../types/common/utils/TmResponse';
 
+type ResBody = TmResponse<{ surveyResults: SurveyResult }>;
+
+/**
+ * Controller to retrieve aggregated survey results by survey ID.
+ *
+ * @route GET /api/surveys/:surveyId/results
+ * @param req.params.surveyId - The ID of the survey to retrieve results for
+ * @returns TmResponse containing the survey results or an error message
+ */
 export const getSurveyResultsController = async (
-  req: Request,
-  res: Response,
-) => {
+  req: Request<{ surveyId: string }, ResBody, {}>,
+  res: Response<ResBody>,
+): Promise<void> => {
   const { surveyId } = req.params;
 
   try {
@@ -40,9 +51,22 @@ export const getSurveyResultsController = async (
       },
     ]);
 
-    res.json({ surveyId, results });
+    res.status(200).json({
+      status: 'success',
+      data: {
+        surveyResults: {
+          surveyId,
+          results,
+        },
+      },
+    });
   } catch (error) {
-    console.error('Errore nel recuperare i risultati del sondaggio:', error);
-    res.status(500).json({ error: 'Errore interno del server' });
+    console.error('Error retrieving survey results:', error);
+    res.status(500).json({
+      status: 'error',
+      data: {
+        message: 'Internal server error',
+      },
+    });
   }
 };
