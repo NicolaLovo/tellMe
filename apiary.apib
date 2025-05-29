@@ -307,6 +307,43 @@ Updates the survey with the provided data. Returns the updated survey ID on succ
         + data (object)
             + message: `Internal server error` (string)
 
+## Quizzes [/api/v1/agencies/{agencyId}/quizzes]
+
+### Create Quiz [POST]
+
+Creates a new quiz associated with the given agency.  
+Ensures the quiz is valid before saving it to the database.  
+Returns the ID of the newly created quiz if successful.
+
++ Parameters
+    + agencyId: `agency456` (string) - ID of the agency creating the quiz
+
++ Request (application/json)
+
+    + Attributes (object)
+        + quiz (Quiz)
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + quizId: `quiz789` (string) - ID of the newly created quiz
+
++ Response 400 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Missing or invalid required fields` (string)
+
++ Response 500 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
+
 # Data Structures
 
 ## Survey (object)
@@ -348,3 +385,17 @@ Updates the survey with the provided data. Returns the updated survey ID on succ
 + id: `q1` (string, required) - ID of the question being answered
 + answer: `Very satisfied` (string, required) - User's answer to the question
 + type: `multiple-choice` (string, required) - Type of the question (currently only 'multiple-choice')
+
+## Quiz (object)
++ _id: `abc123` (string) - Unique identifier of the quiz
++ agencyId: `agency456` (string) - ID of the agency that owns the quiz
++ title: `Customer Satisfaction Survey` (string) - Title of the quiz
++ creationDate: `2025-05-29T12:00:00Z` (string) - ISO 8601 date of quiz creation
++ questions (array[QuizQuestion]) - List of questions in the quiz
+
+## QuizQuestion (object)
++ id: `q1` (string) - Unique ID of the question
++ question: `How satisfied are you with our service?` (string) - The question text
++ type: `rating` (enum[string]) - Type of the question
+    + Members
+        + rating - A question that expects a rating response from 1 to 5
