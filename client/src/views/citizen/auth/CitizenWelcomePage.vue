@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
+import { useUserStore } from '@/stores/useUserStore'
+
+const userStore = useUserStore()
+</script>
+
 <template>
   <div class="user-container">
     <Card>
@@ -17,13 +24,6 @@
     </Card>
   </div>
 </template>
-
-<script setup lang="ts">
-import { APP_ROUTES } from '@/constants/APP_ROUTES'
-import { useUserStore } from '@/stores/useUserStore'
-
-const userStore = useUserStore()
-</script>
 
 <style scoped>
 .user-container {

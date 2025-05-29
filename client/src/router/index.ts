@@ -1,3 +1,4 @@
+import QuizCreateForm from '@/components/quizzes/QuizCreateForm.vue'
 import SurveyCitizenView from '@/components/surveys/visualiseSurvey/SurveyCitizenView.vue'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
@@ -106,6 +107,19 @@ const routes: Array<RouteRecordRaw> = [
     name: 'AgencyLogin',
     component: LoginAgencyPage,
   },
+  {
+    path: APP_ROUTES.agency.createquiz,
+    name: 'CreateQuiz',
+    component: QuizCreateForm,
+  },
+  {
+    path: APP_ROUTES.agency.changecredentials,
+    name: 'ChangeCredentials',
+    component: ChangeCredentialsPage,
+    meta: {
+      requiresRoles: ['agency'],
+    } satisfies RouteMeta,
+  },
 ]
 
 const router = createRouter({
@@ -126,6 +140,10 @@ router.beforeEach((to, from, next) => {
     }
     if (user.roles.includes('citizen')) {
       next({ path: APP_ROUTES.citizen.home })
+      return
+    }
+    if (user.roles.includes('agency')) {
+      next({ path: APP_ROUTES.agency.home })
       return
     }
   }

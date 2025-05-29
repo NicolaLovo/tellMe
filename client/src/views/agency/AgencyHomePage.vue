@@ -9,7 +9,11 @@ const userStore = useUserStore()
 const router = useRouter()
 
 function goToChangePassword() {
-  router.push(APP_ROUTES.citizen.changecredentials)
+  router.push(APP_ROUTES.agency.changecredentials)
+}
+
+function goToCreateQuiz() {
+  router.push(APP_ROUTES.agency.createquiz)
 }
 </script>
 
@@ -26,6 +30,12 @@ function goToChangePassword() {
             label="Cambia Password"
             class="btn"
             @click="goToChangePassword"
+            style="width: 100%; margin-bottom: 0.5rem"
+          />
+          <Button
+            label="Crea Questionario"
+            class="btn"
+            @click="goToCreateQuiz"
             style="width: 100%"
           />
         </div>
