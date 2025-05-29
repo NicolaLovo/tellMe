@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 
 const survey = ref(null)
@@ -129,4 +129,6 @@ onMounted(() => {
   width: 100%;
   font-weight: 700;
 }
-</style>
+</style> -->
+
+<template></template>
