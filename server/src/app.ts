@@ -39,3 +39,7 @@ app.get('/test', (req, res) => {
 });
 
 export default app;
+
+export const sum = (a: number, b: number): number => {
+  return a + b;
+};
