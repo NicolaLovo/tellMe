@@ -5,7 +5,18 @@ const props = defineProps<{
 </script>
 
 <template>
-  <Button asChild>
-    <Router-link :to="`/citizen/surveys/${props.surveyId}/answer`"> Compila </Router-link>
+  <Button asChild v-slot="slotProps">
+    <RouterLink
+      :to="`/citizen/surveys/${props.surveyId}/answer`"
+      :class="[(slotProps as any).class, 'no-underline']"
+    >
+      Compila
+    </RouterLink>
   </Button>
 </template>
+
+<style>
+.no-underline {
+  text-decoration: none;
+}
+</style>
