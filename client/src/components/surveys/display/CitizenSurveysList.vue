@@ -18,7 +18,7 @@ const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
 
 const fetchSurveys = async () => {
   try {
-    const response = await apiClient.citizenApiClient.surveys.list(
+    const response = await apiClient.citizen.surveys.list(
       {
         pageIndex: pageIndex.value.toString(),
         pageSize: pageSize.value.toString(),

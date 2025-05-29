@@ -10,9 +10,9 @@ declare module 'vue' {
   export interface GlobalComponents {
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
-    CitizenSurveyListRow: typeof import('./src/components/surveys/display/CitizenSurveyListRow.vue')['default']
+    CitizenQuizzesList: typeof import('./src/components/quizzes/display/CitizenQuizzesList.vue')['default']
     CitizenSurveysList: typeof import('./src/components/surveys/display/CitizenSurveysList.vue')['default']
-    CompileSurveyButton: typeof import('./src/components/surveys/buttons/CompileSurveyButton.vue')['default']
+    CloseSurveyButton: typeof import('./src/components/surveys/buttons/CloseSurveyButton.vue')['default']
     Divider: typeof import('primevue/divider')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']
     InputText: typeof import('primevue/inputtext')['default']
@@ -21,13 +21,14 @@ declare module 'vue' {
     LoginUserWithEmailAndPwdForm: typeof import('./src/components/auth/LoginUserWithEmailAndPwdForm.vue')['default']
     Password: typeof import('primevue/password')['default']
     PublishSurveyButton: typeof import('./src/components/surveys/buttons/PublishSurveyButton.vue')['default']
+    QuizCreateForm: typeof import('./src/components/quizzes/QuizCreateForm.vue')['default']
     RegisterCitizenWithGoogleButton: typeof import('./src/components/auth/citizen/RegisterCitizenWithGoogleButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SurveyCitizenView: typeof import('./src/components/surveys/visualiseSurvey/SurveyCitizenView.vue')['default']
     SurveyCreateForm: typeof import('./src/components/surveys/forms/SurveyCreateForm.vue')['default']
     SurveyQuestionForm: typeof import('./src/components/surveys/forms/SurveyQuestionForm.vue')['default']
-    SurveysList: typeof import('./src/components/surveys/display/SurveysList.vue')['default']
     Tag: typeof import('primevue/tag')['default']
+    TownCouncilSurveysList: typeof import('./src/components/surveys/display/TownCouncilSurveysList.vue')['default']
   }
 }

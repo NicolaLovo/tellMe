@@ -22,5 +22,7 @@ export const APP_ROUTES = {
     welcome: '/agency/welcome',
     home: '/agency/home',
     login: '/agency/login',
+    createquiz: '/agency/createquiz',
+    changecredentials: '/agency/changecredentials',
   },
 } as const

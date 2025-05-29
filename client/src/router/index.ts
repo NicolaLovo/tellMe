@@ -1,3 +1,4 @@
+import QuizCreateForm from '@/components/quizzes/QuizCreateForm.vue'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
 import { UserRole } from '@/types/auth/UserRole'
@@ -6,6 +7,7 @@ import AgencyWelcomePage from '@/views/agency/auth/AgencyWelcomePage.vue'
 import LoginAgencyPage from '@/views/agency/auth/LoginAgencyPage.vue'
 import ChangeCredentialsPage from '@/views/citizen/auth/ChangeCredentialsPage.vue'
 import RegisterAgencyPage from '@/views/citizen/auth/RegisterAgencyPage.vue'
+import CitizenCompileSurveyPage from '@/views/citizen/CitizenCompileSurveyPage.vue'
 import CitizenHomePage from '@/views/citizen/CitizenHomePage.vue'
 import TownCouncilWelcomePage from '@/views/townCouncil/auth/TownCouncilWelcomePage.vue'
 import SurveyCreationPage from '@/views/townCouncil/survey/SurveyCreationPage.vue'
@@ -16,7 +18,6 @@ import CitizenWelcomePage from '../views/citizen/auth/CitizenWelcomePage.vue'
 import CitizenLoginPage from '../views/citizen/auth/LoginCitizenPage.vue'
 import RegisterCitizenPage from '../views/citizen/auth/RegisterCitizenPage.vue'
 import HomePage from '../views/HomePage.vue'
-import CitizenCompileSurveyPage from '@/views/citizen/CitizenCompileSurveyPage.vue'
 
 interface RouteMeta {
   requiresRoles?: UserRole[]
@@ -106,6 +107,19 @@ const routes: Array<RouteRecordRaw> = [
     name: 'AgencyLogin',
     component: LoginAgencyPage,
   },
+  {
+    path: APP_ROUTES.agency.createquiz,
+    name: 'CreateQuiz',
+    component: QuizCreateForm,
+  },
+  {
+    path: APP_ROUTES.agency.changecredentials,
+    name: 'ChangeCredentials',
+    component: ChangeCredentialsPage,
+    meta: {
+      requiresRoles: ['agency'],
+    } satisfies RouteMeta,
+  },
 ]
 
 const router = createRouter({
@@ -126,6 +140,10 @@ router.beforeEach((to, from, next) => {
     }
     if (user.roles.includes('citizen')) {
       next({ path: APP_ROUTES.citizen.home })
+      return
+    }
+    if (user.roles.includes('agency')) {
+      next({ path: APP_ROUTES.agency.home })
       return
     }
   }

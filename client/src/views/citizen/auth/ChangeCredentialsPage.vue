@@ -58,8 +58,8 @@ const submitForm = async () => {
                 placeholder="Password"
                 toggleMask
                 :feedback="false"
-                inputStyle="width: 100%;"
               />
+              <!-- inputStyle="width: 100%;" -->
             </div>
 
             <div class="button-group">

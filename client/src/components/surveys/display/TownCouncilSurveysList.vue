@@ -4,12 +4,13 @@ import { useUserStore } from '@/stores/useUserStore'
 import type { Survey } from '@/types/survey/Survey'
 import { onMounted, ref } from 'vue'
 import { useToast } from 'vue-toastification'
+import { formatDateWithMomentHs } from '../../../tools/formatDateWithMoment'
 import PublishSurveyButton from '../buttons/PublishSurveyButton.vue'
-import { formatDateWithMoment, formatDateWithMomentHs } from '../../../tools/formatDateWithMoment'
 
 // PrimeVue components
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
+import CloseSurveyButton from '../buttons/CloseSurveyButton.vue'
 
 const pageIndex = ref(0)
 const pageSize = ref(10)
@@ -52,7 +53,18 @@ onMounted(fetchSurveys)
     <template #title> Lista dei sondaggi </template>
     <template #content>
       <div>
-        <DataTable v-if="surveys.length" :value="surveys" responsiveLayout="scroll">
+        <DataTable
+          v-if="totalSurveys > 0"
+          :value="surveys"
+          :paginator="true"
+          :rows="pageSize"
+          :totalRecords="totalSurveys"
+          :first="pageIndex * pageSize"
+          :rowsPerPageOptions="[5, 10, 20, 50]"
+          :lazy="true"
+          @page="onPageChange"
+          responsiveLayout="scroll"
+        >
           <Column header="Titolo">
             <template #body="slotProps">
               <div style="align-items: center">
@@ -82,6 +94,11 @@ onMounted(fetchSurveys)
                   :surveyId="slotProps.data._id"
                   @on-publish="fetchSurveys"
                 />
+                <CloseSurveyButton
+                  v-if="slotProps.data.status === 'published'"
+                  :surveyId="slotProps.data._id"
+                  @on-close="fetchSurveys"
+                />
               </div>
             </template>
           </Column>
@@ -89,8 +106,8 @@ onMounted(fetchSurveys)
 
         <!-- Message when no surveys found -->
         <p v-else>Non ci sono sondaggi disponibili.</p>
-      </div></template
-    >
+      </div>
+    </template>
   </Card>
 </template>
 

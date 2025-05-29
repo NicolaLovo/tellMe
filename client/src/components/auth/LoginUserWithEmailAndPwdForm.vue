@@ -98,8 +98,8 @@ const onSubmit = async () => {
           placeholder="Password"
           toggleMask
           :feedback="false"
-          inputStyle="width: 100%;"
         />
+        <!-- inputStyle="width: 100%;" -->
       </div>
 
       <p v-if="loginFormData.errorMessage" class="error-message">
