@@ -17,13 +17,15 @@ app.use('/api/v1/auth/', authRouter);
 
 app.use('/api/v1/agencies/', agenciesRouter);
 
-app.use(
+app.use('/api/v1/surveys', surveysRouter);
+
+/*app.use(
   '/api/v1/surveys',
   getRbacMiddleware({
     requiredRoles: ['townCouncil'],
   }),
   surveysRouter,
-);
+);*/
 app.use(
   '/api/v1/citizens/',
   getRbacMiddleware({

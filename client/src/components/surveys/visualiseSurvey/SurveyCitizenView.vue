@@ -1,91 +1,98 @@
-<!-- <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+<script setup lang="ts">
+import axios from 'axios'
+import { computed, ref } from 'vue'
 
-const survey = ref(null)
-const answers = ref({})
+const props = defineProps<{
+  survey: {
+    _id: string
+    title: string
+    status: string
+    creationDate: string
+    questions: {
+      id: string
+      question: string
+      type: string
+      options: { id: string; text: string }[]
+    }[]
+    rewardPoints: number
+  }
+}>()
 
-function selectOption(questionId, optionId) {
+const answers = ref<Record<string, string>>({})
+const submitting = ref(false)
+const submissionSuccess = ref(false)
+const submissionError = ref('')
+
+// 👇 Cambia con l'UID dell'utente loggato
+const uid = 'current-citizen-id' // TODO: Ottieni da auth o store
+
+function selectOption(questionId: string, optionId: string) {
   answers.value[questionId] = optionId
 }
 
-function isSelected(questionId, optionId) {
+function isSelected(questionId: string, optionId: string) {
   return answers.value[questionId] === optionId
 }
 
-const allAnswered = computed(() => {
-  return survey.value?.questions.every((q) => answers.value[q.id])
-})
+const allAnswered = computed(() => props.survey.questions.every((q) => answers.value[q.id]))
 
-function submit() {
+async function submit() {
   if (!allAnswered.value) {
     alert('Per favore rispondi a tutte le domande!')
     return
   }
-  console.log('Risposte inviate:', JSON.stringify(answers.value, null, 2))
-  alert('Grazie per aver completato il sondaggio!')
-}
 
-// onMounted(() => {
-//   survey.value = {
-//     id: 1,
-//     title: 'Sondaggio di esempio',
-//     status: 'published',
-//     questions: [
-//       {
-//         id: 'q1',
-//         question: 'Qual è il tuo colore preferito?',
-//         options: [
-//           { id: 'o1', text: 'Rosso' },
-//           { id: 'o2', text: 'Blu' },
-//           { id: 'o3', text: 'Verde' },
-//         ],
-//       },
-//       {
-//         id: 'q2',
-//         question: 'Qual è il tuo animale preferito?',
-//         options: [
-//           { id: 'o1', text: 'Cane' },
-//           { id: 'o2', text: 'Gatto' },
-//           { id: 'o3', text: 'Uccello' },
-//         ],
-//       },
-//     ],
-//   }
-// })
+  submitting.value = true
+  submissionError.value = ''
+
+  try {
+    await axios.post(
+      `http://localhost:4000/api/v1/citizens/${uid}/surveys/${props.survey._id}/answer`,
+      { answers: answers.value },
+    )
+    submissionSuccess.value = true
+  } catch (err) {
+    console.error(err)
+    submissionError.value = "Errore durante l'invio delle risposte."
+  } finally {
+    submitting.value = false
+  }
+}
 </script>
+
 <template>
-  <div class="survey-viewer" v-if="survey">
+  <div class="survey-viewer">
     <header class="app-header">
       <h1>{{ survey.title }}</h1>
+      <p>Status: {{ survey.status }}</p>
+      <p>Creato il: {{ new Date(survey.creationDate).toLocaleString() }}</p>
     </header>
 
     <div v-for="question in survey.questions" :key="question.id" class="question">
       <h3>{{ question.question }}</h3>
       <div class="options">
-        <Button
+        <button
           v-for="option in question.options"
           :key="option.id"
-          :label="option.text"
-          :class="{
-            'p-button-outlined': !isSelected(question.id, option.id),
-            'p-button-primary': isSelected(question.id, option.id),
-          }"
+          :class="['option-btn', { selected: isSelected(question.id, option.id) }]"
           @click="selectOption(question.id, option.id)"
-          :disabled="survey.status !== 'published'"
-        />
+          :disabled="survey.status !== 'published' || submitting"
+        >
+          {{ option.text }}
+        </button>
       </div>
     </div>
 
-    <Button
-      label="Invia risposte"
+    <button
       class="submit-btn"
-      :disabled="!allAnswered || survey.status !== 'published'"
+      :disabled="!allAnswered || survey.status !== 'published' || submitting"
       @click="submit"
-    />
-  </div>
+    >
+      {{ submitting ? 'Invio...' : 'Invia Risposte' }}
+    </button>
 
-  <div v-else>
-    <p>Caricamento sondaggio...</p>
+    <p v-if="submissionSuccess" class="success-msg">Sondaggio inviato con successo! 🎉</p>
+    <p v-if="submissionError" class="error-msg">{{ submissionError }}</p>
   </div>
 </template>
 
@@ -103,32 +110,53 @@ function submit() {
   padding-bottom: 0.5rem;
 }
 
-.app-header h1 {
-  font-size: 2rem;
-  font-weight: 700;
-}
-
 .question {
   margin-bottom: 2rem;
 }
 
-.question h3 {
-  margin-bottom: 1rem;
-  color: #6226e3;
-  font-weight: 600;
-}
-
 .options {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.6rem;
+  gap: 0.5rem;
+}
+
+.option-btn {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.option-btn.selected {
+  background: #6226e3;
+  color: #fff;
 }
 
 .submit-btn {
-  margin-top: 1rem;
   width: 100%;
-  font-weight: 700;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  font-weight: 600;
+  background: #6226e3;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
 }
-</style> -->
 
-<template></template>
+.submit-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.success-msg {
+  color: green;
+  margin-top: 1rem;
+}
+
+.error-msg {
+  color: red;
+  margin-top: 1rem;
+}
+</style>
