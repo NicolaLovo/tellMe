@@ -53,7 +53,18 @@ onMounted(fetchSurveys)
     <template #title> Lista dei sondaggi </template>
     <template #content>
       <div>
-        <DataTable v-if="surveys.length" :value="surveys" responsiveLayout="scroll">
+        <DataTable
+          v-if="totalSurveys > 0"
+          :value="surveys"
+          :paginator="true"
+          :rows="pageSize"
+          :totalRecords="totalSurveys"
+          :first="pageIndex * pageSize"
+          :rowsPerPageOptions="[5, 10, 20, 50]"
+          :lazy="true"
+          @page="onPageChange"
+          responsiveLayout="scroll"
+        >
           <Column header="Titolo">
             <template #body="slotProps">
               <div style="align-items: center">
@@ -95,8 +106,8 @@ onMounted(fetchSurveys)
 
         <!-- Message when no surveys found -->
         <p v-else>Non ci sono sondaggi disponibili.</p>
-      </div></template
-    >
+      </div>
+    </template>
   </Card>
 </template>
 

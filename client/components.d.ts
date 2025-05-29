@@ -11,6 +11,7 @@ declare module 'vue' {
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
     CitizenSurveysList: typeof import('./src/components/surveys/display/CitizenSurveysList.vue')['default']
+    CloseSurveyButton: typeof import('./src/components/surveys/buttons/CloseSurveyButton.vue')['default']
     Column: typeof import('primevue/column')['default']
     DataTable: typeof import('primevue/datatable')['default']
     Divider: typeof import('primevue/divider')['default']
@@ -34,5 +35,6 @@ declare module 'vue' {
     SurveyQuestionForm: typeof import('./src/components/surveys/forms/SurveyQuestionForm.vue')['default']
     SurveysList: typeof import('./src/components/surveys/display/SurveysList.vue')['default']
     Tag: typeof import('primevue/tag')['default']
+    TownCouncilSurveysList: typeof import('./src/components/surveys/display/TownCouncilSurveysList.vue')['default']
   }
 }
