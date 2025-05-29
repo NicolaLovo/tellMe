@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/useUserStore'
 import axios from 'axios'
 import { computed, ref } from 'vue'
 
@@ -23,9 +24,6 @@ const submitting = ref(false)
 const submissionSuccess = ref(false)
 const submissionError = ref('')
 
-// 👇 Cambia con l'UID dell'utente loggato
-const uid = 'current-citizen-id' // TODO: Ottieni da auth o store
-
 function selectOption(questionId: string, optionId: string) {
   answers.value[questionId] = optionId
 }
@@ -36,26 +34,50 @@ function isSelected(questionId: string, optionId: string) {
 
 const allAnswered = computed(() => props.survey.questions.every((q) => answers.value[q.id]))
 
+const userStore = useUserStore()
+
 async function submit() {
-  if (!allAnswered.value) {
-    alert('Per favore rispondi a tutte le domande!')
+  const token = userStore.user?.token
+  const uid = userStore.user?.uid
+
+  if (!token || !uid) {
+    alert('Utente non autenticato.')
     return
   }
 
-  submitting.value = true
-  submissionError.value = ''
+  const answersArray = Object.entries(answers.value).map(([questionId, optionId]) => {
+    const question = props.survey.questions.find((q) => q.id === questionId)
+    return {
+      questionId,
+      optionId,
+      type: question?.type || 'unknown',
+    }
+  })
+
+  const payload = {
+    surveyAnswer: {
+      _id: {
+        uid,
+        surveyId: props.survey._id,
+      },
+      answers: answersArray,
+    },
+  }
 
   try {
     await axios.post(
       `http://localhost:4000/api/v1/citizens/${uid}/surveys/${props.survey._id}/answer`,
-      { answers: answers.value },
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
     )
-    submissionSuccess.value = true
-  } catch (err) {
-    console.error(err)
-    submissionError.value = "Errore durante l'invio delle risposte."
-  } finally {
-    submitting.value = false
+    alert('Risposte inviate con successo.')
+  } catch (err: any) {
+    console.error('Errore invio:', err)
+    alert('Errore: ' + (err.response?.data?.data?.message || 'non autorizzato'))
   }
 }
 </script>
@@ -64,8 +86,6 @@ async function submit() {
   <div class="survey-viewer">
     <header class="app-header">
       <h1>{{ survey.title }}</h1>
-      <p>Status: {{ survey.status }}</p>
-      <p>Creato il: {{ new Date(survey.creationDate).toLocaleString() }}</p>
     </header>
 
     <div v-for="question in survey.questions" :key="question.id" class="question">

@@ -15,7 +15,6 @@ type ResBody = TmResponse<{
 interface ReqBody {
   surveyAnswer: SurveyAnswer;
 }
-
 export const createSurveyAnswerController = async (
   req: Request<ReqParams, ResBody, ReqBody>,
   res: Response<ResBody>,
@@ -24,10 +23,8 @@ export const createSurveyAnswerController = async (
     const { surveyAnswer } = req.body;
 
     const exists = await SurveyAnswerModel.findOne({
-      _id: {
-        surveyId: surveyAnswer._id.surveyId,
-        uid: surveyAnswer._id.uid,
-      },
+      '_id.surveyId': surveyAnswer._id.surveyId,
+      '_id.uid': surveyAnswer._id.uid,
     });
 
     if (exists) {
@@ -50,11 +47,20 @@ export const createSurveyAnswerController = async (
     });
   } catch (error) {
     console.error('Error creating survey answer:', error);
-    res.status(500).json({
-      status: 'error',
-      data: {
-        message: 'Internal server error',
-      },
-    });
+    if (error instanceof Error) {
+      res.status(500).json({
+        status: 'error',
+        data: {
+          message: error.message,
+        },
+      });
+    } else {
+      res.status(500).json({
+        status: 'error',
+        data: {
+          message: 'Internal server error',
+        },
+      });
+    }
   }
 };

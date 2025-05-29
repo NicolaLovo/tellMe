@@ -9,7 +9,7 @@ const surveyId = route.params.surveyId as string
 
 const survey = ref(null)
 const loading = ref(true)
-const error = ref(null)
+const error = ref<string | null>(null)
 
 onMounted(async () => {
   try {
@@ -17,6 +17,7 @@ onMounted(async () => {
     survey.value = response.data.data.survey
   } catch (err) {
     console.error(err)
+    error.value = 'Errore durante il caricamento del sondaggio.'
   } finally {
     loading.value = false
   }
@@ -25,12 +26,34 @@ onMounted(async () => {
 
 <template>
   <div class="citizen-compile-survey-page">
-    <h2>Compila Sondaggio</h2>
+    <div class="header">
+      <h2>Compila Sondaggio</h2>
+    </div>
 
-    <div v-if="loading">Caricamento...</div>
-    <div v-else-if="error">{{ error }}</div>
-    <div v-else-if="survey">
-      <SurveyCitizenView :survey="survey" />
+    <div class="content">
+      <p v-if="loading" class="p-text-secondary">Caricamento...</p>
+      <p v-else-if="error" class="p-text-danger">{{ error }}</p>
+      <SurveyCitizenView v-else :survey="survey" />
     </div>
   </div>
 </template>
+
+<style scoped>
+.citizen-compile-survey-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.content {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+</style>
