@@ -9,7 +9,7 @@ export const APP_ROUTES = {
     login: '/citizen/login',
     home: '/citizen/home',
     changecredentials: '/citizen/changecredentials',
-    surveyanswer: '/citizen/surveyanswer',
+    surveyanswer: '/citizen/surveys/:surveyId/answer',
   },
   townCouncil: {
     welcome: '/towncouncil/welcome',

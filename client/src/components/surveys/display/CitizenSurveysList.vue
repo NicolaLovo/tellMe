@@ -2,12 +2,10 @@
 import { ApiClient } from '@/api/ApiClient'
 import { useUserStore } from '@/stores/useUserStore'
 import type { Survey } from '@/types/survey/Survey'
+import Card from 'primevue/card'
 import { onMounted, ref } from 'vue'
 import { useToast } from 'vue-toastification'
-
-// PrimeVue components
-import Column from 'primevue/column'
-import DataTable from 'primevue/datatable'
+import SurveyListRow from './CitizenSurveyListRow.vue'
 
 const pageIndex = ref(0)
 const pageSize = ref(10)
@@ -39,43 +37,36 @@ const fetchSurveys = async () => {
   }
 }
 
-const onPageChange = (event: { page: number; rows: number }) => {
-  pageIndex.value = event.page
-  pageSize.value = event.rows
-  fetchSurveys()
-}
-
 onMounted(fetchSurveys)
 </script>
 
 <template>
-  <Card>
-    <template #title> Lista dei sondaggi </template>
-    <template #content>
-      <div>
-        <DataTable v-if="surveys.length" :value="surveys" responsiveLayout="scroll">
-          <Column field="title" header="Titolo"></Column>
-          <Column header="Stato">
-            <template #body="slotProps">
-              <Tag>{{ slotProps.data.status }}</Tag>
-            </template>
-          </Column>
-          <Column>
-            <template #body="slotProps">
-              <!-- <CompileSurveyButton
-                v-if="slotProps.data.status === 'created'"
-                :surveyId="slotProps.data._id"
-                @on-publish="fetchSurveys"
-              /> -->
-            </template>
-          </Column>
-        </DataTable>
-
-        <!-- Message when no surveys found -->
-        <p v-else>Non ci sono sondaggi disponibili.</p>
-      </div></template
-    >
-  </Card>
+  <div class="survey-list-page">
+    <h2>Lista dei sondaggi</h2>
+    <div class="survey-list">
+      <Card>
+        <template #title>
+          <h3>Sondaggi disponibili</h3>
+        </template>
+        <template #content>
+          <table v-if="surveys.length">
+            <tr>
+              <th>Titolo</th>
+              <th>Stato</th>
+              <th></th>
+            </tr>
+            <tr v-for="survey in surveys">
+              <SurveyListRow :survey="survey" />
+            </tr>
+          </table>
+          <!-- Message when no surveys found -->
+          <p v-else>Non ci sono sondaggi disponibili.</p>
+        </template>
+      </Card>
+    </div>
+  </div>
 </template>
 
-<style></style>
+<style>
+
+</style>

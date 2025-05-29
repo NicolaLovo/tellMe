@@ -1,5 +1,4 @@
 import QuizCreateForm from '@/components/quizzes/QuizCreateForm.vue'
-import SurveyCitizenView from '@/components/surveys/visualiseSurvey/SurveyCitizenView.vue'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
 import { UserRole } from '@/types/auth/UserRole'
@@ -8,6 +7,7 @@ import AgencyWelcomePage from '@/views/agency/auth/AgencyWelcomePage.vue'
 import LoginAgencyPage from '@/views/agency/auth/LoginAgencyPage.vue'
 import ChangeCredentialsPage from '@/views/citizen/auth/ChangeCredentialsPage.vue'
 import RegisterAgencyPage from '@/views/citizen/auth/RegisterAgencyPage.vue'
+import CitizenCompileSurveyPage from '@/views/citizen/CitizenCompileSurveyPage.vue'
 import CitizenHomePage from '@/views/citizen/CitizenHomePage.vue'
 import TownCouncilWelcomePage from '@/views/townCouncil/auth/TownCouncilWelcomePage.vue'
 import SurveyCreationPage from '@/views/townCouncil/survey/SurveyCreationPage.vue'
@@ -87,7 +87,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: APP_ROUTES.citizen.surveyanswer,
     name: 'SurveyAnswer',
-    component: SurveyCitizenView,
+    component: CitizenCompileSurveyPage,
   },
   {
     path: APP_ROUTES.agency.home,

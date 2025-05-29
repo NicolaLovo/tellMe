@@ -25,33 +25,33 @@ function submit() {
   alert('Grazie per aver completato il sondaggio!')
 }
 
-onMounted(() => {
-  survey.value = {
-    id: 1,
-    title: 'Sondaggio di esempio',
-    status: 'published',
-    questions: [
-      {
-        id: 'q1',
-        question: 'Qual è il tuo colore preferito?',
-        options: [
-          { id: 'o1', text: 'Rosso' },
-          { id: 'o2', text: 'Blu' },
-          { id: 'o3', text: 'Verde' },
-        ],
-      },
-      {
-        id: 'q2',
-        question: 'Qual è il tuo animale preferito?',
-        options: [
-          { id: 'o1', text: 'Cane' },
-          { id: 'o2', text: 'Gatto' },
-          { id: 'o3', text: 'Uccello' },
-        ],
-      },
-    ],
-  }
-})
+// onMounted(() => {
+//   survey.value = {
+//     id: 1,
+//     title: 'Sondaggio di esempio',
+//     status: 'published',
+//     questions: [
+//       {
+//         id: 'q1',
+//         question: 'Qual è il tuo colore preferito?',
+//         options: [
+//           { id: 'o1', text: 'Rosso' },
+//           { id: 'o2', text: 'Blu' },
+//           { id: 'o3', text: 'Verde' },
+//         ],
+//       },
+//       {
+//         id: 'q2',
+//         question: 'Qual è il tuo animale preferito?',
+//         options: [
+//           { id: 'o1', text: 'Cane' },
+//           { id: 'o2', text: 'Gatto' },
+//           { id: 'o3', text: 'Uccello' },
+//         ],
+//       },
+//     ],
+//   }
+// })
 </script>
 <template>
   <div class="survey-viewer" v-if="survey">
