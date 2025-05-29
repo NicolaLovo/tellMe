@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SurveysList from '@/components/surveys/display/SurveysList.vue'
+import TownCouncilSurveysList from '@/components/surveys/display/TownCouncilSurveysList.vue'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 </script>
 
@@ -18,7 +18,7 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
         />
       </div>
     </div>
-    <SurveysList />
+    <TownCouncilSurveysList />
   </div>
 </template>
 

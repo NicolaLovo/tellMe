@@ -1,6 +1,7 @@
+import { AgenciesApiClient } from './agency/AgenciesApiClient'
 import { AuthApiClient } from './AuthApiClient'
-import { CitizenApiClient } from './Citizen/CitizenApiClient'
-import { TownCouncilApiClient } from './TownCouncil/TownCouncilApiClient'
+import { CitizenApiClient } from './citizen/CitizenApiClient'
+import { TownCouncilApiClient } from './townCouncil/TownCouncilApiClient'
 
 interface ApiClientProps {
   jwtToken?: string | null
@@ -15,26 +16,42 @@ export class ApiClient {
 
   private authApiClient: AuthApiClient
   private townCouncilApiClient: TownCouncilApiClient
-  citizenApiClient: CitizenApiClient
+  private citizenApiClient: CitizenApiClient
+  private agenciesApiClient: AgenciesApiClient
 
   constructor({ jwtToken }: ApiClientProps) {
     this.jwtToken = jwtToken || null
     this.authApiClient = new AuthApiClient({ jwtToken: this.jwtToken })
     this.townCouncilApiClient = new TownCouncilApiClient({ jwtToken: this.jwtToken })
     this.citizenApiClient = new CitizenApiClient({ jwtToken: this.jwtToken })
+    this.agenciesApiClient = new AgenciesApiClient({ jwtToken: this.jwtToken })
   }
 
   /**
    * Provides access to the Authentication API client.
    */
-  get auth() {
+  public get auth() {
     return this.authApiClient
   }
 
   /**
    * Provides access to the API client for the Town Council
    */
-  get townCouncil() {
+  public get townCouncil() {
     return this.townCouncilApiClient
+  }
+
+  /**
+   * Provides access to the API client for Citizens
+   */
+  public get citizen() {
+    return this.citizenApiClient
+  }
+
+  /**
+   * Provides access to the API client for Agencies
+   */
+  public get agencies() {
+    return this.agenciesApiClient
   }
 }

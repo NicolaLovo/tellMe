@@ -1,4 +1,4 @@
-interface SurveyQuestionOption {
+export interface SurveyQuestionOption {
   id: string;
   text: string;
 }

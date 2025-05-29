@@ -4,12 +4,13 @@ import { useUserStore } from '@/stores/useUserStore'
 import type { Survey } from '@/types/survey/Survey'
 import { onMounted, ref } from 'vue'
 import { useToast } from 'vue-toastification'
+import { formatDateWithMomentHs } from '../../../tools/formatDateWithMoment'
 import PublishSurveyButton from '../buttons/PublishSurveyButton.vue'
-import { formatDateWithMoment, formatDateWithMomentHs } from '../../../tools/formatDateWithMoment'
 
 // PrimeVue components
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
+import CloseSurveyButton from '../buttons/CloseSurveyButton.vue'
 
 const pageIndex = ref(0)
 const pageSize = ref(10)
@@ -81,6 +82,11 @@ onMounted(fetchSurveys)
                   v-if="slotProps.data.status === 'created'"
                   :surveyId="slotProps.data._id"
                   @on-publish="fetchSurveys"
+                />
+                <CloseSurveyButton
+                  v-if="slotProps.data.status === 'published'"
+                  :surveyId="slotProps.data._id"
+                  @on-close="fetchSurveys"
                 />
               </div>
             </template>
