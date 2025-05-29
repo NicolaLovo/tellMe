@@ -50,16 +50,17 @@ onMounted(fetchSurveys)
         </template>
         <template #content>
           <table v-if="surveys.length">
-            <tr>
-              <th>Titolo</th>
-              <th>Stato</th>
-              <th></th>
-            </tr>
-            <tr v-for="survey in surveys">
-              <SurveyListRow :survey="survey" />
-            </tr>
+            <thead>
+              <tr>
+                <th>Titolo</th>
+                <th>Stato</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <SurveyListRow v-for="survey in surveys" :key="survey._id" :survey="survey" />
+            </tbody>
           </table>
-          <!-- Message when no surveys found -->
           <p v-else>Non ci sono sondaggi disponibili.</p>
         </template>
       </Card>
@@ -67,6 +68,4 @@ onMounted(fetchSurveys)
   </div>
 </template>
 
-<style>
-
-</style>
+<style></style>
