@@ -13,6 +13,27 @@ export class TownCouncilSurveyApiClient extends ApiClientChildren {
   }
 
   /**
+   * Reads a survey
+   */
+  public async read(params: { surveyId: string }): Promise<TmResponse<Survey>> {
+    try {
+      const response = await this.httpClient.get<TmResponse<Survey>>(
+        `${API_URL}/api/v1/surveys/${params.surveyId}`,
+      )
+
+      return response ?? HTTP_TMRESPONSES.error
+    } catch (error) {
+      console.error('Read survey error:', error)
+      return {
+        status: 'error',
+        data: {
+          message: 'Error in read survey request',
+        },
+      }
+    }
+  }
+
+  /**
    * Updates a survey
    */
   public async update(
