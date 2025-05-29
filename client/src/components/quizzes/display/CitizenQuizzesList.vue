@@ -1,0 +1,81 @@
+<script setup lang="ts">
+import { ApiClient } from '@/api/ApiClient'
+import { useUserStore } from '@/stores/useUserStore'
+import type { Survey } from '@/types/survey/Survey'
+import { onMounted, ref } from 'vue'
+import { useToast } from 'vue-toastification'
+
+// PrimeVue components
+import Column from 'primevue/column'
+import DataTable from 'primevue/datatable'
+
+const pageIndex = ref(0)
+const pageSize = ref(10)
+const surveys = ref<Survey[]>([])
+const totalSurveys = ref<number>(0)
+const toast = useToast()
+
+const userStore = useUserStore()
+const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
+
+const fetchSurveys = async () => {
+  try {
+    const response = await apiClient.citizen.surveys.list(
+      {
+        pageIndex: pageIndex.value.toString(),
+        pageSize: pageSize.value.toString(),
+      },
+      { citizenId: userStore.user?.uid as string },
+    )
+
+    if (response.status === 'success') {
+      surveys.value = response.data.surveys
+      totalSurveys.value = response.data.metadata.totalCount
+    } else {
+      console.error('Errore nel caricamento dei sondaggi.')
+    }
+  } catch (err) {
+    console.error('Errore durante il caricamento dei sondaggi:', err)
+  }
+}
+
+const onPageChange = (event: { page: number; rows: number }) => {
+  pageIndex.value = event.page
+  pageSize.value = event.rows
+  fetchSurveys()
+}
+
+onMounted(fetchSurveys)
+</script>
+
+<template>
+  <Card>
+    <template #title> Lista dei sondaggi </template>
+    <template #content>
+      <div>
+        <DataTable v-if="surveys.length" :value="surveys" responsiveLayout="scroll">
+          <Column field="title" header="Titolo"></Column>
+          <Column header="Stato">
+            <template #body="slotProps">
+              <Tag>{{ slotProps.data.status }}</Tag>
+            </template>
+          </Column>
+          <Column>
+            <template #body="slotProps">
+              <!-- <CompileSurveyButton
+                v-if="slotProps.data.status === 'created'"
+                :surveyId="slotProps.data._id"
+                @on-publish="fetchSurveys"
+              /> -->
+            </template>
+          </Column>
+        </DataTable>
+
+        <!-- Message when no surveys found -->
+        <p v-else>Non ci sono sondaggi disponibili.</p>
+      </div></template
+    >
+  </Card>
+</template>
+
+<style></style>
