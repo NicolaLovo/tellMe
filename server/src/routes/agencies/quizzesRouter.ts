@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { createQuizAnswerController } from '../../controllers/agency/quizzes/answers/createQuizAnswerController';
 import { createQuizController } from '../../controllers/agency/quizzes/createQuizController';
 import { listAgencyQuizzesController } from '../../controllers/agency/quizzes/listAgencyQuizzesController';
 import { getRbacMiddleware } from '../../middlewares/getRbacMiddleware';
@@ -15,10 +16,18 @@ quizzesRouter.post(
 
 quizzesRouter.get(
   '/:agencyId/quizzes',
-  /*getRbacMiddleware({
+  getRbacMiddleware({
     requiredRoles: ['agency'],
-  }),*/
+  }),
   listAgencyQuizzesController,
+);
+
+quizzesRouter.post(
+  '/:agencyId/quizzes/:quizId/answers/:uid',
+  getRbacMiddleware({
+    requiredRoles: ['agency'],
+  }),
+  createQuizAnswerController,
 );
 
 export default quizzesRouter;
