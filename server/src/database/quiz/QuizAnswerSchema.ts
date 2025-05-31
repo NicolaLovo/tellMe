@@ -1,4 +1,5 @@
 import mongoose, { Document } from 'mongoose';
+import { QuizQuestionAnswer } from '../../../../client/src/types/quiz/answer/QuizAnswer';
 
 const QuizQuestionAnswerSchema = new mongoose.Schema(
   {
@@ -39,31 +40,6 @@ const QuizAnswerSchema = new mongoose.Schema(
 );
 
 QuizAnswerSchema.index({ '_id.quizId': 1, '_id.uid': 1 }, { unique: true });
-
-export type QuizQuestionAnswer = {
-  questionId: string;
-  optionId: '1' | '2' | '3' | '4' | '5';
-  type: 'rating';
-};
-
-export type QuizAnswer =
-  | {
-      _id: {
-        quizId: string;
-        uid: string;
-      };
-      creationDate: Date;
-      status: 'pending';
-    }
-  | {
-      _id: {
-        quizId: string;
-        uid: string;
-      };
-      creationDate: Date;
-      status: 'completed';
-      answers: QuizQuestionAnswer[];
-    };
 
 export interface QuizAnswerModelSchema extends Document {
   _id: {
