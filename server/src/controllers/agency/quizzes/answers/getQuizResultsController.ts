@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { QuizAnswerModel } from '../../../../database/quiz/QuizQuestionAnswer';
+import { QuizAnswerModel } from '../../../../database/quiz/QuizAnswerSchema';
 import { TmResponse } from '../../../../types/common/utils/TmResponse';
 import { QuizResults } from '../../../../types/quiz/QuizResults';
 

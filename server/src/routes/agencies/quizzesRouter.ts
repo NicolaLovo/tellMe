@@ -17,9 +17,9 @@ quizzesRouter.post(
 
 quizzesRouter.get(
   '/:agencyId/quizzes',
-  getRbacMiddleware({
+  /*getRbacMiddleware({
     requiredRoles: ['agency'],
-  }),
+  }),*/
   listAgencyQuizzesController,
 );
 
