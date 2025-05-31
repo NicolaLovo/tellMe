@@ -344,6 +344,40 @@ Returns the ID of the newly created quiz if successful.
         + data (object)
             + message: `Internal server error` (string)
 
+
+## Quiz answers [/api/v1/agencies/{agencyId}/quizzes/{quizId}/answers/{uid}]
+
+### Submit Quiz Answer [POST]
+
+Submits a new quiz answer for a specific user and quiz.  
+Stores the answer in the database and returns a unique identifier for the saved answer.
+
++ Parameters
+    + agencyId: `agency123` (string) - ID of the agency that owns the quiz
+    + quizId: `quiz456` (string) - ID of the quiz being answered
+    + uid: `user789` (string) - Unique identifier of the user submitting the answer
+
++ Request (application/json)
+
+    + Attributes (object)
+        + quizAnswer (QuizAnswer)
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + answerId (object)
+                + quizId: `quiz456` (string)
+                + uid: `user789` (string)
+
++ Response 500 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
+
 # Data Structures
 
 ## Survey (object)
@@ -399,3 +433,27 @@ Returns the ID of the newly created quiz if successful.
 + type: `rating` (enum[string]) - Type of the question
     + Members
         + rating - A question that expects a rating response from 1 to 5
+
+## QuizAnswer (object)
++ _id (object) - Composite ID of the quiz answer
+    + quizId: `quiz456` (string) - ID of the related quiz
+    + uid: `user789` (string) - ID of the user who submitted the answer
++ creationDate: `2025-05-29T12:00:00Z` (string) - ISO 8601 date of answer submission
++ status: `pending` (enum[string]) - Status of the quiz answer
+    + Members
+        + pending
+        + completed
++ answers (optional, array[QuizQuestionAnswer]) - Answers to quiz questions (only if status is `completed`)
+
+## QuizQuestionAnswer (object)
++ questionId: `q1` (string) - ID of the answered question
++ optionId: `4` (enum[string]) - Selected option (1 to 5)
+    + Members
+        + 1
+        + 2
+        + 3
+        + 4
+        + 5
++ type: `rating` (enum[string]) - Type of the question
+    + Members
+        + rating
