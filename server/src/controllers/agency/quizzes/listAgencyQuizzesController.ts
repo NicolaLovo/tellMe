@@ -3,10 +3,6 @@ import { QuizModel } from '../../../database/quiz/QuizSchema';
 import { TmResponse } from '../../../types/common/utils/TmResponse';
 import { Quiz } from '../../../types/quiz/Quiz';
 
-interface ReqParams {
-  agencyId: string;
-}
-
 interface ReqQuery {
   pageIndex?: string;
   pageSize?: string;
@@ -20,7 +16,14 @@ type ResBody = TmResponse<{
 }>;
 
 export const listAgencyQuizzesController = async (
-  req: Request<ReqParams, ResBody, {}, ReqQuery>,
+  req: Request<
+    {
+      agencyId: string;
+    },
+    ResBody,
+    {},
+    ReqQuery
+  >,
   res: Response<ResBody>,
 ): Promise<void> => {
   try {
