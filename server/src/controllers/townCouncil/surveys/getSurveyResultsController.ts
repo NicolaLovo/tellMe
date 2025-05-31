@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { SurveyResult } from '../../../../../client/src/types/survey/SuveyResult';
 import { SurveyAnswerModel } from '../../../database/survey/SurveyAnswerSchema';
 import { TmResponse } from '../../../types/common/utils/TmResponse';
+import { SurveyResult } from '../../../types/survey/SurveyResult';
 
 type ResBody = TmResponse<{ surveyResults: SurveyResult }>;
 
