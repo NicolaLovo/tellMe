@@ -378,6 +378,31 @@ Stores the answer in the database and returns a unique identifier for the saved 
         + data (object)
             + message: `Internal server error` (string)
 
+
+## Quiz Results [/api/v1/quizzes/{quizId}/results]
+
+Returns aggregated results for a completed quiz based on stored answers.  
+Only includes data from answers with `status: completed`.
+
++ Parameters
+    + quizId: `quiz456` (string) - The ID of the quiz to summarize
+
+### Get Quiz Results [GET]
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + status: `success` (string)
+        + data (QuizResults)
+
++ Response 500 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
+
+
 # Data Structures
 
 ## Survey (object)
@@ -457,3 +482,24 @@ Stores the answer in the database and returns a unique identifier for the saved 
 + type: `rating` (enum[string]) - Type of the question
     + Members
         + rating
+
+## QuizResults (object)
++ quizId: `quiz456` (string) - The ID of the quiz
++ results (array[QuizQuestionResult]) - List of questions with their aggregated responses
+
+## QuizQuestionResult (object)
++ questionId: `q1` (string) - ID of the question
++ type: `rating` (enum[string]) - Type of the question
+    + Members
+        + rating
++ options (array[QuizOptionResult]) - List of possible options with vote counts
+
+## QuizOptionResult (object)
++ optionId: `3` (enum[string]) - Option value (1 to 5)
+    + Members
+        + 1
+        + 2
+        + 3
+        + 4
+        + 5
++ votes: 42 (number) - Total votes received for this option
