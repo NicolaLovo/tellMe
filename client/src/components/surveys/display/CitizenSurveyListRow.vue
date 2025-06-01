@@ -12,7 +12,6 @@ const props = defineProps<{
 const userStore = useUserStore()
 const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
 
-// This ref controls visibility of the button
 const canAnswer = ref(false)
 
 const checkIfAlreadyAnswered = async () => {
@@ -21,7 +20,6 @@ const checkIfAlreadyAnswered = async () => {
       uid: userStore.user?.uid as string,
       surveyId: props.survey._id,
     })
-    // If the answer doesn't exist, show the button
     canAnswer.value = response.status === 'error'
   } catch (err) {
     console.error('Errore durante il controllo delle risposte:', err)
