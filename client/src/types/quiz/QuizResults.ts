@@ -5,6 +5,11 @@ export type QuizResults = {
   quizId: string;
   results: {
     questionId: string;
+    /**
+     * Text of the question.
+     */
+    question: string;
+
     type: 'rating';
 
     options: {
