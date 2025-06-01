@@ -33,13 +33,17 @@ onMounted(checkIfAlreadyAnswered)
 </script>
 
 <template>
-  <td>{{ survey.title }}</td>
-  <td>
+  <td class="survey-td">{{ survey.title }}</td>
+  <td class="survey-td">
     <div>{{ survey.status }}</div>
   </td>
-  <td>
+  <td class="survey-td">
     <CompileSurveyButton v-if="canAnswer" :surveyId="survey._id" />
   </td>
 </template>
 
-<style></style>
+<style>
+.survey-td {
+  padding: 12px 16px;
+}
+</style>

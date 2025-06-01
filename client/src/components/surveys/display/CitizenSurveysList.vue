@@ -39,27 +39,28 @@ const fetchSurveys = async () => {
 
 onMounted(fetchSurveys)
 </script>
-
 <template>
   <div class="survey-list-page">
-    <h2>Lista dei sondaggi</h2>
     <div class="survey-list">
       <Card>
         <template #title>
           <h3>Sondaggi disponibili</h3>
         </template>
         <template #content>
-          <table v-if="surveys.length">
-            <tr>
-              <th>Titolo</th>
-              <th>Stato</th>
-              <th></th>
-            </tr>
-            <tr v-for="survey in surveys">
-              <SurveyListRow :survey="survey" />
-            </tr>
+          <table v-if="surveys.length" class="styled-table">
+            <thead>
+              <tr>
+                <th>Titolo</th>
+                <th>Stato</th>
+                <th>Compila</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="survey in surveys" :key="survey._id">
+                <SurveyListRow :survey="survey" />
+              </tr>
+            </tbody>
           </table>
-          <!-- Message when no surveys found -->
           <p v-else>Non ci sono sondaggi disponibili.</p>
         </template>
       </Card>
@@ -67,6 +68,32 @@ onMounted(fetchSurveys)
   </div>
 </template>
 
-<style>
+<style scoped>
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
 
+.styled-table th,
+.styled-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.styled-table thead {
+  background-color: #f9f9f9;
+}
+
+.styled-table tr:nth-child(even) {
+  background-color: #f6f6f6;
+}
+
+.styled-table tr:hover {
+  background-color: #f0f0f0;
+  transition: background-color 0.3s ease;
+}
 </style>
