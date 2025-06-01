@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import TownCouncilSurveyResultTable from '@/components/surveys/display/TownCouncilSurveyResultTable.vue'
-import SurveyCitizenView from '@/components/surveys/visualiseSurvey/SurveyCitizenView.vue'
-import axios from 'axios'
-import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -11,6 +8,7 @@ const surveyId = route.params.surveyId as string
 
 <template>
   <div class="survey-results-page">
+    <div>{{ surveyId }}</div>
     <TownCouncilSurveyResultTable :surveyId="surveyId" />
   </div>
 </template>

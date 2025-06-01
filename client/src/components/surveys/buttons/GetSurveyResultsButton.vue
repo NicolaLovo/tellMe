@@ -7,7 +7,7 @@ const props = defineProps<{
 <template>
   <Button asChild v-slot="slotProps">
     <RouterLink
-      :to="`towncouncil/surveys/${props.surveyId}/results`"
+      :to="`/towncouncil/surveys/${props.surveyId}/results`"
       :class="[(slotProps as any).class, 'no-underline']"
     >
       Visualizza risultati

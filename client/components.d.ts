@@ -15,7 +15,6 @@ declare module 'vue' {
     CitizenSurveysList: typeof import('./src/components/surveys/display/CitizenSurveysList.vue')['default']
     CloseSurveyButton: typeof import('./src/components/surveys/buttons/CloseSurveyButton.vue')['default']
     CompileSurveyButton: typeof import('./src/components/surveys/buttons/CompileSurveyButton.vue')['default']
-    DataTable: typeof import('primevue/datatable')['default']
     Divider: typeof import('primevue/divider')['default']
     GetSurveyResultsButton: typeof import('./src/components/surveys/buttons/GetSurveyResultsButton.vue')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']
