@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { ApiClient } from '@/api/ApiClient'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
+import { Quiz } from '@/types/quiz/Quiz'
 import { v4 as uuidv4 } from 'uuid'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -17,6 +19,7 @@ const quiz = reactive({
   title: '',
   creationDate: new Date(),
   status: 'created',
+  agencyId: '',
   questions: [
     {
       id: uuidv4(),
@@ -59,9 +62,24 @@ const handleSubmit = async () => {
 
     errorMessage.value = ''
 
-    // TODO: inserire chiamata API
-    toast.success('Quiz creato correttamente')
-    router.push(APP_ROUTES.townCouncil.home)
+    const agencyId = userStore.user?.uid as string
+
+    const apiClient = new ApiClient({
+      jwtToken: userStore.user?.token as string,
+    })
+
+    quiz.agencyId = userStore.user?.uid as string
+    const response = await apiClient.agencies.agency.quizzes.create(
+      { agencyId },
+      { quiz: quiz as Quiz },
+    )
+
+    if (response.status === 'success') {
+      toast.success('Quiz creato correttamente')
+      router.push(APP_ROUTES.townCouncil.home)
+    } else {
+      errorMessage.value = response.data?.message || 'Errore nella creazione del quiz.'
+    }
   } catch (err) {
     errorMessage.value = 'Errore nella creazione del quiz.'
     console.error(err)
