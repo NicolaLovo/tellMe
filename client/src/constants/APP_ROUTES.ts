@@ -17,6 +17,7 @@ export const APP_ROUTES = {
     createsurvery: '/towncouncil/createsurvey',
     // surveylist: '/towncouncil/surveys',
     registeragency: '/towncouncil/registeragency',
+    surveyresults: '/towncouncil/surveys/:surveyId/results',
   },
   agency: {
     welcome: '/agency/welcome',

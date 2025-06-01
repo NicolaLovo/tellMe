@@ -3,13 +3,17 @@ import { HTTP_TMRESPONSES } from '@/constants/HTTP_TMRESPONSES'
 import { TmResponse } from '@/types/common/utils/TmResponse'
 import { Survey } from '@/types/survey/Survey'
 import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
+import { TownCouncilSurveyResultsApiClient } from './TownCouncilSurveyResultsApiClient'
 
 /**
  * Api client for the Town Council survey
  */
 export class TownCouncilSurveyApiClient extends ApiClientChildren {
+  surveyresults: TownCouncilSurveyResultsApiClient
+
   constructor(props: ApiClientChildrenProps) {
     super(props)
+    this.surveyresults = new TownCouncilSurveyResultsApiClient(props)
   }
 
   /**
@@ -57,4 +61,8 @@ export class TownCouncilSurveyApiClient extends ApiClientChildren {
       }
     }
   }
+
+  /**
+   * Gets survey results by survey ID
+   */
 }

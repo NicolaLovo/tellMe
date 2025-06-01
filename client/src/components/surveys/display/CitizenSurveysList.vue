@@ -39,6 +39,7 @@ const fetchSurveys = async () => {
 
 onMounted(fetchSurveys)
 </script>
+
 <template>
   <div class="survey-list-page">
     <div class="survey-list">
