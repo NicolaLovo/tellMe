@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { QuizAnswerModel } from '../../../../database/quiz/QuizAnswerSchema';
+import { QuizModel } from '../../../../database/quiz/QuizSchema';
 import { TmResponse } from '../../../../types/common/utils/TmResponse';
+import { QuizQuestion } from '../../../../types/quiz/QuizQuestion';
 import { QuizResults } from '../../../../types/quiz/QuizResults';
 
 type ResBody = TmResponse<{
@@ -17,6 +19,31 @@ export const getQuizResultsController = async (
   try {
     const { quizId } = req.params;
 
+    const quizFindRes = await QuizModel.find({
+      _id: quizId,
+    });
+
+    const quiz = quizFindRes[0];
+
+    if (!quiz) {
+      res.status(404).json({
+        status: 'error',
+        data: {
+          message: 'Quiz not found',
+        },
+      });
+      return;
+    }
+
+    /**
+     * Convert quiz questions to a map for easy access.
+     */
+    const questionsMap: Record<string, QuizQuestion> = {};
+
+    for (const question of quiz.questions) {
+      questionsMap[question.id] = question;
+    }
+
     // Fetch only completed answers for this quiz
     const completedAnswers = await QuizAnswerModel.find({
       '_id.quizId': quizId,
@@ -27,6 +54,7 @@ export const getQuizResultsController = async (
       string,
       {
         type: 'rating';
+        question: string;
         optionVotes: Record<'1' | '2' | '3' | '4' | '5', number>;
       }
     > = {};
@@ -35,10 +63,17 @@ export const getQuizResultsController = async (
     for (const answerDoc of completedAnswers) {
       for (const answer of answerDoc.answers || []) {
         const { questionId, optionId, type } = answer;
+        const question = questionsMap[questionId];
+
+        if (!question) {
+          console.warn(`Question with ID ${questionId} not found in quiz.`);
+          continue;
+        }
 
         if (!resultsMap[questionId]) {
           resultsMap[questionId] = {
             type,
+            question: question.question,
             optionVotes: {
               '1': 0,
               '2': 0,
@@ -56,17 +91,31 @@ export const getQuizResultsController = async (
     // Convert resultsMap to QuizResults format
     const results: QuizResults = {
       quizId,
-      results: Object.entries(resultsMap).map(
-        ([questionId, { type, optionVotes }]) => ({
-          questionId,
-          type,
-          options: (['1', '2', '3', '4', '5'] as const).map((opt) => ({
-            optionId: opt,
-            votes: optionVotes[opt],
-          })),
-        }),
-      ),
+      results: [],
     };
+
+    for (const [questionId, result] of Object.entries(resultsMap)) {
+      const questionResult: QuizResults['results'][number] = {
+        questionId,
+        question: result.question,
+        type: result.type,
+        options: [],
+      };
+
+      // iterate over the option votes and create options array
+      for (const [optionId, votes] of Object.entries(result.optionVotes)) {
+        questionResult.options.push({
+          optionId: optionId as '1' | '2' | '3' | '4' | '5',
+          votes,
+        });
+      }
+
+      // questionResult.options.sort((a, b) => {
+      //   return parseInt(a.optionId) - parseInt(b.optionId);
+      // });
+
+      results.results.push(questionResult);
+    }
 
     res.status(200).json({
       status: 'success',
