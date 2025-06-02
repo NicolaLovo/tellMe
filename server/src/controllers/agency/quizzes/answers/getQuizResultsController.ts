@@ -91,6 +91,8 @@ export const getQuizResultsController = async (
     // Convert resultsMap to QuizResults format
     const results: QuizResults = {
       quizId,
+      agencyId: quiz.agencyId,
+      title: quiz.title,
       results: [],
     };
 

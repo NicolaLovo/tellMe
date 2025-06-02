@@ -2,19 +2,21 @@
  * Type representing aggregated survey results.
  */
 export type QuizResults = {
-  quizId: string;
+  quizId: string
+  agencyId: string
+  title: string
   results: {
-    questionId: string;
+    questionId: string
     /**
      * Text of the question.
      */
-    question: string;
+    question: string
 
-    type: 'rating';
+    type: 'rating'
 
     options: {
-      optionId: '1' | '2' | '3' | '4' | '5';
-      votes: number;
-    }[];
-  }[];
-};
+      optionId: '1' | '2' | '3' | '4' | '5'
+      votes: number
+    }[]
+  }[]
+}

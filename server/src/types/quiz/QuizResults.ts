@@ -3,6 +3,8 @@
  */
 export type QuizResults = {
   quizId: string;
+  agencyId: string;
+  title: string;
   results: {
     questionId: string;
     /**
