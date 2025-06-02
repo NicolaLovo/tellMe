@@ -19,4 +19,5 @@ const props = defineProps<{
 .no-underline {
   text-decoration: none;
 }
+
 </style>
