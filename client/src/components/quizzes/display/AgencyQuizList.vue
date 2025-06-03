@@ -15,7 +15,7 @@ const toast = useToast()
 const userStore = useUserStore()
 const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
 
-const fetchSurveys = async () => {
+const fetchQuizzes = async () => {
   try {
     const response = await apiClient.agencies.agency.quizzes.list(
       {
@@ -36,7 +36,7 @@ const fetchSurveys = async () => {
   }
 }
 
-onMounted(fetchSurveys)
+onMounted(fetchQuizzes)
 </script>
 
 <template>
