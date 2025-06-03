@@ -8,7 +8,7 @@ import Card from 'primevue/card'
   <div class="user-container">
     <Card class="card-content text-center shadow-4">
       <template #title>
-        <h1>Benvenuto</h1>
+        <h1>Accedi come ente</h1>
       </template>
 
       <template #content>

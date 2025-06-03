@@ -95,7 +95,8 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
       "
     >
       <template #title>
-        <h1>Benvenuto nella Home Page</h1>
+        <h1>Benvenuto</h1>
+        <h3>Accedi prima di continuare</h3>
       </template>
       <template #content>
         <div class="button-group">
@@ -115,6 +116,7 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
 </template>
 
 <style scoped>
+
 .home-container {
   min-height: 100vh;
   display: flex;
@@ -123,7 +125,6 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
   position: relative;
   overflow: hidden;
   background: linear-gradient(to top, #f8f4fa, #ffffff);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 1rem;
   z-index: 0;
 }

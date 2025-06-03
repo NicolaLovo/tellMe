@@ -116,4 +116,5 @@ onMounted(fetchSurveys)
   </Card>
 </template>
 
-<style></style>
+<style>
+</style>
