@@ -6,6 +6,7 @@ import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChil
 
 /**
  * Api client for the Town Council survey
+ * api/v1/surveys/:surveyId
  */
 export class TownCouncilSurveyApiClient extends ApiClientChildren {
   constructor(props: ApiClientChildrenProps) {
