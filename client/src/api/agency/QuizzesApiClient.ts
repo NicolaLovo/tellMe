@@ -71,4 +71,59 @@ export class QuizzesApiClient extends ApiClientChildren {
       }
     }
   }
+
+  /**
+   * List the quizzes saved in the system
+   */
+  public async list(
+    queries: {
+      /**
+       * 0-based index of the first item in the current page.
+       *
+       * @default 0
+       */
+      pageIndex?: string
+      /**
+       * Number of items to include in the current page.
+       *
+       * @default 10
+       */
+      pageSize?: string
+    },
+    params: { agencyId: string }
+  ): Promise<
+    TmResponse<{
+      quizzes: Quiz[]
+      metadata: {
+        /**
+         * Total number of items that satisfy the query.
+         */
+        totalCount: number
+      }
+    }>
+  > {
+    try {
+      const baseUrl = `${API_URL}/api/v1/agencies/${params.agencyId}/quizzes`
+      const urlWithQueries = this.appendQueriesToUrl(baseUrl, queries)
+
+      type ReturnType = TmResponse<{
+        quizzes: Quiz[]
+        metadata: {
+          totalCount: number
+        }
+      }>
+
+      const response = await this.httpClient.get<ReturnType>(urlWithQueries)
+
+      return response ?? HTTP_TMRESPONSES.error
+    } catch (error) {
+      console.error('List quizzes error:', error)
+      return {
+        status: 'error',
+        data: {
+          message: 'Error in List quizzes request',
+        },
+      }
+    }
+  }
 }

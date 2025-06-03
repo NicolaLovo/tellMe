@@ -77,13 +77,13 @@ const registerWithEmailAndPassword = async () => {
 <template>
   <div class="register-container">
     <div class="content">
-      <h1 class="title">Registrazione Agenzia</h1>
+      <h1 class="title">Registrazione Ente</h1>
       <p class="subtitle">Crea il tuo account per iniziare.</p>
 
       <form @submit.prevent="registerWithEmailAndPassword">
         <input type="email" placeholder="Email" v-model="email" class="input" />
         <input type="password" placeholder="Password" v-model="password" class="input" />
-        <button type="submit" class="btn">Registrati</button>
+        <button type="submit" class="btn">Registra ente</button>
       </form>
 
       <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
