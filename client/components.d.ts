@@ -15,8 +15,8 @@ declare module 'vue' {
     CitizenSurveysList: typeof import('./src/components/surveys/display/CitizenSurveysList.vue')['default']
     CloseSurveyButton: typeof import('./src/components/surveys/buttons/CloseSurveyButton.vue')['default']
     CompileSurveyButton: typeof import('./src/components/surveys/buttons/CompileSurveyButton.vue')['default']
-    DataTable: typeof import('primevue/datatable')['default']
     Divider: typeof import('primevue/divider')['default']
+    GetSurveyResultsButton: typeof import('./src/components/surveys/buttons/GetSurveyResultsButton.vue')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']
     InputText: typeof import('primevue/inputtext')['default']
     LoginCitizenWithGoogleButton: typeof import('./src/components/auth/citizen/LoginCitizenWithGoogleButton.vue')['default']
@@ -33,6 +33,7 @@ declare module 'vue' {
     SurveyCreateForm: typeof import('./src/components/surveys/forms/SurveyCreateForm.vue')['default']
     SurveyQuestionForm: typeof import('./src/components/surveys/forms/SurveyQuestionForm.vue')['default']
     Tag: typeof import('primevue/tag')['default']
+    TownCouncilSurveyResultTable: typeof import('./src/components/surveys/display/TownCouncilSurveyResultTable.vue')['default']
     TownCouncilSurveysList: typeof import('./src/components/surveys/display/TownCouncilSurveysList.vue')['default']
   }
 }
