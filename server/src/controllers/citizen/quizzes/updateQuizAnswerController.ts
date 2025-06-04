@@ -11,7 +11,7 @@ type ResBody = TmResponse<{
   quizAnswerId: string;
 }>;
 
-export const updateSurveyController = async (
+export const updateQuizAnswerController = async (
   req: Request<{ quizAnswerId: string }, ResBody, ReqBody>,
   res: Response<ResBody>,
 ): Promise<void> => {
