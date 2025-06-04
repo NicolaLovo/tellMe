@@ -16,7 +16,7 @@ const canAnswer = ref(false)
 
 const checkIfAlreadyAnswered = async () => {
   try {
-    const response = await apiClient.citizen.surveys.surveyanswer.read({
+    const response = await apiClient.citizens.citizen.surveys.surveyanswer.read({
       uid: userStore.user?.uid as string,
       surveyId: props.survey._id,
     })
