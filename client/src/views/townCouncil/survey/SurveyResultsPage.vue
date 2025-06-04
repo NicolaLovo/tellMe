@@ -8,7 +8,6 @@ const surveyId = route.params.surveyId as string
 
 <template>
   <div class="survey-results-page">
-    <div>{{ surveyId }}</div>
     <TownCouncilSurveyResultTable :surveyId="surveyId" />
   </div>
 </template>
