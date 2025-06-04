@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import SurveyCitizenView from '@/components/surveys/visualiseSurvey/SurveyCitizenView.vue'
+import { Survey } from '@/types/survey/Survey'
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { Survey } from '@/types/survey/Survey'
 
 const route = useRoute()
 const surveyId = route.params.surveyId as string

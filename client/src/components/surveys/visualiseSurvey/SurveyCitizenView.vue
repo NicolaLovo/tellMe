@@ -2,22 +2,9 @@
 import { useUserStore } from '@/stores/useUserStore'
 import axios from 'axios'
 import { computed, ref } from 'vue'
+import type { Survey } from '@/types/survey/Survey'
 
-const props = defineProps<{
-  survey: {
-    _id: string
-    title: string
-    status: string
-    creationDate: string
-    questions: {
-      id: string
-      question: string
-      type: string
-      options: { id: string; text: string }[]
-    }[]
-    rewardPoints: number
-  }
-}>()
+const props = defineProps<{ survey: Survey }>()
 
 const answers = ref<Record<string, string>>({})
 const submitting = ref(false)
@@ -32,21 +19,26 @@ function isSelected(questionId: string, optionId: string) {
   return answers.value[questionId] === optionId
 }
 
-const allAnswered = computed(() => props.survey.questions.every((q) => answers.value[q.id]))
+const allAnswered = computed(() => props.survey.questions.every(q => answers.value[q.id]))
 
 const userStore = useUserStore()
 
 async function submit() {
+  submitting.value = true
+  submissionSuccess.value = false
+  submissionError.value = ''
+
   const token = userStore.user?.token
   const uid = userStore.user?.uid
 
   if (!token || !uid) {
-    alert('Utente non autenticato.')
+    submissionError.value = 'Utente non autenticato.'
+    submitting.value = false
     return
   }
 
   const answersArray = Object.entries(answers.value).map(([questionId, optionId]) => {
-    const question = props.survey.questions.find((q) => q.id === questionId)
+    const question = props.survey.questions.find(q => q.id === questionId)
     return {
       questionId,
       optionId,
@@ -74,13 +66,16 @@ async function submit() {
         },
       },
     )
-    alert('Risposte inviate con successo.')
+    submissionSuccess.value = true
   } catch (err: any) {
+    submissionError.value = err.response?.data?.data?.message || 'Errore di invio'
     console.error('Errore invio:', err)
-    alert('Errore: ' + (err.response?.data?.data?.message || 'non autorizzato'))
+  } finally {
+    submitting.value = false
   }
 }
 </script>
+
 
 <template>
   <div class="survey-viewer">
