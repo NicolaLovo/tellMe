@@ -5,6 +5,7 @@ import { Quiz } from '@/types/quiz/Quiz'
 import Card from 'primevue/card'
 import { onMounted, ref } from 'vue'
 import { useToast } from 'vue-toastification'
+import EnableQuizCompilationButton from '../buttons/EnableQuizCompilationButton.vue'
 
 const pageIndex = ref(0)
 const pageSize = ref(10)
@@ -57,6 +58,9 @@ onMounted(fetchQuizzes)
             <tbody>
               <tr v-for="quiz in quizzes" :key="quiz._id">
                 <td class="quiz-td">{{ quiz.title }}</td>
+                <td>
+                  <EnableQuizCompilationButton :quizId="quiz._id" />
+                </td>
               </tr>
             </tbody>
           </table>
