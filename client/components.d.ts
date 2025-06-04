@@ -9,6 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AgencyQuizList: typeof import('./src/components/quizzes/display/AgencyQuizList.vue')['default']
+    AgencyQuizResultTable: typeof import('./src/components/quizzes/display/AgencyQuizResultTable.vue')['default']
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
     CitizenQuizzesList: typeof import('./src/components/quizzes/display/citizen/CitizenQuizzesList.vue')['default']

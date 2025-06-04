@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { SurveyModel } from '../../../database/survey/SurveySchema';
 import { TmResponse } from '../../../types/common/utils/TmResponse';
 import { Survey } from '../../../types/survey/Survey';
+import { SurveyAnswerModel } from '../../../database/survey/SurveyAnswerSchema';
 
 interface ReqQuery {
   /**
@@ -16,6 +17,7 @@ interface ReqQuery {
    * @default 10
    */
   pageSize?: string;
+  uid: string;
 }
 
 type ResBody = TmResponse<{
@@ -30,7 +32,7 @@ export const listCitizenSurveysController = async (
   res: Response<ResBody>,
 ): Promise<void> => {
   try {
-    const { pageIndex = '0', pageSize = '10' } = req.query;
+    const { pageIndex = '0', pageSize = '10', uid } = req.query;
 
     const page = parseInt(pageIndex, 10);
     const size = parseInt(pageSize, 10);
@@ -45,7 +47,20 @@ export const listCitizenSurveysController = async (
       return;
     }
 
-    const filter = { status: 'published' };
+    // Get all survey IDs already answered by the user
+    const answeredSurveyIds = await SurveyAnswerModel.find(
+      { uid },
+      'surveyId',
+    ).exec();
+    const answeredIdsSet = new Set(
+      answeredSurveyIds.map((a) => a._id.surveyId.toString()),
+    );
+
+    // Get all published surveys NOT in answered list
+    const filter = {
+      status: 'published',
+      _id: { $nin: Array.from(answeredIdsSet) },
+    };
 
     const surveys = await SurveyModel.find(filter)
       .sort({ creationDate: -1 })

@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { APP_ROUTES } from '@/constants/APP_ROUTES';
+import router from '@/router';
 import { useUserStore } from '@/stores/useUserStore'
+import type { Survey } from '@/types/survey/Survey'
 import axios from 'axios'
 import { computed, ref } from 'vue'
-import type { Survey } from '@/types/survey/Survey'
 
 const props = defineProps<{ survey: Survey }>()
 
@@ -10,6 +12,10 @@ const answers = ref<Record<string, string>>({})
 const submitting = ref(false)
 const submissionSuccess = ref(false)
 const submissionError = ref('')
+
+const goHome = () => {
+  router.push(APP_ROUTES.home)
+}
 
 function selectOption(questionId: string, optionId: string) {
   answers.value[questionId] = optionId
@@ -19,7 +25,7 @@ function isSelected(questionId: string, optionId: string) {
   return answers.value[questionId] === optionId
 }
 
-const allAnswered = computed(() => props.survey.questions.every(q => answers.value[q.id]))
+const allAnswered = computed(() => props.survey.questions.every((q) => answers.value[q.id]))
 
 const userStore = useUserStore()
 
@@ -38,7 +44,7 @@ async function submit() {
   }
 
   const answersArray = Object.entries(answers.value).map(([questionId, optionId]) => {
-    const question = props.survey.questions.find(q => q.id === questionId)
+    const question = props.survey.questions.find((q) => q.id === questionId)
     return {
       questionId,
       optionId,
@@ -76,7 +82,6 @@ async function submit() {
 }
 </script>
 
-
 <template>
   <div class="survey-viewer">
     <header class="app-header">
@@ -106,7 +111,8 @@ async function submit() {
       {{ submitting ? 'Invio...' : 'Invia Risposte' }}
     </button>
 
-    <p v-if="submissionSuccess" class="success-msg">Sondaggio inviato con successo! 🎉</p>
+    <h3 v-if="submissionSuccess" class="success-msg">Sondaggio inviato con successo! 🎉</h3>
+    <Button v-if="submissionSuccess" @click="goHome" label="Torna alla Home"/>
     <p v-if="submissionError" class="error-msg">{{ submissionError }}</p>
   </div>
 </template>
@@ -166,7 +172,7 @@ async function submit() {
 }
 
 .success-msg {
-  color: green;
+
   margin-top: 1rem;
 }
 
