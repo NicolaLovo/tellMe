@@ -105,8 +105,8 @@ const onSubmit = async () => {
 
 .p-field {
   display: block;
-  /* width: 100%;
-  background-color: red; */
+  width: 100%;
+ 
 }
 
 .center {
