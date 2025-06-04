@@ -39,9 +39,8 @@ export const updateSurveyController = async (
 
     /**
      * Allow update only of the following fields:
-     * - title
      * - status
-     * - questions
+     * - answers
      */
     if (req.body.quizAnswer.status) {
       updateBody.status = req.body.quizAnswer.status;
