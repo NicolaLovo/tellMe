@@ -155,7 +155,6 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
 
 h1 {
   margin-bottom: 1rem;
-  font-size: 2rem;
   text-align: center;
 }
 </style>
