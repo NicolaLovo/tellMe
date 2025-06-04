@@ -21,8 +21,6 @@ const fetchQuiz = async () => {
       agencyId: props.quizAnswer.agencyId,
     })
 
-    console.log(response)
-
     if (response.status === 'success') {
       quiz.value = response.data.quiz
     } else {
