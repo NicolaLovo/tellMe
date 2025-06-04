@@ -51,7 +51,7 @@ onMounted(fetchSurveys)
 
 <template>
   <Card>
-    <template #title> Lista dei sondaggi </template>
+    <template #title> <h3>Lista dei sondaggi</h3></template>
     <template #content>
       <div>
         <DataTable
@@ -117,4 +117,5 @@ onMounted(fetchSurveys)
 </template>
 
 <style>
+
 </style>

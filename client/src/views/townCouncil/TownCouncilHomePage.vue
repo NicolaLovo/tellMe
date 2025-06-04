@@ -6,7 +6,7 @@ import Button from 'primevue/button'
 
 <template>
   <div class="container">
-    <h1>Benvenuto comune!</h1>
+    <h2>Benvenuto comune</h2>
     <div class="buttons-container">
       <div class="button-div">
         <Button

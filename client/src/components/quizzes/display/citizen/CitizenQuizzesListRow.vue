@@ -35,8 +35,12 @@ onMounted(fetchQuiz)
 </script>
 
 <template>
-  <td>{{ quiz?.title }}</td>
+  <td class="quiz-td">{{ quiz?.title }}</td>
   <td></td>
 </template>
 
-<style scoped></style>
+<style scoped>
+.quiz-td {
+  padding: 12px 16px;
+}
+</style>

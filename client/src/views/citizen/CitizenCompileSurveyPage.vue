@@ -28,7 +28,7 @@ onMounted(async () => {
 <template>
   <div class="citizen-compile-survey-page">
     <div class="header">
-      <h2>Compila Sondaggio</h2>
+      <h2>Compila sondaggio</h2>
     </div>
 
     <div class="content">

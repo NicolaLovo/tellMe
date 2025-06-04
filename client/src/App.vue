@@ -28,7 +28,7 @@ const menuItems = computed(() => {
   // Show "Change Password" only if user is a citizen or agency (not townCouncil)
   if (roles.includes('citizen') || roles.includes('agency')) {
     items.push({
-      label: 'Change Password',
+      label: 'Cambia password',
       icon: 'pi pi-key',
       command: () => {
         if (roles.includes('citizen')) {
@@ -42,7 +42,7 @@ const menuItems = computed(() => {
 
   // Always show logout
   items.push({
-    label: 'Logout',
+    label: 'Esci',
     icon: 'pi pi-sign-out',
     command: logout,
   })

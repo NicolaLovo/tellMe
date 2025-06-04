@@ -105,10 +105,10 @@ async function submit() {
 
     <button
       class="submit-btn"
-      :disabled="!allAnswered || survey.status !== 'published' || submitting"
+      :disabled="!allAnswered || survey.status !== 'published' || submitting || submissionSuccess"
       @click="submit"
     >
-      {{ submitting ? 'Invio...' : 'Invia Risposte' }}
+      {{ submitting ? 'Invio...' : 'Invia risposte' }}
     </button>
 
     <h3 v-if="submissionSuccess" class="success-msg">Sondaggio inviato con successo! 🎉</h3>

@@ -43,7 +43,7 @@ onMounted(fetchQuizzes)
     <div class="quiz-list">
       <Card>
         <template #title>
-          <h3>Lista questionari</h3>
+          <h3>Questionari disponibili</h3>
         </template>
         <template #content>
           <table v-if="quizAnswers.length" class="styled-table">
