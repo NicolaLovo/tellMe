@@ -1,9 +1,7 @@
 import { Request, Response } from 'express';
-import { SurveyModel } from '../../../database/survey/SurveySchema';
-import { TmResponse } from '../../../types/common/utils/TmResponse';
-import { Survey } from '../../../types/survey/Survey';
-import { QuizAnswer } from '../../../types/quiz/answer/QuizAnswer';
 import { QuizAnswerModel } from '../../../database/quiz/QuizAnswerSchema';
+import { TmResponse } from '../../../types/common/utils/TmResponse';
+import { QuizAnswer } from '../../../types/quiz/answer/QuizAnswer';
 
 interface ReqBody {
   quizAnswer: Partial<QuizAnswer>;
@@ -35,7 +33,7 @@ export const updateSurveyController = async (
       return;
     }
 
-    const updateBody: Partial<QuizAnswer> = {};
+    let updateBody: Partial<QuizAnswer> = {};
 
     /**
      * Allow update only of the following fields:
@@ -45,10 +43,16 @@ export const updateSurveyController = async (
     if (req.body.quizAnswer.status) {
       updateBody.status = req.body.quizAnswer.status;
     }
-    if (req.body.quizAnswer.answers) {
-      updateBody.answers = req.body.quizAnswer.answers;
+    if (
+      req.body.quizAnswer.status === 'completed' &&
+      req.body.quizAnswer.answers
+    ) {
+      updateBody = {
+        ...updateBody,
+        status: 'completed',
+        answers: req.body.quizAnswer.answers,
+      };
     }
-   
 
     /**
      * Update the quizAnswer with the provided data
