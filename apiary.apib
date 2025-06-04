@@ -395,6 +395,36 @@ Returns the ID of the newly created quiz if successful.
         + data (object)
             + message: `Internal server error` (string)
 
+## Quiz [/api/v1/quizzes/{quizId}]
+
+Fetch a quiz by its ID.
+
++ Parameters
+    + quizId: `64b72b2efc13ae1b39000123` (string) - Unique identifier of the quiz
+
+### Read Quiz [GET]
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + quiz (Quiz)
+
++ Response 404 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Quiz not found` (string)
+
++ Response 500 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
+
 
 ## Quiz answers [/api/v1/agencies/{agencyId}/quizzes/{quizId}/answers/{uid}]
 
