@@ -57,7 +57,7 @@ export const readCitizenByEmailController = async (
     res.status(200).json({
       status: 'success',
       data: {
-        uid: citizen.id.toString(),
+        uid: citizen.uid.toString(),
       },
     });
   } catch (error) {

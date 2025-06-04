@@ -29,14 +29,13 @@ export const readQuizController = async (
       return;
     }
 
+    quiz.toJSON();
+
     // Return the quiz ID in the response
     res.status(200).json({
       status: 'success',
       data: {
-        quiz: {
-          ...quiz,
-          _id: quiz.id.toString(), // Convert ObjectId to string
-        },
+        quiz: quiz.toJSON() as Quiz,
       },
     });
   } catch (error) {
