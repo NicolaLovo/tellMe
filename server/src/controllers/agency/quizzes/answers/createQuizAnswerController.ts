@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { QuizAnswerModel } from '../../../../database/quiz/QuizAnswerSchema';
 import { TmResponse } from '../../../../types/common/utils/TmResponse';
-import { QuizAnswer } from '../../../../../../client/src/types/quiz/answer/QuizQuestionAnswer';
+import { QuizAnswer } from '../../../../types/quiz/answer/QuizAnswer';
 
 interface ReqBody {
   quizAnswer: QuizAnswer;
@@ -32,10 +32,6 @@ export const createQuizAnswerController = async (
     // Save the quiz answer to the database
     const newQuiz = await QuizAnswerModel.create({
       ...quizAnswer,
-      _id: {
-        quizId: req.params.quizId,
-        uid: req.params.uid,
-      },
       creationDate: new Date(),
     });
 
@@ -43,7 +39,7 @@ export const createQuizAnswerController = async (
     res.status(200).json({
       status: 'success',
       data: {
-        answerId: newQuiz._id,
+        answerId: newQuiz.id.toString(),
       },
     });
   } catch (error) {

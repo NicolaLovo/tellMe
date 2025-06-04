@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import { QuizAnswerModel } from '../../../database/quiz/QuizAnswerSchema';
 import { TmResponse } from '../../../types/common/utils/TmResponse';
-import { Quiz } from '../../../types/quiz/Quiz';
-import { QuizAnswer } from '../../../../../client/src/types/quiz/answer/QuizQuestionAnswer';
+import { QuizAnswer } from '../../../types/quiz/answer/QuizAnswer';
 
 interface ReqParams {
   /**

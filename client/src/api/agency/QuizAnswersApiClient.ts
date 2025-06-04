@@ -1,7 +1,7 @@
 import { API_URL } from '@/constants/API_URL'
 import { HTTP_TMRESPONSES } from '@/constants/HTTP_TMRESPONSES'
 import { TmResponse } from '@/types/common/utils/TmResponse'
-import { QuizAnswer } from '../../../../server/src/database/quiz/QuizQuestionAnswer'
+import { QuizAnswer } from '@/types/quiz/answer/QuizAnswer'
 import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
 
 /**
