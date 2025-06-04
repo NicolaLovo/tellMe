@@ -31,9 +31,9 @@ function goToChangePassword() {
         </div>
       </template>
     </Card>
-    <div class="surveys-content">
-      <CitizenSurveysList />
-      <CitizenQuizzesList />
+    <div class="card-content">
+      <div class="content-list"><CitizenSurveysList /></div>
+      <div class="content-list"><CitizenQuizzesList /></div>
     </div>
   </div>
 </template>
@@ -46,17 +46,17 @@ function goToChangePassword() {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px;
 }
+
 
 .card-content {
-  width: 90%;
-  max-width: 800px;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-.surveys-content {
-  width: 90%;
-  max-width: 800px;
+.content-list {
+  padding: 20px;
 }
 </style>
