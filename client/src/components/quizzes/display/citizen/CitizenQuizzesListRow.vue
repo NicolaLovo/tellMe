@@ -14,7 +14,7 @@ const quiz = ref<Quiz | null>(null)
 const userStore = useUserStore()
 const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
 
-const fetchQuizzes = async () => {
+const fetchQuiz = async () => {
   try {
     const response = await apiClient.agencies.agency.quizzes.quiz.read({
       quizId: props.quizAnswer.quizId,
@@ -31,12 +31,12 @@ const fetchQuizzes = async () => {
   }
 }
 
-onMounted(fetchQuizzes)
+onMounted(fetchQuiz)
 </script>
 
 <template>
-  <td class="quiz-td">{{ quiz?.title }}</td>
-  <td class="quiz-td"></td>
+  <td>{{ quiz?.title }}</td>
+  <td></td>
 </template>
 
 <style scoped></style>

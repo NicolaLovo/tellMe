@@ -1,3 +1,4 @@
+import { API_URL } from '@/constants/API_URL'
 import { HTTP_TMRESPONSES } from '@/constants/HTTP_TMRESPONSES'
 import { TmResponse } from '@/types/common/utils/TmResponse'
 import { Quiz } from '@/types/quiz/Quiz'
@@ -30,7 +31,7 @@ export class QuizApiClient extends ApiClientChildren {
         TmResponse<{
           quiz: Quiz
         }>
-      >(`/api/v1/agencies/${params.agencyId}/quizzes/${params.quizId}`)
+      >(`${API_URL}/api/v1/agencies/${params.agencyId}/quizzes/${params.quizId}`)
 
       return response ?? HTTP_TMRESPONSES.error
     } catch (error) {
