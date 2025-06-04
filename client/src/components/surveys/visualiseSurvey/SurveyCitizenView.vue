@@ -103,13 +103,13 @@ async function submit() {
       </div>
     </div>
 
-    <button
+    <Button
       class="submit-btn"
       :disabled="!allAnswered || survey.status !== 'published' || submitting || submissionSuccess"
       @click="submit"
     >
       {{ submitting ? 'Invio...' : 'Invia risposte' }}
-    </button>
+    </Button>
 
     <h3 v-if="submissionSuccess" class="success-msg">Sondaggio inviato con successo! 🎉</h3>
     <Button v-if="submissionSuccess" @click="goHome" label="Torna alla Home"/>
@@ -147,6 +147,7 @@ async function submit() {
   cursor: pointer;
   border-radius: 8px;
   transition: background 0.2s;
+  font-size: 1rem;
 }
 
 .option-btn.selected {

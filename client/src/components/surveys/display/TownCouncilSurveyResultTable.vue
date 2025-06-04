@@ -80,7 +80,9 @@ onMounted(fetchSurveyResults)
     </h1>
 
     <div v-if="surveyResults && surveyResults.results" class="users-div">
-      <Tag class="users-tag">{{ getTotalResponses() }} utenti hanno risposto al sondaggio</Tag>
+      <Tag v-if="getTotalResponses() > 1" class="users-tag">{{ getTotalResponses() }} utenti hanno risposto al sondaggio</Tag>
+      <Tag  v-if="getTotalResponses() == 1" class="users-tag">1 utente ha risposto al sondaggio</Tag>
+      <Tag v-if="getTotalResponses() == 0" class="users-tag">Nessun utente ha risposto al sondaggio</Tag>
     </div>
 
     <!-- <div>
@@ -135,8 +137,9 @@ onMounted(fetchSurveyResults)
 }
 
 .users-tag {
-  font-size: 1.2rem;
-  font-weight: bold;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  background-color: #5c6bc0;
 }
 
 .option-div {
