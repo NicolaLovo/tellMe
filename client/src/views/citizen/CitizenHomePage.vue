@@ -15,7 +15,7 @@ function goToChangePassword() {
 
 <template>
   <div class="user-container">
-        <h1>Benvenuto {{ userStore.user?.email }}!</h1>
+        <h2>Benvenuto {{ userStore.user?.email }}!</h2>
         <div class="button-group">
           <Button
             label="Cambia Password"
@@ -34,14 +34,9 @@ function goToChangePassword() {
 <style scoped>
 .user-container {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 10px;
   padding: 20px;
 }
-
 
 .card-content {
   max-width: 100%;
@@ -50,6 +45,7 @@ function goToChangePassword() {
 }
 
 .content-list {
+  width: 100%;
   padding: 20px;
 }
 </style>

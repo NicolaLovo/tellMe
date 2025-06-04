@@ -5,14 +5,12 @@ import Card from 'primevue/card'
 </script>
 
 <template>
-  <div class="user-container">
-    <Card class="card-content text-center shadow-4">
+  <div class="agency-container">
+    <Card>
       <template #title>
         <h1>Accedi come ente</h1>
       </template>
-
       <template #content>
-        <p>Accedi per continuare.</p>
         <div class="button-group">
           <router-link :to="APP_ROUTES.agency.login" class="btn-link">
             <Button label="Login" class="btn" style="width: 100%" />
@@ -24,7 +22,7 @@ import Card from 'primevue/card'
 </template>
 
 <style scoped>
-.user-container {
+.agency-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;

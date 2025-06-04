@@ -51,9 +51,8 @@ onMounted(fetchSurveys)
           <table v-if="surveys.length" class="styled-table">
             <thead>
               <tr>
-                <th>Titolo</th>
-                <th>Stato</th>
-                <th>Compila</th>
+                <th><h4>Titolo</h4></th>
+                <th><h4>Compila</h4></th>
               </tr>
             </thead>
             <tbody>

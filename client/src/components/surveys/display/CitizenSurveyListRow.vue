@@ -33,9 +33,6 @@ onMounted(checkIfAlreadyAnswered)
 <template>
   <td class="survey-td">{{ survey.title }}</td>
   <td class="survey-td">
-    <div>{{ survey.status }}</div>
-  </td>
-  <td class="survey-td">
     <CompileSurveyButton v-if="canAnswer" :surveyId="survey._id" />
   </td>
 </template>
