@@ -54,7 +54,7 @@ const handleSubmit = async () => {
     return
   }
 
-  const createRes = await apiClient.agencies.agency.quizzes.answers.create(
+  const createRes = await apiClient.agencies.agency.quizzes.quiz.answers.create(
     {
       agencyId: userStore.user?.uid as string,
       quizId: props.quizId,

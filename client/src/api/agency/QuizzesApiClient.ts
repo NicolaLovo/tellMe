@@ -4,22 +4,22 @@ import { TmResponse } from '@/types/common/utils/TmResponse'
 import { Quiz } from '@/types/quiz/Quiz'
 import { QuizResults } from '@/types/quiz/QuizResults'
 import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
-import { QuizAnswersApiClient } from './QuizAnswersApiClient'
+import { QuizApiClient } from './QuizApiClient'
 
 /**
  * API client for managing quizzes within an agency
  * /api/v1/agencies/:agencyId/quizzes
  */
 export class QuizzesApiClient extends ApiClientChildren {
-  private quizAnswersApiClient: QuizAnswersApiClient
+  private quizApiClient: QuizApiClient
 
   constructor(props: ApiClientChildrenProps) {
     super(props)
-    this.quizAnswersApiClient = new QuizAnswersApiClient(props)
+    this.quizApiClient = new QuizApiClient(props)
   }
 
-  public get answers() {
-    return this.quizAnswersApiClient
+  public get quiz() {
+    return this.quizApiClient
   }
 
   /**
@@ -90,7 +90,7 @@ export class QuizzesApiClient extends ApiClientChildren {
        */
       pageSize?: string
     },
-    params: { agencyId: string }
+    params: { agencyId: string },
   ): Promise<
     TmResponse<{
       quizzes: Quiz[]
