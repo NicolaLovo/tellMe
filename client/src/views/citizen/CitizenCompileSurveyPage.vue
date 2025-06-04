@@ -3,11 +3,12 @@ import SurveyCitizenView from '@/components/surveys/visualiseSurvey/SurveyCitize
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { Survey } from '@/types/survey/Survey'
 
 const route = useRoute()
 const surveyId = route.params.surveyId as string
 
-const survey = ref(null)
+const survey = ref<Survey | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 
@@ -33,7 +34,7 @@ onMounted(async () => {
     <div class="content">
       <p v-if="loading" class="p-text-secondary">Caricamento...</p>
       <p v-else-if="error" class="p-text-danger">{{ error }}</p>
-      <SurveyCitizenView v-else :survey="survey" />
+      <SurveyCitizenView v-if="!loading && !error && survey" :survey="survey!" />
     </div>
   </div>
 </template>
