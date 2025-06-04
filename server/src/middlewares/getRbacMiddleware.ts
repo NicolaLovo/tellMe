@@ -77,7 +77,7 @@ export const getRbacMiddleware = ({
 
     const claims = decodeTokenClaims(token);
     if (!claims) {
-      res.status(401).end(UNAUTHORIZED_RESPONSE);
+      res.status(401).json(UNAUTHORIZED_RESPONSE);
       return;
     }
 
@@ -87,7 +87,7 @@ export const getRbacMiddleware = ({
       userRoles.includes(role),
     );
     if (!hasAllRequiredRoles) {
-      res.status(403).end({
+      res.status(403).json({
         status: 'error',
         data: {
           message: 'Forbidden',

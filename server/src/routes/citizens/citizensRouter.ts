@@ -5,6 +5,8 @@ import citizenRouter from './citizen/citizenRouter';
 
 const citizensRouter = Router();
 
+citizensRouter.get('', readCitizenByEmailController);
+
 citizensRouter.use(
   '',
   getRbacMiddleware({
@@ -12,7 +14,5 @@ citizensRouter.use(
   }),
   citizenRouter,
 );
-
-citizensRouter.get('', readCitizenByEmailController);
 
 export default citizensRouter;
