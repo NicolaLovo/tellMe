@@ -28,7 +28,6 @@ const registerWithToken = async (firebaseToken: string) => {
   }
 
   toast.success('Registrazione avvenuta con successo!')
-  userStore.login({ token: registerResponse.data.token })
   navigateAuthenticatedUserToHome({ user: userStore.user })
 }
 
