@@ -15,12 +15,7 @@ function goToChangePassword() {
 
 <template>
   <div class="user-container">
-    <Card class="card-content">
-      <template #title>
         <h1>Benvenuto {{ userStore.user?.email }}!</h1>
-      </template>
-
-      <template #content>
         <div class="button-group">
           <Button
             label="Cambia Password"
@@ -29,8 +24,6 @@ function goToChangePassword() {
             style="width: 100%"
           />
         </div>
-      </template>
-    </Card>
     <div class="card-content">
       <div class="content-list"><CitizenSurveysList /></div>
       <div class="content-list"><CitizenQuizzesList /></div>

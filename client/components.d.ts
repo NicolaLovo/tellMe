@@ -26,6 +26,7 @@ declare module 'vue' {
     LoginCitizenWithGoogleButton: typeof import('./src/components/auth/citizen/LoginCitizenWithGoogleButton.vue')['default']
     LoginTownCouncilWithPwdForm: typeof import('./src/components/auth/citizen/LoginTownCouncilWithPwdForm.vue')['default']
     LoginUserWithEmailAndPwdForm: typeof import('./src/components/auth/LoginUserWithEmailAndPwdForm.vue')['default']
+    Menu: typeof import('primevue/menu')['default']
     Password: typeof import('primevue/password')['default']
     PublishSurveyButton: typeof import('./src/components/surveys/buttons/PublishSurveyButton.vue')['default']
     QuizCitizenView: typeof import('./src/components/quizzes/visualiseQuiz/QuizCitizenView.vue')['default']
