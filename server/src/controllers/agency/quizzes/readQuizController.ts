@@ -35,7 +35,7 @@ export const readQuizController = async (
     res.status(200).json({
       status: 'success',
       data: {
-        quiz: quiz.toJSON() as Quiz,
+        quiz: quiz.toJSON() as unknown as Quiz,
       },
     });
   } catch (error) {
