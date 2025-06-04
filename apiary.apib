@@ -36,7 +36,7 @@ Authenticates a user using a Firebase ID token. On success, returns a custom tok
             + message: `Internal server error` (string)
             
 
-## Citizen [/api/v1/auth/citizens]
+## Citizen registration [/api/v1/auth/citizens]
 
 ### Register a new citizen user [POST]
 
@@ -66,7 +66,55 @@ Registers a citizen by verifying their Firebase token, validating their email, c
             + message: `Internal server error` (string)
             
 
-## Citizen Surveys [/api/v1/auth/citizens/{uid}/surveys{?pageIndex,pageSize}]
+
+# Group Citizens API
+
+## Citizens [/api/v1/citizens{?email}]
+
+Find a citizen user by their email address.  
+Returns the UID of the user if found and the user has the `citizen` role.
+
++ Parameters
+    + email: `alice@example.com` (optional, string) - Email address of the citizen to find
+
+### Find Citizen by Email [GET]
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + uid: `64a8f2d23903cd2f776ed98c` (string)
+
++ Response 400 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Email is required` (string)
+
++ Response 403 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `User is not a citizen` (string)
+
++ Response 404 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Citizen not found` (string)
+
++ Response 500 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
+
+## Citizen Surveys [/api/v1/citizens/{uid}/surveys{?pageIndex,pageSize}]
 
 ### List published surveys for a citizen [GET]
 
@@ -84,7 +132,6 @@ Returns a paginated list of surveys available to a citizen. Only surveys with `s
             + surveys (array[Survey]) - List of published surveys
             + metadata (object)
                 + totalCount: 25 (number) - Total number of published surveys
-
 + Body
 
     {
@@ -133,7 +180,7 @@ Returns a paginated list of surveys available to a citizen. Only surveys with `s
         + data (object)
             + message: `Internal server error` (string)
 
-## Survey Answers [/api/v1/auth/citizens/{uid}/surveys/{surveyId}/answer]
+## Survey Answers [/api/v1/citizens/{uid}/surveys/{surveyId}/answer]
 
 ### Get a citizen's survey answer [GET]
 
@@ -183,6 +230,8 @@ Retrieves the survey answer submitted by a specific citizen (`uid`) for a specif
         + data (object)
             + message: `Internal server error` (string)
 
+
+# Group Surveys API
 
 ## Surveys [/api/v1/surveys{?pageIndex,pageSize}]
 
@@ -306,6 +355,8 @@ Updates the survey with the provided data. Returns the updated survey ID on succ
         + status: `error` (string)
         + data (object)
             + message: `Internal server error` (string)
+
+# Group Quizzes API
 
 ## Quizzes [/api/v1/agencies/{agencyId}/quizzes]
 
