@@ -81,7 +81,7 @@ const toggleMenu = (event: MouseEvent) => {
       />
       <!-- <Button v-if="!!userStore.user" @click="logout" label="Logout" /> -->
       <Menu ref="menu" :model="menuItems" popup />
-      <Button v-if="!!userStore.user" icon="pi pi-bars" @click="toggleMenu" label="Account" />
+      <Button v-if="!!userStore.user" icon="pi pi-bars" @click="toggleMenu" class="menu-button"/>
     </div>
   </header>
   <Divider />
@@ -99,6 +99,18 @@ const toggleMenu = (event: MouseEvent) => {
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid #eaeaea; */
+}
+
+.menu-button{
+  background-color: transparent;
+  color: #4151b1;
+  border: none;
+  cursor: pointer;
+}
+.menu-button:hover, .menu-button:focus {
+  background-color: transparent !important;
+  border: none !important;
+  color: #9fa8da !important;
 }
 
 
