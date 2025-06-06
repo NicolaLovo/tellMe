@@ -1,6 +1,7 @@
 import { AgenciesApiClient } from './agency/AgenciesApiClient'
 import { AuthApiClient } from './AuthApiClient'
 import { CitizensApiClient } from './citizen/CitizensApiClient'
+import { PrizesApiClient } from './prizes/PrizesApiClient'
 import { TownCouncilApiClient } from './townCouncil/TownCouncilApiClient'
 
 interface ApiClientProps {
@@ -18,6 +19,7 @@ export class ApiClient {
   private townCouncilApiClient: TownCouncilApiClient
   private citizensApiClient: CitizensApiClient
   private agenciesApiClient: AgenciesApiClient
+  private prizesApiClient: PrizesApiClient
 
   constructor({ jwtToken }: ApiClientProps) {
     this.jwtToken = jwtToken || null
@@ -25,6 +27,7 @@ export class ApiClient {
     this.townCouncilApiClient = new TownCouncilApiClient({ jwtToken: this.jwtToken })
     this.citizensApiClient = new CitizensApiClient({ jwtToken: this.jwtToken })
     this.agenciesApiClient = new AgenciesApiClient({ jwtToken: this.jwtToken })
+    this.prizesApiClient = new PrizesApiClient({ jwtToken: this.jwtToken })
   }
 
   /**
@@ -53,5 +56,12 @@ export class ApiClient {
    */
   public get agencies() {
     return this.agenciesApiClient
+  }
+
+  /**
+   * Provides access to the API client for Prizes
+   */
+  public get prizes() {
+    return this.prizesApiClient
   }
 }
