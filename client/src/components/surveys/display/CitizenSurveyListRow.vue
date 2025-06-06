@@ -16,7 +16,7 @@ const canAnswer = ref(false)
 
 const checkIfAlreadyAnswered = async () => {
   try {
-    const response = await apiClient.citizen.surveys.surveyanswer.read({
+    const response = await apiClient.citizens.citizen.surveys.surveyanswer.read({
       uid: userStore.user?.uid as string,
       surveyId: props.survey._id,
     })
@@ -31,15 +31,14 @@ onMounted(checkIfAlreadyAnswered)
 </script>
 
 <template>
-  <tr>
-    <td>{{ survey.title }}</td>
-    <td>
-      <div>{{ survey.status }}</div>
-    </td>
-    <td>
-      <CompileSurveyButton v-if="canAnswer" :surveyId="survey._id" />
-    </td>
-  </tr>
+  <td class="survey-td">{{ survey.title }}</td>
+  <td class="survey-td">
+    <CompileSurveyButton v-if="canAnswer" :surveyId="survey._id" />
+  </td>
 </template>
 
-<style></style>
+<style>
+.survey-td {
+  padding: 12px 16px;
+}
+</style>

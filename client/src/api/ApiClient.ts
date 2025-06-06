@@ -1,6 +1,6 @@
 import { AgenciesApiClient } from './agency/AgenciesApiClient'
 import { AuthApiClient } from './AuthApiClient'
-import { CitizenApiClient } from './citizen/CitizenApiClient'
+import { CitizensApiClient } from './citizen/CitizensApiClient'
 import { TownCouncilApiClient } from './townCouncil/TownCouncilApiClient'
 
 interface ApiClientProps {
@@ -16,14 +16,14 @@ export class ApiClient {
 
   private authApiClient: AuthApiClient
   private townCouncilApiClient: TownCouncilApiClient
-  private citizenApiClient: CitizenApiClient
+  private citizensApiClient: CitizensApiClient
   private agenciesApiClient: AgenciesApiClient
 
   constructor({ jwtToken }: ApiClientProps) {
     this.jwtToken = jwtToken || null
     this.authApiClient = new AuthApiClient({ jwtToken: this.jwtToken })
     this.townCouncilApiClient = new TownCouncilApiClient({ jwtToken: this.jwtToken })
-    this.citizenApiClient = new CitizenApiClient({ jwtToken: this.jwtToken })
+    this.citizensApiClient = new CitizensApiClient({ jwtToken: this.jwtToken })
     this.agenciesApiClient = new AgenciesApiClient({ jwtToken: this.jwtToken })
   }
 
@@ -44,8 +44,8 @@ export class ApiClient {
   /**
    * Provides access to the API client for Citizens
    */
-  public get citizen() {
-    return this.citizenApiClient
+  public get citizens() {
+    return this.citizensApiClient
   }
 
   /**

@@ -1,24 +1,22 @@
 <script setup lang="ts">
 import { ApiClient } from '@/api/ApiClient'
 import { useUserStore } from '@/stores/useUserStore'
-import type { Survey } from '@/types/survey/Survey'
+import { QuizAnswer } from '@/types/quiz/answer/QuizAnswer'
 import Card from 'primevue/card'
 import { onMounted, ref } from 'vue'
-import { useToast } from 'vue-toastification'
-import SurveyListRow from './CitizenSurveyListRow.vue'
+import CitizenQuizzesListRow from './CitizenQuizzesListRow.vue'
 
 const pageIndex = ref(0)
 const pageSize = ref(10)
-const surveys = ref<Survey[]>([])
-const totalSurveys = ref<number>(0)
-const toast = useToast()
+const quizAnswers = ref<QuizAnswer[]>([])
+const totalQuizzes = ref<number>(0)
 
 const userStore = useUserStore()
 const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
 
-const fetchSurveys = async () => {
+const fetchQuizzes = async () => {
   try {
-    const response = await apiClient.citizens.citizen.surveys.list(
+    const response = await apiClient.citizens.citizen.quizzes.list(
       {
         pageIndex: pageIndex.value.toString(),
         pageSize: pageSize.value.toString(),
@@ -27,28 +25,28 @@ const fetchSurveys = async () => {
     )
 
     if (response.status === 'success') {
-      surveys.value = response.data.surveys
-      totalSurveys.value = response.data.metadata.totalCount
+      quizAnswers.value = response.data.quizzes
+      totalQuizzes.value = response.data.metadata.totalCount
     } else {
-      console.error('Errore nel caricamento dei sondaggi.')
+      console.error('Errore nel caricamento dei questionari.')
     }
   } catch (err) {
-    console.error('Errore durante il caricamento dei sondaggi:', err)
+    console.error('Errore durante il caricamento dei questionari:', err)
   }
 }
 
-onMounted(fetchSurveys)
+onMounted(fetchQuizzes)
 </script>
 
 <template>
-  <div class="survey-list-page">
-    <div class="survey-list">
+  <div class="quiz-list-page">
+    <div class="quiz-list">
       <Card>
         <template #title>
-          <h3>Sondaggi disponibili</h3>
+          <h3>Questionari disponibili</h3>
         </template>
         <template #content>
-          <table v-if="surveys.length" class="styled-table">
+          <table v-if="quizAnswers.length" class="styled-table">
             <thead>
               <tr>
                 <th><h4>Titolo</h4></th>
@@ -56,12 +54,12 @@ onMounted(fetchSurveys)
               </tr>
             </thead>
             <tbody>
-              <tr v-for="survey in surveys" :key="survey._id">
-                <SurveyListRow :survey="survey" />
+              <tr v-for="quizAnswer in quizAnswers" :key="quizAnswer._id">
+                <CitizenQuizzesListRow :quizAnswer="quizAnswer" />
               </tr>
             </tbody>
           </table>
-          <p v-else>Non ci sono sondaggi disponibili.</p>
+          <p v-else>Non ci sono questionari disponibili.</p>
         </template>
       </Card>
     </div>

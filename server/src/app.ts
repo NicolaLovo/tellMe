@@ -1,7 +1,6 @@
 import cors from 'cors';
 import express from 'express';
 import expressListEndpoints from 'express-list-endpoints';
-import { getRbacMiddleware } from './middlewares/getRbacMiddleware';
 import agenciesRouter from './routes/agencies/agenciesRouter';
 import authRouter from './routes/auth/authRouter';
 import citizensRouter from './routes/citizens/citizensRouter';
@@ -26,13 +25,7 @@ app.use('/api/v1/surveys', surveysRouter);
   }),
   surveysRouter,
 );*/
-app.use(
-  '/api/v1/citizens/',
-  getRbacMiddleware({
-    requiredRoles: ['citizen'],
-  }),
-  citizensRouter,
-);
+app.use('/api/v1/citizens/', citizensRouter);
 
 app.get('/test', (req, res) => {
   res.send({

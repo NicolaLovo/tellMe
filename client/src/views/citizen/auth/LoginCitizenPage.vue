@@ -54,11 +54,13 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
 }
 
 .link {
-  color: #8e7cc3;
+  color: #5c6bc0;
   text-decoration: none;
 }
 
 .link:hover {
-  text-decoration: underline;
+  color: #3949ab;
 }
+
+
 </style>

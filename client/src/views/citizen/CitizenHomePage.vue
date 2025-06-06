@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import CitizenQuizzesList from '@/components/quizzes/display/CitizenQuizzesList.vue'
-import QuizCitizenView from '@/components/quizzes/visualiseQuiz/QuizCitizenView.vue'
+import CitizenQuizzesList from '@/components/quizzes/display/citizen/CitizenQuizzesList.vue'
 import CitizenSurveysList from '@/components/surveys/display/CitizenSurveysList.vue'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
@@ -16,26 +15,18 @@ function goToChangePassword() {
 
 <template>
   <div class="user-container">
-    <Card class="card-content">
-      <template #title>
-        <h1>Benvenuto {{ userStore.user?.email }}!</h1>
-      </template>
-
-      <template #content>
-        <div class="button-group">
+        <!-- <h2>Benvenuto {{ userStore.user?.email }}!</h2> -->
+        <!-- <div class="button-group">
           <Button
             label="Cambia Password"
             class="btn"
             @click="goToChangePassword"
             style="width: 100%"
           />
-        </div>
-      </template>
-    </Card>
-    <div class="surveys-content">
-      <CitizenSurveysList />
-      <CitizenQuizzesList />
-      <!-- <QuizCitizenView /> -->
+        </div> -->
+    <div class="card-content">
+      <div class="content-list"><CitizenSurveysList /></div>
+      <div class="content-list"><CitizenQuizzesList /></div>
     </div>
   </div>
 </template>
@@ -43,22 +34,18 @@ function goToChangePassword() {
 <style scoped>
 .user-container {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 10px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px;
 }
 
 .card-content {
-  width: 90%;
-  max-width: 800px;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-.surveys-content {
-  width: 90%;
-  max-width: 800px;
+.content-list {
+  width: 100%;
+  padding: 20px;
 }
 </style>

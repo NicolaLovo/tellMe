@@ -1,28 +1,21 @@
 <script setup lang="ts">
+import { APP_ROUTES } from '@/constants/APP_ROUTES';
+import router from '@/router';
 import { useUserStore } from '@/stores/useUserStore'
+import type { Survey } from '@/types/survey/Survey'
 import axios from 'axios'
 import { computed, ref } from 'vue'
 
-const props = defineProps<{
-  survey: {
-    _id: string
-    title: string
-    status: string
-    creationDate: string
-    questions: {
-      id: string
-      question: string
-      type: string
-      options: { id: string; text: string }[]
-    }[]
-    rewardPoints: number
-  }
-}>()
+const props = defineProps<{ survey: Survey }>()
 
 const answers = ref<Record<string, string>>({})
 const submitting = ref(false)
 const submissionSuccess = ref(false)
 const submissionError = ref('')
+
+const goHome = () => {
+  router.push(APP_ROUTES.home)
+}
 
 function selectOption(questionId: string, optionId: string) {
   answers.value[questionId] = optionId
@@ -37,11 +30,16 @@ const allAnswered = computed(() => props.survey.questions.every((q) => answers.v
 const userStore = useUserStore()
 
 async function submit() {
+  submitting.value = true
+  submissionSuccess.value = false
+  submissionError.value = ''
+
   const token = userStore.user?.token
   const uid = userStore.user?.uid
 
   if (!token || !uid) {
-    alert('Utente non autenticato.')
+    submissionError.value = 'Utente non autenticato.'
+    submitting.value = false
     return
   }
 
@@ -74,10 +72,12 @@ async function submit() {
         },
       },
     )
-    alert('Risposte inviate con successo.')
+    submissionSuccess.value = true
   } catch (err: any) {
+    submissionError.value = err.response?.data?.data?.message || 'Errore di invio'
     console.error('Errore invio:', err)
-    alert('Errore: ' + (err.response?.data?.data?.message || 'non autorizzato'))
+  } finally {
+    submitting.value = false
   }
 }
 </script>
@@ -103,15 +103,16 @@ async function submit() {
       </div>
     </div>
 
-    <button
+    <Button
       class="submit-btn"
-      :disabled="!allAnswered || survey.status !== 'published' || submitting"
+      :disabled="!allAnswered || survey.status !== 'published' || submitting || submissionSuccess"
       @click="submit"
     >
-      {{ submitting ? 'Invio...' : 'Invia Risposte' }}
-    </button>
+      {{ submitting ? 'Invio...' : 'Invia risposte' }}
+    </Button>
 
-    <p v-if="submissionSuccess" class="success-msg">Sondaggio inviato con successo! 🎉</p>
+    <h3 v-if="submissionSuccess" class="success-msg">Sondaggio inviato con successo! 🎉</h3>
+    <Button v-if="submissionSuccess" @click="goHome" label="Torna alla Home"/>
     <p v-if="submissionError" class="error-msg">{{ submissionError }}</p>
   </div>
 </template>
@@ -146,6 +147,7 @@ async function submit() {
   cursor: pointer;
   border-radius: 8px;
   transition: background 0.2s;
+  font-size: 1rem;
 }
 
 .option-btn.selected {
@@ -171,7 +173,7 @@ async function submit() {
 }
 
 .success-msg {
-  color: green;
+
   margin-top: 1rem;
 }
 

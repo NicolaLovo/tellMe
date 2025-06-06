@@ -1,5 +1,17 @@
-export type QuizQuestionAnswer = {
-  questionId: string
-  optionId: '1' | '2' | '3' | '4' | '5'
-  type: 'rating'
-}
+import { QuizQuestionAnswer } from './QuizQuestionAnswer'
+
+export type QuizAnswer = {
+  _id: string
+  quizId: string
+  uid: string
+  agencyId: string
+  creationDate: Date
+} & (
+  | {
+      status: 'pending'
+    }
+  | {
+      status: 'completed'
+      answers: QuizQuestionAnswer[]
+    }
+)

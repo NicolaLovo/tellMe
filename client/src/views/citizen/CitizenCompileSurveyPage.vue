@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SurveyCitizenView from '@/components/surveys/visualiseSurvey/SurveyCitizenView.vue'
+import { Survey } from '@/types/survey/Survey'
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -7,7 +8,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const surveyId = route.params.surveyId as string
 
-const survey = ref(null)
+const survey = ref<Survey | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 
@@ -27,13 +28,13 @@ onMounted(async () => {
 <template>
   <div class="citizen-compile-survey-page">
     <div class="header">
-      <h2>Compila Sondaggio</h2>
+      <h2>Compila sondaggio</h2>
     </div>
 
     <div class="content">
       <p v-if="loading" class="p-text-secondary">Caricamento...</p>
       <p v-else-if="error" class="p-text-danger">{{ error }}</p>
-      <SurveyCitizenView v-else :survey="survey" />
+      <SurveyCitizenView v-if="!loading && !error && survey" :survey="survey!" />
     </div>
   </div>
 </template>

@@ -5,7 +5,7 @@ import { TmResponse } from '@/types/common/utils/TmResponse'
 import { SurveyAnswer } from '../../types/survey/answer/SurveyAnswer'
 import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
 
-//api/v1/citizens/:id
+//api/v1/citizens/:id/surveys/:surveyId/answer
 export class CitizenSurveysAnswerApiClient extends ApiClientChildren {
   constructor(props: ApiClientChildrenProps) {
     super(props)

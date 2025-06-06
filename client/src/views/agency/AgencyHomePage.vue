@@ -4,6 +4,7 @@ import { useUserStore } from '@/stores/useUserStore'
 import Button from 'primevue/button'
 import Card from 'primevue/card'
 import { useRouter } from 'vue-router'
+import AgencyQuizList from '@/components/quizzes/display/AgencyQuizList.vue'
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -41,6 +42,7 @@ function goToCreateQuiz() {
         </div>
       </template>
     </Card>
+    <AgencyQuizList />
   </div>
 </template>
 

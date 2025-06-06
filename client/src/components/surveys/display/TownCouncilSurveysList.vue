@@ -11,6 +11,7 @@ import PublishSurveyButton from '../buttons/PublishSurveyButton.vue'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
 import CloseSurveyButton from '../buttons/CloseSurveyButton.vue'
+import GetSurveyResultsButton from '../buttons/GetSurveyResultsButton.vue'
 
 const pageIndex = ref(0)
 const pageSize = ref(10)
@@ -50,7 +51,7 @@ onMounted(fetchSurveys)
 
 <template>
   <Card>
-    <template #title> Lista dei sondaggi </template>
+    <template #title> <h3>Lista dei sondaggi</h3></template>
     <template #content>
       <div>
         <DataTable
@@ -99,6 +100,10 @@ onMounted(fetchSurveys)
                   :surveyId="slotProps.data._id"
                   @on-close="fetchSurveys"
                 />
+                <GetSurveyResultsButton
+                  v-if="slotProps.data.status === 'closed'"
+                  :surveyId="slotProps.data._id"
+                />
               </div>
             </template>
           </Column>
@@ -111,4 +116,6 @@ onMounted(fetchSurveys)
   </Card>
 </template>
 
-<style></style>
+<style>
+
+</style>

@@ -6,11 +6,11 @@ import Button from 'primevue/button'
 
 <template>
   <div class="container">
-    <h1>Benvenuto comune!</h1>
+    <h2>Benvenuto comune</h2>
     <div class="buttons-container">
       <div class="button-div">
         <Button
-          label="Crea sondaggio"
+          label="Crea nuovo sondaggio"
           @click="$router.push(APP_ROUTES.townCouncil.createsurvery)"
         />
         <Button
@@ -48,5 +48,4 @@ import Button from 'primevue/button'
 button {
   width: 100%;
 }
-
 </style>

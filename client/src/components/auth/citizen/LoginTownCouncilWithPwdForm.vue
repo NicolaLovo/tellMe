@@ -87,7 +87,9 @@ const onSubmit = async () => {
           :feedback="false"
         />
       </div>
-      <p v-if="loginFormData.errorMessage" class="error">{{ loginFormData.errorMessage }}</p>
+      <p v-if="loginFormData.errorMessage" class="error">
+        {{ loginFormData.errorMessage }}
+      </p>
 
       <div class="center">
         <Button type="submit" label="Accedi" style="width: 200px" />
@@ -103,10 +105,12 @@ const onSubmit = async () => {
   gap: 10px;
 }
 
-.p-field {
-  display: block;
-  /* width: 100%;
-  background-color: red; */
+:deep(.p-password) {
+  width: 100%;
+}
+
+:deep(.p-password-input) {
+  width: 100%;
 }
 
 .center {

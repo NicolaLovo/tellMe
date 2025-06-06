@@ -1,5 +1,5 @@
 import mongoose, { Document } from 'mongoose';
-import { QuizQuestionAnswer } from '../../../../client/src/types/quiz/answer/QuizAnswer';
+import { QuizQuestionAnswer } from '../../types/quiz/answer/QuizQuestionAnswer';
 
 const QuizQuestionAnswerSchema = new mongoose.Schema(
   {
@@ -16,10 +16,9 @@ const QuizQuestionAnswerSchema = new mongoose.Schema(
 
 const QuizAnswerSchema = new mongoose.Schema(
   {
-    _id: {
-      quizId: { type: String, required: true },
-      uid: { type: String, required: true },
-    },
+    quizId: { type: String, required: true },
+    uid: { type: String, required: true },
+    agencyId: { type: String, required: true },
     creationDate: { type: Date, default: Date.now },
     status: {
       type: String,
@@ -35,17 +34,13 @@ const QuizAnswerSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    _id: false,
   },
 );
 
-QuizAnswerSchema.index({ '_id.quizId': 1, '_id.uid': 1 }, { unique: true });
-
 export interface QuizAnswerModelSchema extends Document {
-  _id: {
-    quizId: string;
-    uid: string;
-  };
+  agencyId: string;
+  quizId: string;
+  uid: string;
   creationDate: Date;
   status: 'pending' | 'completed';
   answers?: QuizQuestionAnswer[];

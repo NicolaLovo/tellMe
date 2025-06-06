@@ -8,7 +8,7 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
       <!-- SVG identico, ma rovesciato -->
       <svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
         <!-- Livello 1 -->
-        <path fill="#e6ccf2" fill-opacity="0.5">
+        <path fill="#9fa8da" fill-opacity="0.5">
           <animate
             attributeName="d"
             dur="12s"
@@ -19,7 +19,7 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
               M0,160 C360,240 1080,80 1440,160 L1440,320 L0,320 Z;"
           />
         </path>
-        <path fill="#c8a2c8" fill-opacity="0.7">
+        <path fill="#7986cb" fill-opacity="0.7">
           <animate
             attributeName="d"
             dur="16s"
@@ -30,7 +30,7 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
               M0,180 C400,260 1040,100 1440,180 L1440,320 L0,320 Z;"
           />
         </path>
-        <path fill="#a36ca6" fill-opacity="1">
+        <path fill="#3f51b5" fill-opacity="1">
           <animate
             attributeName="d"
             dur="20s"
@@ -48,7 +48,7 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
     <div class="animated-bg bottom">
       <svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
         <!-- Stesso SVG del blocco sopra -->
-        <path fill="#e6ccf2" fill-opacity="0.5">
+        <path fill="#9fa8da" fill-opacity="0.5">
           <animate
             attributeName="d"
             dur="12s"
@@ -59,7 +59,7 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
               M0,160 C360,240 1080,80 1440,160 L1440,320 L0,320 Z;"
           />
         </path>
-        <path fill="#c8a2c8" fill-opacity="0.7">
+        <path fill="#7986cb" fill-opacity="0.7">
           <animate
             attributeName="d"
             dur="16s"
@@ -70,7 +70,7 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
               M0,180 C400,260 1040,100 1440,180 L1440,320 L0,320 Z;"
           />
         </path>
-        <path fill="#a36ca6" fill-opacity="1">
+        <path fill="#3f51b5" fill-opacity="1">
           <animate
             attributeName="d"
             dur="20s"
@@ -95,7 +95,8 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
       "
     >
       <template #title>
-        <h1>Benvenuto nella Home Page</h1>
+        <h1>Benvenuto</h1>
+        <h3>Accedi prima di continuare</h3>
       </template>
       <template #content>
         <div class="button-group">
@@ -115,6 +116,7 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
 </template>
 
 <style scoped>
+
 .home-container {
   min-height: 100vh;
   display: flex;
@@ -123,7 +125,6 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
   position: relative;
   overflow: hidden;
   background: linear-gradient(to top, #f8f4fa, #ffffff);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 1rem;
   z-index: 0;
 }
@@ -154,7 +155,6 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
 
 h1 {
   margin-bottom: 1rem;
-  font-size: 2rem;
   text-align: center;
 }
 </style>

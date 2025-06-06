@@ -110,6 +110,7 @@ const registerWithEmailAndPassword = async () => {
               placeholder="Password"
               toggleMask
               :feedback="false"
+              width="100%"
             />
             <!-- inputStyle="width: 100%;" -->
           </div>
@@ -153,7 +154,6 @@ const registerWithEmailAndPassword = async () => {
 .input-field {
   display: flex;
   flex-direction: column;
-
   width: 100%;
   margin-bottom: 15px;
 }

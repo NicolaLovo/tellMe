@@ -8,20 +8,25 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AgencyQuizList: typeof import('./src/components/quizzes/display/AgencyQuizList.vue')['default']
+    AgencyQuizResultTable: typeof import('./src/components/quizzes/display/AgencyQuizResultTable.vue')['default']
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
-    CitizenQuizzesList: typeof import('./src/components/quizzes/display/CitizenQuizzesList.vue')['default']
+    CitizenQuizzesList: typeof import('./src/components/quizzes/display/citizen/CitizenQuizzesList.vue')['default']
+    CitizenQuizzesListRow: typeof import('./src/components/quizzes/display/citizen/CitizenQuizzesListRow.vue')['default']
     CitizenSurveyListRow: typeof import('./src/components/surveys/display/CitizenSurveyListRow.vue')['default']
     CitizenSurveysList: typeof import('./src/components/surveys/display/CitizenSurveysList.vue')['default']
     CloseSurveyButton: typeof import('./src/components/surveys/buttons/CloseSurveyButton.vue')['default']
     CompileSurveyButton: typeof import('./src/components/surveys/buttons/CompileSurveyButton.vue')['default']
-    DataTable: typeof import('primevue/datatable')['default']
     Divider: typeof import('primevue/divider')['default']
+    EnableQuizCompilationButton: typeof import('./src/components/quizzes/buttons/EnableQuizCompilationButton.vue')['default']
+    GetSurveyResultsButton: typeof import('./src/components/surveys/buttons/GetSurveyResultsButton.vue')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']
     InputText: typeof import('primevue/inputtext')['default']
     LoginCitizenWithGoogleButton: typeof import('./src/components/auth/citizen/LoginCitizenWithGoogleButton.vue')['default']
     LoginTownCouncilWithPwdForm: typeof import('./src/components/auth/citizen/LoginTownCouncilWithPwdForm.vue')['default']
     LoginUserWithEmailAndPwdForm: typeof import('./src/components/auth/LoginUserWithEmailAndPwdForm.vue')['default']
+    Menu: typeof import('primevue/menu')['default']
     Password: typeof import('primevue/password')['default']
     PublishSurveyButton: typeof import('./src/components/surveys/buttons/PublishSurveyButton.vue')['default']
     QuizCitizenView: typeof import('./src/components/quizzes/visualiseQuiz/QuizCitizenView.vue')['default']
@@ -33,6 +38,7 @@ declare module 'vue' {
     SurveyCreateForm: typeof import('./src/components/surveys/forms/SurveyCreateForm.vue')['default']
     SurveyQuestionForm: typeof import('./src/components/surveys/forms/SurveyQuestionForm.vue')['default']
     Tag: typeof import('primevue/tag')['default']
+    TownCouncilSurveyResultTable: typeof import('./src/components/surveys/display/TownCouncilSurveyResultTable.vue')['default']
     TownCouncilSurveysList: typeof import('./src/components/surveys/display/TownCouncilSurveysList.vue')['default']
   }
 }
