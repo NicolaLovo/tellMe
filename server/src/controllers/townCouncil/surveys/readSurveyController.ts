@@ -3,7 +3,7 @@ import { SurveyModel } from '../../../database/survey/SurveySchema';
 import { TmResponse } from '../../../types/common/utils/TmResponse';
 import { Survey } from '../../../types/survey/Survey';
 
-type ResBody = TmResponse<{
+type ResBody = TmResponse<{             
   survey: Survey;
 }>;
 
