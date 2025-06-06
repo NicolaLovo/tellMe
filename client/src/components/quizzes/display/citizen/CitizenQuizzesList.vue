@@ -37,13 +37,12 @@ const fetchQuizzes = async () => {
 
 onMounted(fetchQuizzes)
 </script>
-
 <template>
   <div class="quiz-list-page">
     <div class="quiz-list">
-      <Card>
+      <Card class="main-card">
         <template #title>
-          <h3>Questionari disponibili</h3>
+          <h2 class="card-title">Questionari disponibili</h2>
         </template>
         <template #content>
           <table v-if="quizAnswers.length" class="styled-table">
@@ -55,7 +54,6 @@ onMounted(fetchQuizzes)
             </thead>
             <tbody>
               <tr v-for="quizAnswer in quizAnswers" :key="quizAnswer._id">
-                <!-- <td>{{ quizAnswer.title }}</td> -->
                 <CitizenQuizzesListRow
                   :agencyId="quizAnswer.agencyId"
                   :quizId="quizAnswer.quizId"
@@ -64,7 +62,7 @@ onMounted(fetchQuizzes)
               </tr>
             </tbody>
           </table>
-          <p v-else>Non ci sono questionari disponibili.</p>
+          <p v-else class="empty-state">Non ci sono questionari disponibili.</p>
         </template>
       </Card>
     </div>
@@ -72,31 +70,56 @@ onMounted(fetchQuizzes)
 </template>
 
 <style scoped>
+.quiz-list-page {
+  padding: 2rem;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
+
+.main-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
 .styled-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 1rem;
   background-color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
 
 .styled-table th,
 .styled-table td {
-  padding: 12px 16px;
+  padding: 14px 18px;
   text-align: left;
   border-bottom: 1px solid #e0e0e0;
 }
 
 .styled-table thead {
-  background-color: #f9f9f9;
+  background-color: #f3f4f6;
 }
 
 .styled-table tr:nth-child(even) {
-  background-color: #f6f6f6;
+  background-color: #fafafa;
 }
 
 .styled-table tr:hover {
   background-color: #f0f0f0;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 1rem;
+  color: #888;
 }
 </style>
