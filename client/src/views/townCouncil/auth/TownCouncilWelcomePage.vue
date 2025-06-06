@@ -7,7 +7,7 @@ import LoginTownCouncilWithPwdForm from '@/components/auth/citizen/LoginTownCoun
     <Card>
       <template #content>
         <div class="card-content">
-          <h1>Accedi come Comune</h1>
+          <h1>Accedi come comune</h1>
           <LoginTownCouncilWithPwdForm />
         </div>
       </template>

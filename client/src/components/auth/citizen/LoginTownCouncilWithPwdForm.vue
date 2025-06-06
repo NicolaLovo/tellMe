@@ -76,9 +76,7 @@ const onSubmit = async () => {
   <form @submit.prevent="onSubmit">
     <div class="form-container">
       <div style="display: block; margin-bottom: 1rem">
-        <label for="password" style="display: block; margin-bottom: 0.5rem">
-          Inserisci la tua password per accedere:
-        </label>
+        <label for="password" style="display: block; margin-bottom: 0.5rem"> Password </label>
         <Password
           id="password"
           v-model="loginFormData.password"
@@ -92,7 +90,7 @@ const onSubmit = async () => {
       </p>
 
       <div class="center">
-        <Button type="submit" label="Accedi" style="width: 200px" />
+        <Button type="submit" label="Accedi" class="submit-btn" />
       </div>
     </div>
   </form>
@@ -103,6 +101,7 @@ const onSubmit = async () => {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 400px;
 }
 
 :deep(.p-password) {
@@ -110,6 +109,10 @@ const onSubmit = async () => {
 }
 
 :deep(.p-password-input) {
+  width: 100%;
+}
+
+.submit-btn {
   width: 100%;
 }
 
