@@ -1,4 +1,5 @@
 import QuizCreateForm from '@/components/quizzes/QuizCreateForm.vue'
+import QuizCitizenView from '@/components/quizzes/visualiseQuiz/QuizCitizenView.vue'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
 import { UserRole } from '@/types/auth/UserRole'
@@ -9,6 +10,7 @@ import ChangeCredentialsPage from '@/views/citizen/auth/ChangeCredentialsPage.vu
 import RegisterAgencyPage from '@/views/citizen/auth/RegisterAgencyPage.vue'
 import CitizenCompileSurveyPage from '@/views/citizen/CitizenCompileSurveyPage.vue'
 import CitizenHomePage from '@/views/citizen/CitizenHomePage.vue'
+import PrizeView from '@/views/prize/PrizeView.vue'
 import TownCouncilWelcomePage from '@/views/townCouncil/auth/TownCouncilWelcomePage.vue'
 import SurveyCreationPage from '@/views/townCouncil/survey/SurveyCreationPage.vue'
 import SurveyResultsPage from '@/views/townCouncil/survey/SurveyResultsPage.vue'
@@ -19,7 +21,6 @@ import CitizenWelcomePage from '../views/citizen/auth/CitizenWelcomePage.vue'
 import CitizenLoginPage from '../views/citizen/auth/LoginCitizenPage.vue'
 import RegisterCitizenPage from '../views/citizen/auth/RegisterCitizenPage.vue'
 import HomePage from '../views/HomePage.vue'
-import QuizCitizenView from '@/components/quizzes/visualiseQuiz/QuizCitizenView.vue'
 
 interface RouteMeta {
   requiresRoles?: UserRole[]
@@ -135,6 +136,15 @@ const routes: Array<RouteRecordRaw> = [
       requiresRoles: ['citizen'],
     } satisfies RouteMeta,
   },
+  {
+    path: APP_ROUTES.prizes,
+    name: 'Prizes',
+    component: PrizeView,
+    meta: {
+      requiresRoles: ['citizen', 'townCouncil'],
+    } satisfies RouteMeta,
+  },
+
 ]
 
 const router = createRouter({
