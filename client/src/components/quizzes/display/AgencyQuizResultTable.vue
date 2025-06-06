@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue'
 import { ApiClient } from '@/api/ApiClient'
 import { useUserStore } from '@/stores/useUserStore'
-import ProgressBar from 'primevue/progressbar'
 import { QuizResults } from '@/types/quiz/QuizResults'
+import ProgressBar from 'primevue/progressbar'
+import { onMounted, reactive } from 'vue'
 
 // Define the props for the component, which includes the survey ID
 const props = defineProps<{
@@ -15,15 +15,19 @@ const quizResults = reactive<QuizResults>({
   quizId: 'string',
   agencyId: 'string',
   title: 'string',
-  results: [{
-    questionId: 'string',
-    question: 'string',
-    type: 'rating',
-    options: [{
-      optionId: '1',
-      votes: 5,
-    }]
-  }]
+  results: [
+    {
+      questionId: 'string',
+      question: 'string',
+      type: 'rating',
+      options: [
+        {
+          optionId: '1',
+          votes: 5,
+        },
+      ],
+    },
+  ],
 })
 
 const userStore = useUserStore()
@@ -31,19 +35,19 @@ const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
 
 // Function to fetch survey results
 const fetchSurveyResults = async () => {
-  try {
-    const response = await apiClient...({
-      quizAnswerId: props.quizAnswerId,
-    })
-    if (response.status === 'success') {
-      quizResults.results = response.data.quizResults.results
-      console.log('Risultati del questionario caricati con successo:', quizResults)
-    } else {
-      console.error('Errore nel caricamento dei risultati.')
-    }
-  } catch (err) {
-    console.error('Errore durante il caricamento dei risultati:', err)
-  }
+  // try {
+  //   const response = await apiClient...({
+  //     quizAnswerId: props.quizAnswerId,
+  //   })
+  //   if (response.status === 'success') {
+  //     quizResults.results = response.data.quizResults.results
+  //     console.log('Risultati del questionario caricati con successo:', quizResults)
+  //   } else {
+  //     console.error('Errore nel caricamento dei risultati.')
+  //   }
+  // } catch (err) {
+  //   console.error('Errore durante il caricamento dei risultati:', err)
+  // }
 }
 
 // Function to calculate the percentage of votes for each option

@@ -25,7 +25,7 @@ const menuItems = computed(() => {
 
   const roles = userStore.user?.roles || []
 
-  // Show "Change Password" only if user is a citizen or agency (not townCouncil)
+  // Show change password button only if user is a citizen or agency (not townCouncil)
   if (roles.includes('citizen') || roles.includes('agency')) {
     items.push({
       label: 'Cambia password',
@@ -36,6 +36,16 @@ const menuItems = computed(() => {
         } else if (roles.includes('agency')) {
           router.push(APP_ROUTES.agency.changecredentials)
         }
+      },
+    })
+  }
+
+  if (roles.includes('townCouncil')) {
+    items.push({
+      label: 'Registra ente',
+      icon: 'pi pi-user-plus',
+      command: () => {
+        router.push(APP_ROUTES.townCouncil.registeragency)
       },
     })
   }
@@ -95,10 +105,6 @@ const toggleMenu = (event: MouseEvent) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* padding: 10px 20px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid #eaeaea; */
 }
 
 .menu-button{

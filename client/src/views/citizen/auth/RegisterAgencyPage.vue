@@ -75,18 +75,21 @@ const registerWithEmailAndPassword = async () => {
 
 <template>
   <div class="register-container">
-    <div class="content">
-      <h1 class="title">Registrazione Ente</h1>
-      <p class="subtitle">Crea il tuo account per iniziare.</p>
+    <Card class="content">
+      <template #title>
+        <h1>Registrazione ente</h1>
+      </template>
+      <template #content>
+        <h4 class="subtitle">Compila il modulo per registrare un nuovo ente</h4>
+        <form @submit.prevent="registerWithEmailAndPassword">
+          <InputText type="email" placeholder="Email" v-model="email" class="input" />
+          <InputText type="password" placeholder="Password" v-model="password" class="input" />
+          <Button type="submit" class="btn">Registra ente</Button>
+        </form>
 
-      <form @submit.prevent="registerWithEmailAndPassword">
-        <input type="email" placeholder="Email" v-model="email" class="input" />
-        <input type="password" placeholder="Password" v-model="password" class="input" />
-        <button type="submit" class="btn">Registra ente</button>
-      </form>
-
-      <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-    </div>
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+      </template>
+    </Card>
   </div>
 </template>
 
@@ -101,7 +104,6 @@ const registerWithEmailAndPassword = async () => {
 }
 
 .register-container {
-  background-color: #f0f0f0;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -118,47 +120,14 @@ const registerWithEmailAndPassword = async () => {
   width: 90%;
 }
 
-.title {
-  font-size: 2.5rem;
-  color: #5e4b8b;
-  margin-bottom: 10px;
-}
-
-.subtitle {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 30px;
-}
-
 .input {
   padding: 12px;
   margin: 10px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
   font-size: 1rem;
   width: 95%;
 }
 
 .btn {
-  padding: 12px 25px;
-  background-color: #9578f4;
-  color: white;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
   width: 100%;
-}
-
-.btn:hover {
-  background-color: #815aff;
-  transform: scale(1.05);
-}
-
-.btn:focus {
-  outline: none;
 }
 </style>
