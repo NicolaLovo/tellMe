@@ -102,7 +102,7 @@ cd ./server
 ./scripts/build.sh
 ```
 
-### Stage 4: deploy to Kubernetes
+### Stage 3: deploy to Kubernetes
 
 Requirements:
 
@@ -117,7 +117,7 @@ kubectl apply -f ./server
 kubectl apply -f ./client
 ```
 
-### Stage 3: DNS configuration
+### Stage 4: DNS configuration
 
 Create 2 DNS records:
 
