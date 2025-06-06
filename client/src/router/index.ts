@@ -140,9 +140,6 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.prizes,
     name: 'Prizes',
     component: PrizeView,
-    meta: {
-      requiresRoles: ['citizen', 'townCouncil'],
-    } satisfies RouteMeta,
   },
 
 ]
