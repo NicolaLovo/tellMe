@@ -94,7 +94,7 @@ export const registerAgencyController = async (
     );
 
     // Return the custom token
-    res.status(201).json({
+    res.status(200).json({
       status: 'success',
       data: {
         token: token,

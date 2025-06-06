@@ -66,7 +66,7 @@ describe('Authentication Tests', () => {
   });
 
   // register a citizen
-  test('POST /api/v1/auth/citizens should return 201', async () => {
+  test('POST /api/v1/auth/citizens should return 200', async () => {
     const res = await request(app)
       .post('/api/v1/auth/citizens')
       .send({
@@ -75,7 +75,7 @@ describe('Authentication Tests', () => {
       })
       .set('Accept', 'application/json');
 
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(200);
     expect(res.body.status).toBe('success');
     expect(res.body.data.token).toBeDefined();
     return res;
@@ -98,7 +98,7 @@ describe('Authentication Tests', () => {
   });
 
   // register agency using townCouncil token
-  test('POST /api/v1/auth/agencies should return 201', async () => {
+  test('POST /api/v1/auth/agencies should return 200', async () => {
     const res = await request(app)
       .post('/api/v1/auth/agencies')
       .send({
@@ -108,7 +108,7 @@ describe('Authentication Tests', () => {
       .set('Authorization', `Bearer ${townCouncilToken}`)
       .set('Accept', 'application/json');
 
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(200);
     expect(res.body.status).toBe('success');
     expect(res.body.data.token).toBeDefined();
     return res;
