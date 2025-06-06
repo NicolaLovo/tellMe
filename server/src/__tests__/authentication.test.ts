@@ -81,23 +81,6 @@ describe('Authentication Tests', () => {
     return res;
   });
 
-  // register agency using townCouncil token
-  test('POST /api/v1/auth/agencies should return 201', async () => {
-    const res = await request(app)
-      .post('/api/v1/auth/agencies')
-      .send({
-        email: TEST_USERS.agency.email,
-        firebaseToken: agencyFirebaseToken,
-      })
-      .set('x-access-token', townCouncilFirebaseToken)
-      .set('Accept', 'application/json');
-
-    expect(res.status).toBe(201);
-    expect(res.body.status).toBe('success');
-    expect(res.body.data.token).toBeDefined();
-    return res;
-  });
-
   // login townCouncil
   test('POST /api/v1/auth/login for townCouncil should return 200', async () => {
     const res = await request(app)
@@ -108,6 +91,24 @@ describe('Authentication Tests', () => {
       .set('Accept', 'application/json');
 
     expect(res.status).toBe(200);
+    expect(res.body.status).toBe('success');
+    expect(res.body.data.token).toBeDefined();
+    townCouncilToken = res.body.data.token;
+    return res;
+  });
+
+  // register agency using townCouncil token
+  test('POST /api/v1/auth/agencies should return 201', async () => {
+    const res = await request(app)
+      .post('/api/v1/auth/agencies')
+      .send({
+        email: TEST_USERS.agency.email,
+        firebaseToken: agencyFirebaseToken,
+      })
+      .set('Authorization', `Bearer ${townCouncilToken}`)
+      .set('Accept', 'application/json');
+
+    expect(res.status).toBe(201);
     expect(res.body.status).toBe('success');
     expect(res.body.data.token).toBeDefined();
     return res;

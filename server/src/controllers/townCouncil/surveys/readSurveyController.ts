@@ -47,7 +47,7 @@ export const readSurveyController = async (
       },
     });
   } catch (error) {
-    console.error('Error publishing survey:', error);
+    console.error('Error reading survey:', error);
     res.status(500).json({
       status: 'error',
       data: {
