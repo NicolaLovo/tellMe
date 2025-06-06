@@ -5,5 +5,5 @@ echo -e "\n\n2/3: Pushing image to Docker Hub"
 docker push wetambara/tellme-server:latest
 
 echo -e "\n\n3/3: Updating kubernetes deployment image"
-# kubectl rollout restart -n tellme deployment/deployment-server
+kubectl rollout restart -n prod-tellme deployment/deployment-tellme-server
 

@@ -8,4 +8,6 @@
  *
  * This constant is used to configure API requests throughout the application.
  */
-export const API_URL = import.meta.env.DEV ? 'http://localhost:4000' : 'https://api.example.com'
+export const API_URL = import.meta.env.DEV
+  ? 'http://localhost:4000'
+  : 'https://backend.tellme.wetambara.com'
