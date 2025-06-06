@@ -84,7 +84,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: APP_ROUTES.citizen.changecredentials,
-    name: 'ChangeCredentials',
+    name: 'ChangeCitizenCredentials',
     component: ChangeCredentialsPage,
     meta: {
       requiresRoles: ['citizen'],
@@ -120,7 +120,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: APP_ROUTES.agency.changecredentials,
-    name: 'ChangeCredentials',
+    name: 'ChangeAgencyCredentials',
     component: ChangeCredentialsPage,
     meta: {
       requiresRoles: ['agency'],
