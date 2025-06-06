@@ -1,12 +1,16 @@
 <script setup lang="ts">
+import { ApiClient } from '@/api/ApiClient'
 import SurveyCitizenView from '@/components/surveys/visualiseSurvey/SurveyCitizenView.vue'
+import { useUserStore } from '@/stores/useUserStore'
 import { Survey } from '@/types/survey/Survey'
-import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const surveyId = route.params.surveyId as string
+
+const userStore = useUserStore()
+const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
 
 const survey = ref<Survey | null>(null)
 const loading = ref(true)
@@ -14,8 +18,13 @@ const error = ref<string | null>(null)
 
 onMounted(async () => {
   try {
-    const response = await axios.get(`http://localhost:4000/api/v1/surveys/${surveyId}`)
-    survey.value = response.data.data.survey
+    const response = await apiClient.townCouncil.surveys.survey.read({ surveyId })
+
+    if (response.status === 'success' && !('message' in response.data)) {
+      survey.value = response.data.survey
+    } else {
+      error.value = 'Errore durante il caricamento del sondaggio.'
+    }
   } catch (err) {
     console.error(err)
     error.value = 'Errore durante il caricamento del sondaggio.'

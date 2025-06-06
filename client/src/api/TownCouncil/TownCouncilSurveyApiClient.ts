@@ -20,9 +20,9 @@ export class TownCouncilSurveyApiClient extends ApiClientChildren {
   /**
    * Reads a survey
    */
-  public async read(params: { surveyId: string }): Promise<TmResponse<Survey>> {
+  public async read(params: { surveyId: string }): Promise<TmResponse<{ survey: Survey }>> {
     try {
-      const response = await this.httpClient.get<TmResponse<Survey>>(
+      const response = await this.httpClient.get<TmResponse<{survey: Survey}>>(
         `${API_URL}/api/v1/surveys/${params.surveyId}`,
       )
 

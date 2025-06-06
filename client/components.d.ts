@@ -32,7 +32,6 @@ declare module 'vue' {
     PublishSurveyButton: typeof import('./src/components/surveys/buttons/PublishSurveyButton.vue')['default']
     QuizCitizenView: typeof import('./src/components/quizzes/visualiseQuiz/QuizCitizenView.vue')['default']
     QuizCreateForm: typeof import('./src/components/quizzes/QuizCreateForm.vue')['default']
-    Rating: typeof import('primevue/rating')['default']
     RegisterCitizenWithGoogleButton: typeof import('./src/components/auth/citizen/RegisterCitizenWithGoogleButton.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
