@@ -3,6 +3,7 @@
  */
 export const APP_ROUTES = {
   home: '/',
+  prizes: '/prizes',
   citizen: {
     welcome: '/citizen/welcome',
     register: '/citizen/register',
@@ -19,6 +20,7 @@ export const APP_ROUTES = {
     // surveylist: '/towncouncil/surveys',
     registeragency: '/towncouncil/registeragency',
     surveyresults: '/towncouncil/surveys/:surveyId/results',
+    createprize: '/towncouncil/createprize',
   },
   agency: {
     welcome: '/agency/welcome',

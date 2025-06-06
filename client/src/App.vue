@@ -50,6 +50,16 @@ const menuItems = computed(() => {
     })
   }
 
+  if (roles.includes('citizen') || roles.includes('townCouncil')) {
+  items.push({
+    label: 'Premi',
+    icon: 'pi pi-gift',
+    command: () => {
+      router.push(APP_ROUTES.prizes)
+    },
+  })
+}
+
   // Always show logout
   items.push({
     label: 'Esci',

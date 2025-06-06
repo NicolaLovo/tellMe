@@ -29,6 +29,7 @@ declare module 'vue' {
     LoginUserWithEmailAndPwdForm: typeof import('./src/components/auth/LoginUserWithEmailAndPwdForm.vue')['default']
     Menu: typeof import('primevue/menu')['default']
     Password: typeof import('primevue/password')['default']
+    PrizeTable: typeof import('./src/components/prizes/display/PrizeTable.vue')['default']
     PublishSurveyButton: typeof import('./src/components/surveys/buttons/PublishSurveyButton.vue')['default']
     QuizCitizenView: typeof import('./src/components/quizzes/visualiseQuiz/QuizCitizenView.vue')['default']
     QuizCreateForm: typeof import('./src/components/quizzes/QuizCreateForm.vue')['default']
