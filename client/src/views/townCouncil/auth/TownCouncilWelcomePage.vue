@@ -27,5 +27,6 @@ import LoginTownCouncilWithPwdForm from '@/components/auth/citizen/LoginTownCoun
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 40px;
 }
 </style>
