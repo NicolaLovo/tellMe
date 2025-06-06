@@ -4,7 +4,6 @@ import CitizenSurveysList from '@/components/surveys/display/CitizenSurveysList.
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
 import { useRouter } from 'vue-router'
-
 const userStore = useUserStore()
 const router = useRouter()
 
@@ -15,8 +14,8 @@ function goToChangePassword() {
 
 <template>
   <div class="user-container">
-        <!-- <h2>Benvenuto {{ userStore.user?.email }}!</h2> -->
-        <!-- <div class="button-group">
+    <!-- <h2>Benvenuto {{ userStore.user?.email }}!</h2> -->
+    <!-- <div class="button-group">
           <Button
             label="Cambia Password"
             class="btn"

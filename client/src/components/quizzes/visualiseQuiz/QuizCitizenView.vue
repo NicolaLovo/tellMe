@@ -1,56 +1,84 @@
 <script setup lang="ts">
+import { ApiClient } from '@/api/ApiClient'
 import { useUserStore } from '@/stores/useUserStore'
-import axios from 'axios'
-import { computed, ref } from 'vue'
-
 import Rating from 'primevue/rating'
+import { computed, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-const quiz = ref({
-  _id: '123',
-  title: 'Quiz di esempio',
-  status: 'published',
-  creationDate: '2025-05-31',
-  questions: [
-    { id: 'q1', question: 'Quanto ti piace il gelato?' },
-    { id: 'q2', question: 'Quanto ti piace la pizza?' },
-  ],
-  rewardPoints: 50,
-})
+const route = useRoute()
+const router = useRouter()
 
-const answers = ref<Record<string, number>>({})
+const agencyId = route.params.agencyId as string
+const quizId = route.params.quizId as string
+const answerId = route.params.answerId as string
+
+const quiz = ref<any>(null)
+const answers = ref<Record<string, number | null>>({})
 const submitting = ref(false)
 const submissionSuccess = ref(false)
 const submissionError = ref('')
 
-function selectRating(questionId: string, rating: number) {
-  answers.value[questionId] = rating
+const userStore = useUserStore()
+const apiClient = new ApiClient({ jwtToken: userStore.user?.token ?? '' })
+
+async function loadQuiz() {
+  try {
+    const response = await apiClient.agencies.agency.quizzes.quiz.read({
+      agencyId,
+      quizId,
+    })
+    console.log(response, route.params)
+
+    if (response.status === 'success') {
+      const initialAnswers: Record<string, number | null> = {}
+      for (const question of response.data.quiz.questions) {
+        initialAnswers[question.id] = null
+      }
+      answers.value = initialAnswers
+      quiz.value = response.data.quiz
+    } else {
+      submissionError.value = 'Errore caricamento quiz'
+    }
+  } catch (error) {
+    submissionError.value = 'Errore caricamento quiz'
+  }
 }
 
-const allAnswered = computed(() => quiz.value.questions.every((q) => answers.value[q.id]))
-
-const userStore = useUserStore()
+const allAnswered = computed(() =>
+  quiz.value
+    ? quiz.value.questions.every((q: any) => typeof answers.value[q.id] === 'number')
+    : false,
+)
 
 async function submit() {
   const token = userStore.user?.token
   const uid = userStore.user?.uid
 
   if (!token || !uid) {
-    alert('Utente non autenticato.')
+    submissionError.value = 'Utente non autenticato.'
+    return
+  }
+
+  if (!quiz.value) {
+    submissionError.value = 'Quiz non caricato.'
+    return
+  }
+
+  if (!answerId) {
+    submissionError.value = 'ID risposta non trovato. Impossibile aggiornare.'
     return
   }
 
   const answersArray = Object.entries(answers.value).map(([questionId, rating]) => ({
     questionId,
-    rating,
+    optionId: rating?.toString() || null,
+    type: 'rating',
   }))
 
   const payload = {
     quizAnswer: {
-      _id: {
-        uid,
-        quizId: quiz.value._id,
-      },
       answers: answersArray,
+      status: 'completed',
     },
   }
 
@@ -59,119 +87,109 @@ async function submit() {
   submissionSuccess.value = false
 
   try {
-    await axios.post(
-      `http://localhost:4000/api/v1/citizens/${uid}/quizzes/${quiz.value._id}/answer`,
-      payload,
+    const response = await apiClient.agencies.agency.quizzes.quiz.answers.update(
       {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        agencyId,
+        quizId,
+        answerId,
       },
+      payload,
     )
+
+    if (response.status !== 'success') {
+      throw new Error(response.data.message || 'Errore aggiornamento risposta')
+    }
+
     submissionSuccess.value = true
   } catch (err: any) {
     console.error('Errore invio:', err)
-    submissionError.value = err.response?.data?.data?.message || 'Errore sconosciuto'
+    submissionError.value = err.message || 'Errore sconosciuto'
   } finally {
     submitting.value = false
   }
 }
+
+const goHome = () => {
+  router.push('/')
+}
+
+onMounted(() => {
+  loadQuiz()
+})
 </script>
 
 <template>
-  <div class="quiz-viewer">
+  <div class="quiz-viewer" v-if="quiz && Object.keys(answers).length > 0">
     <header class="app-header">
       <h1>{{ quiz.title }}</h1>
     </header>
 
     <div v-for="question in quiz.questions" :key="question.id" class="question">
       <h3>{{ question.question }}</h3>
-      <Rating
-        v-model="answers[question.id]"
-        :disabled="quiz.status !== 'published' || submitting"
-        :cancel="false"
-        :stars="5"
-        @change="(e) => selectRating(question.id, e.value)"
-      />
+      <Rating v-model="answers[question.id]" :cancel="false" :stars="5" :disabled="submitting" />
     </div>
 
     <button
       class="submit-btn"
-      :disabled="!allAnswered || quiz.status !== 'published' || submitting"
+      :disabled="!allAnswered || submitting || submissionSuccess"
       @click="submit"
     >
       {{ submitting ? 'Invio...' : 'Invia Risposte' }}
     </button>
 
-    <p v-if="submissionSuccess" class="success-msg">Quiz inviato con successo! 🎉</p>
+    <h3 v-if="submissionSuccess" class="success-msg">Quiz inviato con successo! 🎉</h3>
+    <button v-if="submissionSuccess" @click="goHome">Torna alla Home</button>
+    <p v-if="submissionError" class="error-msg">{{ submissionError }}</p>
+  </div>
+
+  <div v-else>
+    <p>Caricamento quiz...</p>
     <p v-if="submissionError" class="error-msg">{{ submissionError }}</p>
   </div>
 </template>
 
 <style scoped>
 .quiz-viewer {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-  color: #3a2f5a;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 .app-header {
   margin-bottom: 2rem;
-  border-bottom: 2px solid #d6c6f9;
-  padding-bottom: 0.5rem;
-  width: 100%;
+  text-align: center;
 }
 
 .question {
   margin-bottom: 2rem;
-  width: 100%;
-}
-
-.question h3 {
-  margin-bottom: 1rem;
-}
-
-.question .p-rating {
-  justify-content: center;
-  display: flex;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 8px;
 }
 
 .submit-btn {
-  width: 100%;
-  max-width: 300px;
-  padding: 0.75rem;
-  margin-top: 1rem;
-  font-weight: 600;
-  background: #6226e3;
+  background-color: #42b983;
   color: white;
+  padding: 0.8rem 1.6rem;
   border: none;
-  border-radius: 10px;
   cursor: pointer;
-  align-self: center;
+  font-size: 1rem;
+  border-radius: 5px;
+  margin-top: 1rem;
 }
 
 .submit-btn:disabled {
-  background: #ccc;
+  background-color: #ccc;
   cursor: not-allowed;
 }
 
-.success-msg,
-.error-msg {
-  margin-top: 1rem;
-  width: 100%;
-  max-width: 300px;
-  text-align: center;
-}
 .success-msg {
   color: green;
+  margin-top: 1rem;
 }
+
 .error-msg {
   color: red;
+  margin-top: 1rem;
 }
 </style>

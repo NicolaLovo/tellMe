@@ -55,7 +55,12 @@ onMounted(fetchQuizzes)
             </thead>
             <tbody>
               <tr v-for="quizAnswer in quizAnswers" :key="quizAnswer._id">
-                <CitizenQuizzesListRow :quizAnswer="quizAnswer" />
+                <td>{{ quizAnswer.title }}</td>
+                <CitizenQuizzesListRow
+                  :agencyId="quizAnswer.agencyId"
+                  :quizId="quizAnswer.quizId"
+                  :answerId="quizAnswer._id"
+                />
               </tr>
             </tbody>
           </table>

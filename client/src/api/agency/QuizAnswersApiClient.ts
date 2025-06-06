@@ -42,4 +42,30 @@ export class QuizAnswersApiClient extends ApiClientChildren {
       }
     }
   }
+
+  public async update(
+    params: {
+      agencyId: string
+      quizId: string
+      answerId: string
+    },
+    body: { quizAnswer: Partial<QuizAnswer> },
+  ): Promise<TmResponse<{ answerId: string }>> {
+    try {
+      const response = await this.httpClient.put<TmResponse<{ answerId: string }>>(
+        `${API_URL}/api/v1/agencies/${params.agencyId}/quizzes/${params.quizId}/answers/${params.answerId}`,
+        body,
+      )
+
+      return response ?? HTTP_TMRESPONSES.error
+    } catch (error) {
+      console.error('Update QuizAnswer error:', error)
+      return {
+        status: 'error',
+        data: {
+          message: 'Error in update QuizAnswer request',
+        },
+      }
+    }
+  }
 }
