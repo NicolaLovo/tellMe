@@ -2,7 +2,7 @@
 
 ## Objectives
 
-TellMe is an app that facilitates communication between citizens and public administrations. It allows the Municipality to publish surveys and generate useful reports for monitoring the territory.
+TellMe is an app that facilitates communication between citizens and public administrations. It allows the Municipality to publish surveys and generates useful reports for monitoring the territory.
 Users can participate in municipal surveys and questionnaires proposed by public and private entities, with incentives in the form of prizes. The app also includes a feature to report issues encountered in the area.
 
 ## Development
