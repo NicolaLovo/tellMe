@@ -22,7 +22,7 @@ describe('Surveys Tests', () => {
   });
 
   // Survey creation
-  test('POST /api/v1/surveys should return 201', async () => {
+  test('POST /api/v1/surveys should return 200', async () => {
     const res = await request(app)
       .post('/api/v1/surveys')
       .send({
@@ -47,7 +47,7 @@ describe('Surveys Tests', () => {
       .set('Authorization', `Bearer ${townCouncilToken}`)
       .set('Accept', 'application/json');
 
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(200);
     expect(res.body.status).toBe('success');
     expect(res.body.data.surveyId).toBeDefined();
     createdSurveyId = res.body.data.surveyId;

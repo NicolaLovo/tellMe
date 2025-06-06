@@ -41,7 +41,7 @@ export const createPrizeController = async (
     await newPrize.save();
 
     // Return the new survey ID if successfull
-    res.status(201).json({
+    res.status(200).json({
       status: 'success',
       data: {
         prizeId: newPrize.id.toString(),
