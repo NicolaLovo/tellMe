@@ -10,6 +10,35 @@ export class CitizenSurveysAnswerApiClient extends ApiClientChildren {
   constructor(props: ApiClientChildrenProps) {
     super(props)
   }
+
+  /**
+   * Ceates a survey answer.
+   */
+  public async create(params: {
+    uid: string
+    surveyId: string
+    surveyAnswer: SurveyAnswer
+  }): Promise<TmResponse<{}>> {
+    try {
+      const response = await this.httpClient.post<TmResponse<{}>>(
+        `${API_URL}/api/v1/citizens/${params.uid}/surveys/${params.surveyId}/answer`,
+        {
+          surveyAnswer: params.surveyAnswer,
+        },
+      )
+
+      return response ?? HTTP_TMRESPONSES.error
+    } catch (error) {
+      console.error('Create survey answer error:', error)
+      return {
+        status: 'error',
+        data: {
+          message: 'Error in creating survey answer',
+        },
+      }
+    }
+  }
+
   /**
    * Gets a survey answer by survey and user ID.
    */
@@ -24,7 +53,6 @@ export class CitizenSurveysAnswerApiClient extends ApiClientChildren {
 
       return response ?? HTTP_TMRESPONSES.error
     } catch (error) {
-      console.error('Read survey error:', error)
       return {
         status: 'error',
         data: {

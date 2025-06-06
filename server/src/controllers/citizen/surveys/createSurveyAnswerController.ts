@@ -8,9 +8,7 @@ interface ReqParams {
   uid: string;
 }
 
-type ResBody = TmResponse<{
-  answerId: string;
-}>;
+type ResBody = TmResponse<{}>;
 
 interface ReqBody {
   surveyAnswer: SurveyAnswer;
@@ -21,6 +19,7 @@ export const createSurveyAnswerController = async (
 ): Promise<void> => {
   try {
     const { surveyAnswer } = req.body;
+    console.log(surveyAnswer);
 
     const exists = await SurveyAnswerModel.findOne({
       '_id.surveyId': surveyAnswer._id.surveyId,
@@ -41,9 +40,7 @@ export const createSurveyAnswerController = async (
 
     res.status(200).json({
       status: 'success',
-      data: {
-        answerId: created._id.toString(),
-      },
+      data: {},
     });
   } catch (error) {
     console.error('Error creating survey answer:', error);

@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { APP_ROUTES } from '@/constants/APP_ROUTES';
-import router from '@/router';
+import { ApiClient } from '@/api/ApiClient'
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
+import router from '@/router'
 import { useUserStore } from '@/stores/useUserStore'
+import { SurveyAnswer } from '@/types/survey/answer/SurveyAnswer'
+import { SurveyQuestionAnswer } from '@/types/survey/answer/SurveyQuestionAnswer'
 import type { Survey } from '@/types/survey/Survey'
-import axios from 'axios'
+import { Button } from 'primevue'
 import { computed, ref } from 'vue'
 
 const props = defineProps<{ survey: Survey }>()
@@ -25,9 +28,14 @@ function isSelected(questionId: string, optionId: string) {
   return answers.value[questionId] === optionId
 }
 
-const allAnswered = computed(() => props.survey.questions.every((q) => answers.value[q.id]))
+const allAnswered = computed(() => {
+  return props.survey?.questions?.length
+    ? props.survey.questions.every((q) => answers.value[q.id])
+    : false
+})
 
 const userStore = useUserStore()
+const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
 
 async function submit() {
   submitting.value = true
@@ -43,36 +51,35 @@ async function submit() {
     return
   }
 
-  const answersArray = Object.entries(answers.value).map(([questionId, optionId]) => {
-    const question = props.survey.questions.find((q) => q.id === questionId)
-    return {
+  const answersArray: SurveyQuestionAnswer[] = Object.entries(answers.value).map(
+    ([questionId, optionId]) => ({
       questionId,
       optionId,
-      type: question?.type || 'unknown',
-    }
-  })
+      type: 'multiple-choice',
+    }),
+  )
 
-  const payload = {
-    surveyAnswer: {
-      _id: {
-        uid,
-        surveyId: props.survey._id,
-      },
-      answers: answersArray,
+  const payload: SurveyAnswer = {
+    _id: {
+      uid,
+      surveyId: props.survey._id,
     },
+    creationDate: new Date(),
+    answers: answersArray,
   }
 
   try {
-    await axios.post(
-      `http://localhost:4000/api/v1/citizens/${uid}/surveys/${props.survey._id}/answer`,
-      payload,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    )
-    submissionSuccess.value = true
+    const response = await apiClient.citizens.citizen.surveys.surveyanswer.create({
+      uid,
+      surveyId: props.survey._id,
+      surveyAnswer: payload,
+    })
+
+    if (response.status === 'success') {
+      submissionSuccess.value = true
+    } else {
+      submissionError.value = response.data?.message || 'Errore di invio'
+    }
   } catch (err: any) {
     submissionError.value = err.response?.data?.data?.message || 'Errore di invio'
     console.error('Errore invio:', err)
@@ -112,7 +119,7 @@ async function submit() {
     </Button>
 
     <h3 v-if="submissionSuccess" class="success-msg">Sondaggio inviato con successo! 🎉</h3>
-    <Button v-if="submissionSuccess" @click="goHome" label="Torna alla Home"/>
+    <Button v-if="submissionSuccess" @click="goHome" label="Torna alla Home" />
     <p v-if="submissionError" class="error-msg">{{ submissionError }}</p>
   </div>
 </template>
@@ -173,7 +180,6 @@ async function submit() {
 }
 
 .success-msg {
-
   margin-top: 1rem;
 }
 
