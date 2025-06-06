@@ -1,46 +1,19 @@
 <script setup lang="ts">
-import { ApiClient } from '@/api/ApiClient'
-import { useUserStore } from '@/stores/useUserStore'
-import { QuizAnswer } from '@/types/quiz/answer/QuizAnswer'
-import { Quiz } from '@/types/quiz/Quiz'
-import { onMounted, ref } from 'vue'
+import CompileQuizButton from '@/components/quizzes/buttons/CompileQuizButton.vue'
+const props = defineProps<{ agencyId: string; quizId: string; answerId: string }>()
 
-const props = defineProps<{
-  quizAnswer: QuizAnswer
-}>()
-
-const quiz = ref<Quiz | null>(null)
-
-const userStore = useUserStore()
-const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
-
-const fetchQuiz = async () => {
-  try {
-    const response = await apiClient.agencies.agency.quizzes.quiz.read({
-      quizId: props.quizAnswer.quizId,
-      agencyId: props.quizAnswer.agencyId,
-    })
-
-    if (response.status === 'success') {
-      quiz.value = response.data.quiz
-    } else {
-      console.error('Errore nel caricamento dei questionari.')
-    }
-  } catch (err) {
-    console.error('Errore durante il caricamento dei questionari:', err)
-  }
+function goToQuizPage() {
+  const url = `/citizen/${props.agencyId}/quizzes/${props.quizId}/answers/${props.answerId}`
+  window.location.href = url
 }
-
-onMounted(fetchQuiz)
 </script>
 
 <template>
-  <td class="quiz-td">{{ quiz?.title }}</td>
-  <td></td>
+  <td>
+    <CompileQuizButton
+      :agencyId="props.agencyId"
+      :quizId="props.quizId"
+      :answerId="props.answerId"
+    />
+  </td>
 </template>
-
-<style scoped>
-.quiz-td {
-  padding: 12px 16px;
-}
-</style>

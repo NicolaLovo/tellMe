@@ -5,6 +5,7 @@ import { Quiz } from '@/types/quiz/Quiz'
 import { QuizResults } from '@/types/quiz/QuizResults'
 import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
 import { QuizApiClient } from './QuizApiClient'
+import { QuizAnswer } from '@/types/quiz/answer/QuizAnswer'
 
 /**
  * API client for managing quizzes within an agency
@@ -126,4 +127,5 @@ export class QuizzesApiClient extends ApiClientChildren {
       }
     }
   }
+
 }

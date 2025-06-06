@@ -8,15 +8,22 @@ type ResBody = TmResponse<{
 }>;
 
 export const readQuizController = async (
-  req: Request<{ quizId: string }, ResBody, {}>,
+  req: Request<
+    { agencyId: string; quizId: string; answerId: string },
+    ResBody,
+    {}
+  >,
   res: Response<ResBody>,
 ): Promise<void> => {
   try {
-    // Extract the quiz ID from the request parameters
-    const { quizId } = req.params;
+    // Extract the quiz ID and agency from the request parameters
+    const { quizId, agencyId } = req.params;
 
     // Search for the quiz by ID
-    const quiz = await QuizModel.findById(quizId);
+    const quiz = await QuizModel.findOne({
+      _id: quizId,
+      agencyId: agencyId,
+    });
 
     // Check if the quiz exists
     if (!quiz) {
