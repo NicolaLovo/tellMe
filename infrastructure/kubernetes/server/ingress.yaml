@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-tellme-server
+  namespace: prod-tellme
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+
+    # certificates
+    cert-manager.io/cluster-issuer: "issuer-letsencrypt"
+    kubernetes.io/ingress.class: "nginx"
+
+    # allow cors
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, PATCH, OPTIONS, HEAD"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "wetambara.com"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - backend.tellme.wetambara.com
+      secretName: secret-server-letsencrypt
+  rules:
+    - host: backend.tellme.wetambara.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-tellme-server
+                port:
+                  number: 4000

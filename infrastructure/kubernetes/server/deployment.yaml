@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-tellme-server
+  namespace: prod-tellme
+  labels:
+    run: deployment-tellme-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: deployment-tellme-server
+  template:
+    metadata:
+      labels:
+        run: deployment-tellme-server
+    spec:
+      containers:
+        - name: container-tellme-server
+          image: wetambara/tellme-server:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4000
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m" # prevent container from using all the resources
+
