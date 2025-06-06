@@ -69,3 +69,27 @@ npm run preview
 ### Apiary documentation
 
 The API documentation is available at the following link: [Apiary](https://app.apiary.io/tellme/editor). You can view the API documentation and test the endpoints directly from the Apiary interface.
+
+## Deployment
+
+### Stage 1: infrasgtructure setup
+
+1. Obtain a DigitalOcean access token and save it in a file named `do_token` in `./infrastructure/terraform/do_token`. Necessary permissions: `kubernetes:write`, `kubernetes:read`
+2. Initialize Terraform:
+   ```bash
+   cd infrastructure/terraform
+   terraform init
+   ```
+3. Apply the Terraform configuration to create the infrastructure:
+   ```bash
+   terraform apply
+   ```
+   This will create a Kubernetes cluster and other necessary resources.
+
+### Stage 2: build and push Docker images
+
+For the client:
+
+```sh
+cd 
+```
