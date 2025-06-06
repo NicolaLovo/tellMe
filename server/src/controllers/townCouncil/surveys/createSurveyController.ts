@@ -77,7 +77,7 @@ export const createSurveyController = async (
     await newSurvey.save();
 
     // Return the new survey ID if successfull
-    res.status(200).json({
+    res.status(201).json({
       status: 'success',
       data: {
         surveyId: newSurvey.id.toString(),

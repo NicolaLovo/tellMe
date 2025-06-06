@@ -7,34 +7,34 @@ import { updateSurveyController } from '../../controllers/townCouncil/surveys/up
 import { getRbacMiddleware } from '../../middlewares/getRbacMiddleware';
 
 const surveysRouter = Router();
-/*
-surveysRouter.post('', createSurveyController);
-surveysRouter.get('', listTownCouncilSurveysController);
 
-surveysRouter
-  .put('/:surveyId', updateSurveyController)
-  .get('/:surveyId', readSurveyController)
-  .get('/:surveyId/results', getSurveyResultsController);
-*/
+// Surveys routes for town council
 
+// Creation of a survey
 surveysRouter.post(
   '',
   getRbacMiddleware({ requiredRoles: ['townCouncil'] }),
   createSurveyController,
 );
+
+// List all surveys
 surveysRouter.get(
   '',
   getRbacMiddleware({ requiredRoles: ['townCouncil'] }),
   listTownCouncilSurveysController,
 );
 
+//Read survey by ID
 surveysRouter.get('/:surveyId', readSurveyController);
 
+// Update survey by ID
 surveysRouter.put(
   '/:surveyId',
   getRbacMiddleware({ requiredRoles: ['townCouncil'] }),
   updateSurveyController,
 );
+
+// Get results of a survey by ID
 surveysRouter.get(
   '/:surveyId/results',
   getRbacMiddleware({ requiredRoles: ['townCouncil'] }),
