@@ -4,6 +4,7 @@ import { getQuizResultsController } from '../../controllers/agency/quizzes/answe
 import { createQuizController } from '../../controllers/agency/quizzes/createQuizController';
 import { listAgencyQuizzesController } from '../../controllers/agency/quizzes/listAgencyQuizzesController';
 import { readQuizController } from '../../controllers/agency/quizzes/readQuizController';
+import { updateQuizAnswerController } from '../../controllers/citizen/quizzes/updateQuizAnswerController';
 import { getRbacMiddleware } from '../../middlewares/getRbacMiddleware';
 
 const quizzesRouter = Router();
@@ -40,6 +41,11 @@ quizzesRouter.post(
     requiredRoles: ['agency'],
   }),
   createQuizAnswerController,
+);
+
+quizzesRouter.put(
+  '/:agencyId/quizzes/:quizId/answers/:quizAnswerId',
+  updateQuizAnswerController,
 );
 
 export default quizzesRouter;
