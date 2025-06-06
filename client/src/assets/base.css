@@ -30,7 +30,6 @@ h4 {
 
 div {
   font-size: 1.1rem;
-  color: #1a237e;
 }
 
 label {
@@ -46,7 +45,7 @@ label {
   border: 2px solid #5c6bc0 !important;
 }
 
-Button{ 
+Button {
   border-radius: 10px !important;
 }
 
@@ -58,7 +57,6 @@ Button:disabled {
 .p-tag-info {
   background-color: #5c6bc0 !important;
 }
-
 
 /* 
 --indigo-50: #e8eaf6;
