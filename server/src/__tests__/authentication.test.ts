@@ -1,5 +1,7 @@
 import request from 'supertest';
 import app from '../app';
+import { UserModel } from '../database/auth/UserSchema';
+import { connectToDatabase } from '../database/connectToDatabase';
 import { getTestUserFirebaseToken } from './utils/auth/getUsersFirebaseTokens';
 import { TEST_USERS } from './utils/constants/TEST_USERS';
 import { initFirebaseClient } from './utils/database/testFirebaseClient';
@@ -23,8 +25,12 @@ describe('Authentication Tests', () => {
   beforeAll(async () => {
     // register citizen with firebase SDK
 
+    await connectToDatabase();
     await initFirebaseServer();
     await initFirebaseClient();
+
+    await UserModel.deleteOne({ email: TEST_USERS.citizen.email });
+    await UserModel.deleteOne({ email: TEST_USERS.agency.email });
 
     const citizenCredentials = await getTestUserFirebaseToken({
       email: TEST_USERS.citizen.email,
