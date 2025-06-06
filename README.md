@@ -2,8 +2,8 @@
 
 ## Objectives
 
-TellMe is an app that facilitates communication between citizens and public administrations. It allows the Municipality to publish surveys and generate useful reports for monitoring the territory.
-Users can participate in municipal surveys and questionnaires proposed by public and private entities, with incentives in the form of prizes. The app also includes a feature to report issues encountered in the area.
+TellMe is an app that facilitates communication between citizens and public administrations. It allows the Municipality to publish surveys and generates useful reports for monitoring the territory.
+Users can participate in municipal surveys and questionnaires proposed by public and private entities, with incentives in the form of prizes.
 
 ## Development
 
@@ -72,9 +72,11 @@ The API documentation is available at the following link: [Apiary](https://app.a
 
 ## Deployment
 
-### Stage 1: infrasgtructure setup
+### Stage 1: infrastructure setup
 
-1. Obtain a DigitalOcean access token and save it in a file named `do_token` in `./infrastructure/terraform/do_token`. Necessary permissions: `kubernetes:write`, `kubernetes:read`
+1. Obtain a DigitalOcean access token and save it in a file named `do_token` in `./infrastructure/terraform/do_token`. Necessary permissions:
+   - `kubernetes:write`
+   - `kubernetes:read`
 2. Initialize Terraform:
    ```bash
    cd infrastructure/terraform
