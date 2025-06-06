@@ -53,7 +53,7 @@ export const listCitizenQuizzesController = async (
       return;
     }
 
-    const filter = { uid: req.params.uid };
+    const filter = { uid: req.params.uid, status: 'pending' };
 
     const quizzes = await QuizAnswerModel.find(filter)
       .sort({ creationDate: -1 })

@@ -10,6 +10,7 @@ export const APP_ROUTES = {
     home: '/citizen/home',
     changecredentials: '/citizen/changecredentials',
     surveyanswer: '/citizen/surveys/:surveyId/answer',
+    quizanswer: '/citizen/:agencyId/quizzes/:quizId/answers/:answerId',
   },
   townCouncil: {
     welcome: '/towncouncil/welcome',
