@@ -2,7 +2,7 @@ import { credential } from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import { config } from '../config/config';
 
-const credentials: object = {
+export const firebaseCredentials: object = {
   type: 'service_account',
   project_id: 'tellme-4ea95',
   private_key_id: '77555647a3479456cdb41e743ce8941c0379733c',
@@ -18,7 +18,7 @@ const credentials: object = {
 };
 
 export const firebaseApp = initializeApp({
-  credential: credential.cert(credentials),
+  credential: credential.cert(firebaseCredentials),
 });
 
 export const initFirebase = async () => {
