@@ -37,7 +37,3 @@ app.get('/', (req, res) => {
   res.send('ok');
 });
 export default app;
-
-export const sum = (a: number, b: number): number => {
-  return a + b;
-};
