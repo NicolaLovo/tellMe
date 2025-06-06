@@ -91,5 +91,39 @@ The API documentation is available at the following link: [Apiary](https://app.a
 For the client:
 
 ```sh
-cd 
+cd ./client
+./scripts/build.sh
 ```
+
+For the server:
+
+```sh
+cd ./server
+./scripts/build.sh
+```
+
+### Stage 4: deploy to Kubernetes
+
+Requirements:
+
+- `kubectl` installed and configured to access the Kubernetes cluster created in Stage 1.
+
+Apply the Kubernetes manifests to deploy the application:
+
+```bash
+cd ./infrastructure/kubernetes
+kubectl apply -f .
+kubectl apply -f ./server
+kubectl apply -f ./client
+```
+
+### Stage 3: DNS configuration
+
+Create 2 DNS records:
+
+| Type | Name                         | Value                   |
+| ---- | ---------------------------- | ----------------------- |
+| A    | tellme.wetambara.com         | IP of the load balancer |
+| A    | tellme.backend.wetambara.com | IP of the load balancer |
+
+Now the frontend should be accessible at `https://tellme.wetambara.com` and the backend at `https://tellme.backend.wetambara.com`.
