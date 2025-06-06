@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ApiClient } from '@/api/ApiClient'
 import { useUserStore } from '@/stores/useUserStore'
+import { QuizAnswer } from '@/types/quiz/answer/QuizAnswer'
+import { QuizQuestionAnswer } from '@/types/quiz/answer/QuizQuestionAnswer'
 import Rating from 'primevue/rating'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -10,10 +12,11 @@ const router = useRouter()
 
 const agencyId = route.params.agencyId as string
 const quizId = route.params.quizId as string
-const answerId = route.params.answerId as string
+const quizAnswerId = route.params.answerId as string
+console.log(route.params)
 
 const quiz = ref<any>(null)
-const answers = ref<Record<string, number | null>>({})
+const answers = ref<Record<string, number | undefined>>({})
 const submitting = ref(false)
 const submissionSuccess = ref(false)
 const submissionError = ref('')
@@ -27,12 +30,11 @@ async function loadQuiz() {
       agencyId,
       quizId,
     })
-    console.log(response, route.params)
 
     if (response.status === 'success') {
-      const initialAnswers: Record<string, number | null> = {}
+      const initialAnswers: Record<string, number | undefined> = {}
       for (const question of response.data.quiz.questions) {
-        initialAnswers[question.id] = null
+        initialAnswers[question.id] = undefined
       }
       answers.value = initialAnswers
       quiz.value = response.data.quiz
@@ -64,21 +66,23 @@ async function submit() {
     return
   }
 
-  if (!answerId) {
+  if (!quizAnswerId) {
     submissionError.value = 'ID risposta non trovato. Impossibile aggiornare.'
     return
   }
 
-  const answersArray = Object.entries(answers.value).map(([questionId, rating]) => ({
-    questionId,
-    optionId: rating?.toString() || null,
-    type: 'rating',
-  }))
+  const answersArray: QuizQuestionAnswer[] = Object.entries(answers.value)
+    .filter(([_, rating]) => typeof rating === 'number' && rating >= 1 && rating <= 5)
+    .map(([questionId, rating]) => ({
+      questionId,
+      optionId: String(rating) as '1' | '2' | '3' | '4' | '5',
+      type: 'rating' as const,
+    }))
 
-  const payload = {
+  const payload: { quizAnswer: Partial<QuizAnswer> } = {
     quizAnswer: {
-      answers: answersArray,
       status: 'completed',
+      answers: answersArray,
     },
   }
 
@@ -91,7 +95,7 @@ async function submit() {
       {
         agencyId,
         quizId,
-        answerId,
+        quizAnswerId,
       },
       payload,
     )

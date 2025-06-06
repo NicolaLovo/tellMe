@@ -24,9 +24,9 @@ export class QuizAnswersApiClient extends ApiClientChildren {
       uid: string
     },
     body: { quizAnswer: QuizAnswer },
-  ): Promise<TmResponse<{ answerId: QuizAnswer['_id'] }>> {
+  ): Promise<TmResponse<{ quizAnswerId: QuizAnswer['_id'] }>> {
     try {
-      const response = await this.httpClient.post<TmResponse<{ answerId: QuizAnswer['_id'] }>>(
+      const response = await this.httpClient.post<TmResponse<{ quizAnswerId: QuizAnswer['_id'] }>>(
         `${API_URL}/api/v1/agencies/${params.agencyId}/quizzes/${params.quizId}/answers/${params.uid}`,
         body,
       )
@@ -47,13 +47,13 @@ export class QuizAnswersApiClient extends ApiClientChildren {
     params: {
       agencyId: string
       quizId: string
-      answerId: string
+      quizAnswerId: string
     },
     body: { quizAnswer: Partial<QuizAnswer> },
-  ): Promise<TmResponse<{ answerId: string }>> {
+  ): Promise<TmResponse<{ quizAnswerId: string }>> {
     try {
-      const response = await this.httpClient.put<TmResponse<{ answerId: string }>>(
-        `${API_URL}/api/v1/agencies/${params.agencyId}/quizzes/${params.quizId}/answers/${params.answerId}`,
+      const response = await this.httpClient.put<TmResponse<{ quizAnswerId: string }>>(
+        `${API_URL}/api/v1/agencies/${params.agencyId}/quizzes/${params.quizId}/answers/${params.quizAnswerId}`,
         body,
       )
 
