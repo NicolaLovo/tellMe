@@ -11,7 +11,7 @@ authRouter.post('/citizens', registerCitizenController); // POST register a citi
 authRouter.post('/agencies', registerAgencyController); // POST register a citizen
 
 // Login routes
-authRouter.post('/login', loginController); // POST login a citizen
+authRouter.post('/login', loginController); // POST login 
 
 // Export this router so is available in app.ts
 export default authRouter;
