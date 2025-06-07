@@ -8,7 +8,7 @@ const props = defineProps<{ agencyId: string; quizId: string; answerId: string }
       :to="`/citizen/${props.agencyId}/quizzes/${props.quizId}/answers/${props.answerId}`"
       :class="[(slotProps as any).class, 'no-underline']"
     >
-      Compila Quiz
+      Compila
     </RouterLink>
   </Button>
 </template>
