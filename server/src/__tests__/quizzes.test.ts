@@ -5,7 +5,6 @@ import { loginTestUser } from './utils/auth/loginUser';
 import { TEST_USERS } from './utils/constants/TEST_USERS';
 import { initFirebaseClient } from './utils/database/testFirebaseClient';
 import { initFirebaseServer } from './utils/database/testFirebaseServer';
-import { jwtDecode } from 'jwt-decode';
 
 interface TokenPayload {
   uid: string;
@@ -16,8 +15,6 @@ interface TokenPayload {
 describe('Quizzes Tests', () => {
   let agencyToken: string;
   let agencyId: string;
-
-
 
   beforeAll(async () => {
     await connectToDatabase();
@@ -33,7 +30,6 @@ describe('Quizzes Tests', () => {
     agencyId = res.uid;
 
     console.log('agency id --> ', agencyId);
-    
   });
 
   test('POST /api/v1/:agencyId/quizzes should return 200 with valid quiz', async () => {

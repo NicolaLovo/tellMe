@@ -75,7 +75,7 @@ describe('Surveys Tests', () => {
       .get(`/api/v1/surveys/${createdSurveyId}`)
       .set('Authorization', `Bearer ${townCouncilToken}`)
       .set('Accept', 'application/json');
-    console.log('Read survey response:', createdSurveyId, res.body);
+    // console.log('Read survey response:', createdSurveyId, res.body);
 
     expect(res.status).toBe(200);
     expect(res.body.status).toBe('success');
