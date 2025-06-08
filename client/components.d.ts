@@ -19,6 +19,8 @@ declare module 'vue' {
     CloseSurveyButton: typeof import('./src/components/surveys/buttons/CloseSurveyButton.vue')['default']
     CompileQuizButton: typeof import('./src/components/quizzes/buttons/CompileQuizButton.vue')['default']
     CompileSurveyButton: typeof import('./src/components/surveys/buttons/CompileSurveyButton.vue')['default']
+    CreatePrize: typeof import('./src/components/prizes/CreatePrize.vue')['default']
+    DataView: typeof import('primevue/dataview')['default']
     Divider: typeof import('primevue/divider')['default']
     EnableQuizCompilationButton: typeof import('./src/components/quizzes/buttons/EnableQuizCompilationButton.vue')['default']
     GetSurveyResultsButton: typeof import('./src/components/surveys/buttons/GetSurveyResultsButton.vue')['default']

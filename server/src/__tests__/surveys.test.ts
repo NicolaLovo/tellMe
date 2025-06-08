@@ -6,6 +6,7 @@ import { TEST_USERS } from './utils/constants/TEST_USERS';
 import { initFirebaseClient } from './utils/database/testFirebaseClient';
 import { initFirebaseServer } from './utils/database/testFirebaseServer';
 
+// This file contains tests for the Surveys API endpoints
 describe('Surveys Tests', () => {
   let townCouncilToken = '';
   let createdSurveyId = '';

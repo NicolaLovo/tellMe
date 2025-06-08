@@ -19,7 +19,7 @@ interface ReqQuery {
 }
 
 type ResBody = TmResponse<{
-  surveys: Prize[];
+  prizes: Prize[];
   metadata: {
     /**
      * Total number of items that satisfy the query.
@@ -64,7 +64,7 @@ export const listPrizesController = async (
     res.status(200).json({
       status: 'success',
       data: {
-        surveys: prizes as unknown as Prize[],
+        prizes: prizes as unknown as Prize[],
         metadata: {
           totalCount,
         },

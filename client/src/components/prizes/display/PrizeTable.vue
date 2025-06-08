@@ -1,16 +1,17 @@
-<script lang="ts">
+<script setup lang="ts">
 import { ApiClient } from '@/api/ApiClient'
 import { useUserStore } from '@/stores/useUserStore'
-import DataView from 'primevue/dataview'
+import Button from 'primevue/button'
 import { onMounted, ref } from 'vue'
+import { RouterLink } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { Prize } from '../../../../../server/src/types/prizes/Prize'
 
+const prizes = ref<Prize[]>([])
 const pageIndex = ref(0)
 const pageSize = ref(10)
-const prizes = ref<Prize[]>([])
-const toast = useToast()
 
+const toast = useToast()
 const userStore = useUserStore()
 const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
 
@@ -23,11 +24,13 @@ const fetchPrizes = async () => {
 
     if (response.status === 'success') {
       prizes.value = response.data.prizes
+      console.log('Premi caricati:', prizes.value)
     } else {
-      console.error('Errore nel caricamento dei premi.')
+      toast.error('Errore nel caricamento dei premi.')
     }
   } catch (err) {
     console.error('Errore durante il caricamento dei premi:', err)
+    toast.error('Errore durante il caricamento dei premi.')
   }
 }
 
@@ -36,43 +39,80 @@ onMounted(fetchPrizes)
 
 <template>
   <div class="prize-list-view">
-    <RouterLink v-if="userStore?.user?.role === 'townCouncil'" :to="`townCouncil/createprize`">
-      Aggiungi un nuovo premio
-    </RouterLink>
-
-    <DataView :value="prizes" layout="grid">
-      <template #header>
-        <div class="header">
-          <h2>Available Prizes</h2>
-        </div>
+    <header class="header">
+      <template v-if="userStore?.user?.roles?.includes('townCouncil')">
+        <RouterLink to="/townCouncil/createprize" custom v-slot="{ navigate }">
+          <Button class="add-btn" @click="navigate" label="Aggiungi un nuovo premio" />
+        </RouterLink>
       </template>
+    </header>
 
-      <template #grid="slotProps">
-        <div class="p-col-12 p-md-4 p-2">
-          <div class="prize-card">
-            <h3>{{ slotProps.data.title }}</h3>
-            <p><strong>Points:</strong> {{ slotProps.data.points }}</p>
-            <small>Created on: {{ formatDate(slotProps.data.creationDate) }}</small>
-          </div>
-        </div>
-      </template>
-    </DataView>
+    <div v-if="prizes?.length" class="prize-table">
+      <ul class="prize-grid">
+        <li v-for="prize in prizes" :key="prize._id" class="prize-card">
+          <h3>{{ prize.title }}</h3>
+          <p>Creato il: {{ new Date(prize.creationDate).toLocaleDateString() }}</p>
+          <p class="points">Punti: {{ prize.points }}</p>
+        </li>
+      </ul>
+    </div>
+
+    <div v-else class="empty-state">
+      <p>Nessun premio disponibile.</p>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.prize-list-view {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: left;
+  margin-bottom: 1.5rem;
+}
+
+.prize-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 .prize-card {
   border: 1px solid #ddd;
   padding: 1rem;
   border-radius: 8px;
   background-color: #fdfdfd;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
 }
+
+.prize-card:hover {
+  transform: scale(1.02);
+}
+
 .points {
   font-weight: bold;
   color: #0b7dda;
 }
-.header {
-  margin-bottom: 1rem;
+
+.empty-state {
+  text-align: center;
+  color: #666;
+  padding: 2rem 0;
+}
+
+.add-btn {
+  background-color: #6226e3;
+  border: none;
+  color: white;
+  font-weight: 500;
 }
 </style>

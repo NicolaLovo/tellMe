@@ -11,6 +11,7 @@ import RegisterAgencyPage from '@/views/citizen/auth/RegisterAgencyPage.vue'
 import CitizenCompileSurveyPage from '@/views/citizen/CitizenCompileSurveyPage.vue'
 import CitizenHomePage from '@/views/citizen/CitizenHomePage.vue'
 import PrizeView from '@/views/prize/PrizeView.vue'
+import PrizeCreationPage from '@/components/prizes/CreatePrize.vue'
 import TownCouncilWelcomePage from '@/views/townCouncil/auth/TownCouncilWelcomePage.vue'
 import SurveyCreationPage from '@/views/townCouncil/survey/SurveyCreationPage.vue'
 import SurveyResultsPage from '@/views/townCouncil/survey/SurveyResultsPage.vue'
@@ -63,6 +64,11 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.townCouncil.surveyresults,
     name: 'SurveyResults',
     component: SurveyResultsPage,
+  },
+  {
+    path: APP_ROUTES.townCouncil.createprize,
+    name: 'PrizeCreation',
+    component: PrizeCreationPage,
   },
   {
     path: APP_ROUTES.citizen.welcome,
@@ -141,7 +147,6 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Prizes',
     component: PrizeView,
   },
-
 ]
 
 const router = createRouter({
