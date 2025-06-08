@@ -47,6 +47,7 @@ export const createQuizAnswerController = async (
         answerId: newQuiz.id.toString(),
       },
     });
+    return;
   } catch (error) {
     console.error('Error creating quiz answer:', error);
     res.status(500).json({
@@ -55,5 +56,6 @@ export const createQuizAnswerController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

@@ -45,6 +45,7 @@ export const readQuizController = async (
         quiz: quiz.toJSON() as unknown as Quiz,
       },
     });
+    return;
   } catch (error) {
     console.error('Error reading quiz:', error);
     res.status(500).json({
@@ -53,5 +54,6 @@ export const readQuizController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

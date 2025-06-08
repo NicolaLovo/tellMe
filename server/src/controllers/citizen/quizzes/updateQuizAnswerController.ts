@@ -66,6 +66,7 @@ export const updateQuizAnswerController = async (
         quizAnswerId: quizAnswer.id.toString(),
       },
     });
+    return;
   } catch (error) {
     console.error('Error quizAnswer:', error);
     res.status(500).json({
@@ -74,5 +75,6 @@ export const updateQuizAnswerController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

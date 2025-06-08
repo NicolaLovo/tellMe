@@ -72,6 +72,7 @@ export const listCitizenQuizzesController = async (
         },
       },
     });
+    return;
   } catch (error) {
     console.error('Error fetching citizen quizzes:', error);
     res.status(500).json({
@@ -80,5 +81,6 @@ export const listCitizenQuizzesController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

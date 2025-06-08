@@ -35,6 +35,7 @@ export const createSurveyController = async (
           message: 'Missing or invalid required fields',
         },
       });
+      return;
     }
 
     // Validate each question
@@ -46,6 +47,7 @@ export const createSurveyController = async (
             message: 'Each question must have a non-empty question text',
           },
         });
+        return;
       }
 
       // Validate multiple-choice question options
@@ -62,6 +64,7 @@ export const createSurveyController = async (
                 'Multiple-choice questions must have at least one option',
             },
           });
+          return;
         }
       }
     }
@@ -83,6 +86,7 @@ export const createSurveyController = async (
         surveyId: newSurvey.id.toString(),
       },
     });
+    return;
   } catch (error) {
     console.error('Error creating survey:', error);
     res.status(500).json({
@@ -91,5 +95,6 @@ export const createSurveyController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

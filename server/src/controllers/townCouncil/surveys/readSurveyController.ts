@@ -46,6 +46,7 @@ export const readSurveyController = async (
         },
       },
     });
+    return;
   } catch (error) {
     console.error('Error reading survey:', error);
     res.status(500).json({
@@ -54,5 +55,6 @@ export const readSurveyController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

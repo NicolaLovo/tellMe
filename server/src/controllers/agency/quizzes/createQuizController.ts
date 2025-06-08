@@ -40,6 +40,7 @@ export const createQuizController = async (
           message: 'Missing or invalid required fields',
         },
       });
+      return;
     }
 
     // Validate each question
@@ -51,6 +52,7 @@ export const createQuizController = async (
             message: 'Each question must have a non-empty question text',
           },
         });
+        return;
       }
     }
 
@@ -70,6 +72,7 @@ export const createQuizController = async (
         quizId: newQuiz.id.toString(),
       },
     });
+    return;
   } catch (error) {
     console.error('Error creating quiz:', error);
     res.status(500).json({
@@ -78,5 +81,6 @@ export const createQuizController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };
