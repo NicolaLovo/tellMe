@@ -40,24 +40,20 @@ export const updateQuizAnswerController = async (
      * - status
      * - answers
      */
-    if (req.body.quizAnswer.status) {
-      updateBody.status = req.body.quizAnswer.status;
-    }
     if (
       req.body.quizAnswer.status === 'completed' &&
-      req.body.quizAnswer.answers
+      req.body.quizAnswer.answers !== undefined
     ) {
-      updateBody = {
-        ...updateBody,
-        status: 'completed',
-        answers: req.body.quizAnswer.answers,
-      };
+      updateBody.status = 'completed';
+      updateBody.answers = req.body.quizAnswer.answers;
     }
 
     /**
      * Update the quizAnswer with the provided data
      */
-    await quizAnswer.updateOne({ $set: updateBody });
+    if (Object.keys(updateBody).length > 0) {
+      await quizAnswer.updateOne({ $set: updateBody });
+    }
 
     // Return the quizAnswer ID in the response
     res.status(200).json({
