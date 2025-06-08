@@ -135,12 +135,12 @@ import { APP_ROUTES } from '@/constants/APP_ROUTES'
 }
 
 .animated-bg.top {
-  top: 0;
+  top: -5px;
   transform: rotate(180deg);
 }
 
 .animated-bg.bottom {
-  bottom: 0;
+  bottom: -5px;
 }
 
 .button-group {
