@@ -6,30 +6,33 @@ import { TEST_USERS } from './utils/constants/TEST_USERS';
 import { initFirebaseClient } from './utils/database/testFirebaseClient';
 import { initFirebaseServer } from './utils/database/testFirebaseServer';
 
-interface TokenPayload {
-  uid: string;
-  email: string;
-  roles: string[];
-}
-
 describe('Quizzes Tests', () => {
   let agencyToken: string;
   let agencyId: string;
+  let citizenToken: string;
+  let citizenId: string;
+  const quizId = '684548f34850426da2c8acf4';
 
   beforeAll(async () => {
     await connectToDatabase();
     await initFirebaseServer();
     await initFirebaseClient();
 
-    const res = await loginTestUser({
+    const citizenres = await loginTestUser({
+      email: TEST_USERS.citizen.email,
+      password: TEST_USERS.citizen.password,
+    });
+
+    citizenId = citizenres.uid;
+    citizenToken = citizenres.token;
+
+    const agencyres = await loginTestUser({
       email: TEST_USERS.agency.email,
       password: TEST_USERS.agency.password,
     });
 
-    agencyToken = res.token;
-    agencyId = res.uid;
-
-    console.log('agency id --> ', agencyId);
+    agencyToken = agencyres.token;
+    agencyId = agencyres.uid;
   });
 
   test('POST /api/v1/:agencyId/quizzes should return 200 with valid quiz', async () => {
@@ -115,5 +118,47 @@ describe('Quizzes Tests', () => {
     );
   });
 
-  
+  test('POST /api/v1/agencies/:agencyId/quizzes/:quizId/answers/:uid should create a quiz answer', async () => {
+    const payload = {
+      quizAnswer: {
+        _id: '',
+        status: 'pending',
+        quizId,
+        agencyId,
+        creationDate: new Date().toISOString(),
+        citizenId,
+      },
+    };
+
+    const res = await request(app)
+      .post(
+        `/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers/${citizenId}`,
+      )
+      .send(payload);
+
+    expect(res.status).toBe(200);
+    expect(res.body.status).toBe('success');
+    expect(res.body.data.quizAnswerId).toBeDefined();
+  });
+
+  test('POST /api/v1/agencies/:agencyId/quizzes/:quizId/answers/ without UID should return 404', async () => {
+    const payload = {
+      quizAnswer: {
+        _id: '',
+        status: 'pending',
+        quizId,
+        agencyId,
+        creationDate: new Date().toISOString(),
+        uid: '', // empty citizen id
+      },
+    };
+
+    const res = await request(app)
+      .post(
+        `/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers/${citizenId}`,
+      )
+      .send(payload);
+
+    expect(res.status).toBe(400);
+  });
 });
