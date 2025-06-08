@@ -70,6 +70,7 @@ export const listPrizesController = async (
         },
       },
     });
+    return;
   } catch (error) {
     console.error('Error listing prizes:', error);
     res.status(500).json({
@@ -78,5 +79,6 @@ export const listPrizesController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

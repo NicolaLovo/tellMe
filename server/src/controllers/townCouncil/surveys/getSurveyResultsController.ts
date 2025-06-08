@@ -114,6 +114,7 @@ export const getSurveyResultsController = async (
         surveyResults: responseBody,
       },
     });
+    return;
   } catch (error) {
     console.error('Error retrieving survey results:', error);
     res.status(500).json({
@@ -122,5 +123,6 @@ export const getSurveyResultsController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

@@ -100,6 +100,7 @@ export const registerAgencyController = async (
         token: token,
       },
     });
+    return;
   } catch (error) {
     // Handle server error
     console.error('Error registering agency:', error);
@@ -109,5 +110,6 @@ export const registerAgencyController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

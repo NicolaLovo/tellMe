@@ -30,6 +30,7 @@ export const createPrizeController = async (
           message: 'Missing or invalid required fields',
         },
       });
+      return;
     }
 
     // Save the validated survey to the database
@@ -47,6 +48,7 @@ export const createPrizeController = async (
         prizeId: newPrize.id.toString(),
       },
     });
+    return;
   } catch (error) {
     console.error('Error creating prize:', error);
     res.status(500).json({
@@ -55,5 +57,6 @@ export const createPrizeController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

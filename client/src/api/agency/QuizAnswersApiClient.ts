@@ -26,6 +26,35 @@ export class QuizAnswersApiClient extends ApiClientChildren {
     body: { quizAnswer: QuizAnswer },
   ): Promise<TmResponse<{ quizAnswerId: QuizAnswer['_id'] }>> {
     try {
+      if (!params.agencyId || !params.quizId || !params.uid) {
+        return {
+          status: 'error',
+          data: {
+            message: 'Missing required parameters: agencyId, quizId, or uid',
+          },
+        }
+      }
+
+      const { quizAnswer } = body
+
+      if (!quizAnswer || typeof quizAnswer !== 'object') {
+        return {
+          status: 'error',
+          data: {
+            message: 'Missing or invalid quizAnswer body',
+          },
+        }
+      }
+
+      if (!quizAnswer.uid || quizAnswer.uid.trim() === '') {
+        return {
+          status: 'error',
+          data: {
+            message: 'quizAnswer.uid must be a non-empty string',
+          },
+        }
+      }
+
       const response = await this.httpClient.post<TmResponse<{ quizAnswerId: QuizAnswer['_id'] }>>(
         `${API_URL}/api/v1/agencies/${params.agencyId}/quizzes/${params.quizId}/answers/${params.uid}`,
         body,

@@ -79,6 +79,7 @@ export const listCitizenSurveysController = async (
         },
       },
     });
+    return;
   } catch (error) {
     console.error('Error fetching citizen surveys:', error);
     res.status(500).json({
@@ -87,5 +88,6 @@ export const listCitizenSurveysController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

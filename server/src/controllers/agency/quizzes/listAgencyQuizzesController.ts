@@ -78,6 +78,7 @@ export const listAgencyQuizzesController = async (
         },
       },
     });
+    return;
   } catch (error) {
     console.error('Error listing quizzes:', error);
     res.status(500).json({
@@ -86,5 +87,6 @@ export const listAgencyQuizzesController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

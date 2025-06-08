@@ -100,6 +100,7 @@ export const registerCitizenController = async (
         token: token,
       },
     });
+    return;
   } catch (error) {
     // Handle server error
     console.error('Error registering citizen:', error);
@@ -109,5 +110,6 @@ export const registerCitizenController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

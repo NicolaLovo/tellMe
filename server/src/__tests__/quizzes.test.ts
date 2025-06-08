@@ -6,30 +6,33 @@ import { TEST_USERS } from './utils/constants/TEST_USERS';
 import { initFirebaseClient } from './utils/database/testFirebaseClient';
 import { initFirebaseServer } from './utils/database/testFirebaseServer';
 
-interface TokenPayload {
-  uid: string;
-  email: string;
-  roles: string[];
-}
-
 describe('Quizzes Tests', () => {
   let agencyToken: string;
   let agencyId: string;
+  let citizenToken: string;
+  let citizenId: string;
+  const quizId = '684548f34850426da2c8acf4';
 
   beforeAll(async () => {
     await connectToDatabase();
     await initFirebaseServer();
     await initFirebaseClient();
 
-    const res = await loginTestUser({
+    const citizenres = await loginTestUser({
+      email: TEST_USERS.citizen.email,
+      password: TEST_USERS.citizen.password,
+    });
+
+    citizenId = citizenres.uid;
+    citizenToken = citizenres.token;
+
+    const agencyres = await loginTestUser({
       email: TEST_USERS.agency.email,
       password: TEST_USERS.agency.password,
     });
 
-    agencyToken = res.token;
-    agencyId = res.uid;
-
-    console.log('agency id --> ', agencyId);
+    agencyToken = agencyres.token;
+    agencyId = agencyres.uid;
   });
 
   test('POST /api/v1/:agencyId/quizzes should return 200 with valid quiz', async () => {
@@ -115,5 +118,102 @@ describe('Quizzes Tests', () => {
     );
   });
 
-  
+  test('POST /api/v1/agencies/:agencyId/quizzes/:quizId/answers/:uid should create a quiz answer', async () => {
+    const payload = {
+      quizAnswer: {
+        _id: '',
+        status: 'pending',
+        quizId,
+        agencyId,
+        creationDate: new Date().toISOString(),
+        citizenId,
+      },
+    };
+
+    const res = await request(app)
+      .post(
+        `/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers/${citizenId}`,
+      )
+      .send(payload);
+
+    expect(res.status).toBe(200);
+    expect(res.body.status).toBe('success');
+    expect(res.body.data.quizAnswerId).toBeDefined();
+  });
+
+  test('POST /api/v1/agencies/:agencyId/quizzes/:quizId/answers/ without UID should return 404', async () => {
+    const payload = {
+      quizAnswer: {
+        _id: '',
+        status: 'pending',
+        quizId,
+        agencyId,
+        creationDate: new Date().toISOString(),
+        uid: '', // empty citizen id
+      },
+    };
+
+    const res = await request(app)
+      .post(
+        `/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers/${citizenId}`,
+      )
+      .send(payload);
+
+    expect(res.status).toBe(400);
+  });
+
+  test('PUT /api/v1/agencies/:agencyId/quizzes/:quizId/answers/:quizAnswerId with all questions answered should succeed', async () => {
+    const quizRes = await request(app)
+      .get(`/api/v1/agencies/${agencyId}/quizzes/${quizId}`)
+      .set('Authorization', `Bearer ${agencyToken}`);
+
+    expect(quizRes.status).toBe(200);
+    const quizData = quizRes.body.data.quiz;
+    expect(quizData.questions.length).toBeGreaterThan(0);
+
+    const createPayload = {
+      quizAnswer: {
+        _id: '',
+        status: 'pending',
+        quizId,
+        agencyId,
+        creationDate: new Date().toISOString(),
+        citizenId,
+      },
+    };
+
+    const createRes = await request(app)
+      .post(
+        `/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers/${citizenId}`,
+      )
+      .send(createPayload);
+
+    expect(createRes.status).toBe(200);
+    const quizAnswerId = createRes.body.data.quizAnswerId;
+
+    const answers = quizData.questions.map((q: any) => ({
+      questionId: q.id,
+      optionId: '5',
+      type: 'rating',
+    }));
+
+    const updatePayload = {
+      quizAnswer: {
+        status: 'completed',
+        answers,
+      },
+    };
+
+    const updateRes = await request(app)
+      .put(
+        `/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers/${quizAnswerId}`,
+      )
+      .send(updatePayload);
+
+    expect(updateRes.status).toBe(200);
+    expect(updateRes.body.status).toBe('success');
+    expect(updateRes.body.data.quizAnswerId).toBeDefined();
+  });
+
+
 });

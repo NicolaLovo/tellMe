@@ -88,6 +88,7 @@ export const createSurveyController = async (
         surveyId: newSurvey.id.toString(),
       },
     });
+    return;
   } catch (error) {
     console.error('Error creating survey:', error);
     res.status(500).json({
@@ -96,5 +97,6 @@ export const createSurveyController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

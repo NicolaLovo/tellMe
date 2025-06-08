@@ -70,6 +70,7 @@ export const listTownCouncilSurveysController = async (
         },
       },
     });
+    return;
   } catch (error) {
     console.error('Error creating survey:', error);
     res.status(500).json({
@@ -78,5 +79,6 @@ export const listTownCouncilSurveysController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

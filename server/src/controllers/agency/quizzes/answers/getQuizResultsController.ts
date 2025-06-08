@@ -125,6 +125,7 @@ export const getQuizResultsController = async (
         results,
       },
     });
+    return;
   } catch (error) {
     console.error('Error generating quiz results:', error);
     res.status(500).json({
@@ -133,5 +134,6 @@ export const getQuizResultsController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

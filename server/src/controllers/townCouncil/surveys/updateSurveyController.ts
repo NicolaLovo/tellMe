@@ -84,6 +84,7 @@ export const updateSurveyController = async (
         surveyId: survey.id.toString(),
       },
     });
+    return;
   } catch (error) {
     console.error('Error publishing survey:', error);
     res.status(500).json({
@@ -92,5 +93,6 @@ export const updateSurveyController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

@@ -42,6 +42,7 @@ export const createSurveyAnswerController = async (
       status: 'success',
       data: {},
     });
+    return;
   } catch (error) {
     console.error('Error creating survey answer:', error);
     if (error instanceof Error) {
@@ -51,7 +52,7 @@ export const createSurveyAnswerController = async (
           message: error.message,
         },
       });
-      return
+      return;
     } else {
       res.status(500).json({
         status: 'error',
@@ -59,6 +60,7 @@ export const createSurveyAnswerController = async (
           message: 'Internal server error',
         },
       });
+      return;
     }
   }
 };

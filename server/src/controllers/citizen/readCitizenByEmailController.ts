@@ -60,6 +60,7 @@ export const readCitizenByEmailController = async (
         uid: citizen.uid.toString(),
       },
     });
+    return;
   } catch (error) {
     console.error('Error fetching citizen quizzes:', error);
     res.status(500).json({
@@ -68,5 +69,6 @@ export const readCitizenByEmailController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };
