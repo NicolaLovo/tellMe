@@ -144,11 +144,7 @@ describe('Quizzes Tests', () => {
 
     expect(res.status).toBe(200);
     expect(res.body.status).toBe('success');
-    console.error('quizAnswer ricevuto:', res.body.data);
-
-    //Non capisco perchè qua non lo vede, riesce a stamparlo ma expect da errore
-    //quizAnswer ricevuto: { answerId: '68458b0b28176e7d3632ed03' }
-    //expect(res.body.data.quizAnswerId).toBeDefined();
+    expect(res.body.data.answerId).toBeDefined();
   });
 
   test('POST /api/v1/agencies/:agencyId/quizzes/:quizId/answers/ without UID should return 404', async () => {
