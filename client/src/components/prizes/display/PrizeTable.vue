@@ -50,9 +50,9 @@ onMounted(fetchPrizes)
     <div v-if="prizes?.length" class="prize-table">
       <ul class="prize-grid">
         <li v-for="prize in prizes" :key="prize._id" class="prize-card">
+          <i class="pi pi-gift" style="font-size: 1.5rem; color: #7986cb; margin-bottom: 0.5rem;"></i>
           <h3>{{ prize.title }}</h3>
-          <p>Creato il: {{ new Date(prize.creationDate).toLocaleDateString() }}</p>
-          <p class="points">Punti: {{ prize.points }}</p>
+          <h5 class="points">Punti: {{ prize.points }}</h5>
         </li>
       </ul>
     </div>
@@ -65,9 +65,7 @@ onMounted(fetchPrizes)
 
 <style scoped>
 .prize-list-view {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 1rem;
+  width: 100%;
 }
 
 .header {
@@ -87,7 +85,7 @@ onMounted(fetchPrizes)
 
 .prize-card {
   border: 1px solid #ddd;
-  padding: 1rem;
+  padding: 1.3rem;
   border-radius: 8px;
   background-color: #fdfdfd;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -98,10 +96,6 @@ onMounted(fetchPrizes)
   transform: scale(1.02);
 }
 
-.points {
-  font-weight: bold;
-  color: #0b7dda;
-}
 
 .empty-state {
   text-align: center;

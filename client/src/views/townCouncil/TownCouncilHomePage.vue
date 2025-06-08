@@ -6,7 +6,7 @@ import Button from 'primevue/button'
 
 <template>
   <div class="container">
-    <h2>Benvenuto comune</h2>
+    <h1>Benvenuto comune</h1>
     <div class="buttons-container">
       <div class="button-div">
         <Button
@@ -21,7 +21,7 @@ import Button from 'primevue/button'
 
 <style scoped>
 .container {
-  padding: 20px;
+  padding: 30px;
   gap: 10px;
   display: flex;
   flex-direction: column;
