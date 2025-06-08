@@ -30,6 +30,7 @@ export const getTestUserFirebaseToken = async (credentials: {
       const firebaseToken = await agencyFirebaseCredentials.user.getIdToken();
       return {
         firebaseToken,
+        uid: agencyFirebaseCredentials.user.uid,
       };
     }
   } catch (error) {
@@ -46,5 +47,6 @@ export const getTestUserFirebaseToken = async (credentials: {
 
   return {
     firebaseToken,
+    uid: agencyFirebaseCredentials.user.uid,
   };
 };
