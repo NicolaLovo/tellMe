@@ -97,12 +97,13 @@ const handleSubmit = async () => {
       v-model:visible="showModal"
       modal
       header="Abilita compilazione questionario"
-      :style="{ width: '30rem' }"
+      :style="{ width: '35rem' }"
     >
       <form @submit.prevent="handleSubmit">
         <div class="form-container">
           <div class="input-group">
-            <label for="email">Email utente:</label>
+            <div>Inserire la mail dell'utente per abilitare la compilazione del questionario.</div>
+            <label class="email-label" for="email">Email utente:</label>
             <InputText id="email" v-model="form.email" class="w-full" />
           </div>
 
@@ -133,6 +134,7 @@ const handleSubmit = async () => {
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 10px;
 }
 
 .center-div {
@@ -141,5 +143,9 @@ const handleSubmit = async () => {
   align-items: center;
   justify-content: center;
   width: 100%;
+}
+
+.email-label {
+  padding-top: 8px;
 }
 </style>

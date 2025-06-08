@@ -70,7 +70,6 @@ onMounted(fetchSurveys)
 
 <style scoped>
 .list-page {
-  padding: 2rem;
   background-color: #f9f9f9;
   width: 100%;
 }

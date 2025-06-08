@@ -52,7 +52,7 @@ onMounted(fetchQuizzes)
             <thead>
               <tr>
                 <th>Titolo</th>
-                <th>...</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>

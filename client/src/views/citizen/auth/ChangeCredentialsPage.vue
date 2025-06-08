@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
+import { useUserStore } from '@/stores/useUserStore'
 import { getAuth, updatePassword } from 'firebase/auth'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -11,8 +12,10 @@ const router = useRouter()
 const submitForm = async () => {
   const auth = getAuth()
   const user = auth.currentUser
+  const userStore = useUserStore()
+  const roles = userStore.user?.roles || []
 
-  const password = newPassword.value
+  const password = newPassword.value.trim()
 
   if (!password) {
     errorMessage.value = 'Inserisci la nuova password'
@@ -25,11 +28,15 @@ const submitForm = async () => {
     return
   }
 
+  // Check if user is authenticated and bring to respective home page after password change
   if (user) {
     try {
       await updatePassword(user, password)
-
-      router.push(APP_ROUTES.citizen.home)
+      if (roles.includes('citizen')) {
+        router.push(APP_ROUTES.citizen.home)
+      } else if (roles.includes('agency')) {
+        router.push(APP_ROUTES.agency.home)
+      }
     } catch (error: any) {
       errorMessage.value = error.message
     }

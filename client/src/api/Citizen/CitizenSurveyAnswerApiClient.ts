@@ -48,7 +48,7 @@ export class CitizenSurveysAnswerApiClient extends ApiClientChildren {
   }): Promise<TmResponse<{ surveyAnswer: SurveyAnswer }>> {
     try {
       const response = await this.httpClient.get<TmResponse<{ surveyAnswer: SurveyAnswer }>>(
-        `${API_URL}/api/v1/citizens/${params.uid}surveys/${params.surveyId}/answer`,
+        `${API_URL}/api/v1/citizens/${params.uid}/surveys/${params.surveyId}/answer`,
       )
 
       return response ?? HTTP_TMRESPONSES.error

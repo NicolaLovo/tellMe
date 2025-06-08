@@ -1,17 +1,11 @@
 <script setup lang="ts">
+import AgencyQuizList from '@/components/quizzes/display/AgencyQuizList.vue'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
-import Button from 'primevue/button'
-import Card from 'primevue/card'
 import { useRouter } from 'vue-router'
-import AgencyQuizList from '@/components/quizzes/display/AgencyQuizList.vue'
 
 const userStore = useUserStore()
 const router = useRouter()
-
-function goToChangePassword() {
-  router.push(APP_ROUTES.agency.changecredentials)
-}
 
 function goToCreateQuiz() {
   router.push(APP_ROUTES.agency.createquiz)
@@ -19,55 +13,40 @@ function goToCreateQuiz() {
 </script>
 
 <template>
-  <div class="user-container">
-    <Card class="card-content">
-      <template #title>
-        <h1>Benvenuto {{ userStore.user?.email ?? 'ospite' }}!</h1>
-      </template>
+  <div class="home-container">
+    <div class="content">
+      <h1 class="title">Benvenuto {{ userStore.user?.email ?? 'ospite' }}</h1>
 
-      <template #content>
-        <div class="button-group">
-          <Button
-            label="Cambia Password"
-            class="btn"
-            @click="goToChangePassword"
-            style="width: 100%; margin-bottom: 0.5rem"
-          />
-          <Button
-            label="Crea Questionario"
-            class="btn"
-            @click="goToCreateQuiz"
-            style="width: 100%"
-          />
-        </div>
-      </template>
-    </Card>
-    <AgencyQuizList />
+      <div class="button-div">
+        <Button class="button" @click="goToCreateQuiz">
+          Crea Questionario
+        </Button>
+      </div>
+      <div class="quiz-list">
+        <AgencyQuizList />
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.user-container {
+.home-container {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  gap: 10px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  align-items: left;
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  width: 100%;
 }
 
-.card-content {
-  width: 90%;
-  max-width: 800px;
+.content {
+  width: 100%;
 }
 
-.button-group {
-  margin-top: 1rem;
-}
 
-.btn {
-  font-weight: 600;
+.quiz-list {
+  margin-top: 20px;
+  text-align: left;
 }
 </style>

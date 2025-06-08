@@ -95,7 +95,7 @@ const handleSubmit = async () => {
         <InputText
           id="quiz-title"
           v-model="quiz.title"
-          placeholder="Inserisci il titolo del quiz"
+          placeholder="Inserisci il titolo del questionario"
           class="uniform-input"
           required
         />
@@ -123,7 +123,7 @@ const handleSubmit = async () => {
             type="button"
             @click="removeQuestion(index)"
             icon="pi pi-trash"
-            label="Rimuovi Domanda"
+            label="Rimuovi domanda"
             severity="danger"
             outlined
             style="width: 200px"
@@ -135,16 +135,16 @@ const handleSubmit = async () => {
         <Button
           type="button"
           @click="addRatingQuestion"
-          label="Aggiungi Domanda"
+          label="Aggiungi domanda"
           icon="pi pi-plus"
-          style="width: 200px"
+          style="width: 300px"
         />
       </div>
 
       <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
 
       <div class="center-div">
-        <Button type="submit" label="Crea Quiz" icon="pi pi-check" style="width: 200px" />
+        <Button type="submit" label="Crea questionario" icon="pi pi-check" style="width: 300px" />
       </div>
     </div>
   </form>
@@ -156,7 +156,7 @@ const handleSubmit = async () => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding: 30px;
   gap: 10px;
   width: 100%;
 }
@@ -167,6 +167,7 @@ const handleSubmit = async () => {
   align-items: center;
   justify-content: center;
   width: 100%;
+  padding-top: 10px;
 }
 
 .spaced-button {
@@ -183,5 +184,10 @@ const handleSubmit = async () => {
   color: red;
   font-weight: bold;
   margin-top: 10px;
+}
+
+.section {
+  width: 100%;
+  padding-top: 15px;
 }
 </style>
