@@ -52,4 +52,68 @@ describe('Quizzes Tests', () => {
     expect(res.status).toBe(200);
     expect(res.body.data.quizId).toBeDefined();
   });
+
+  test('POST /api/v1/:agencyId/quizzes should fail with 400 if title is empty', async () => {
+    const res = await request(app)
+      .post(`/api/v1/${agencyId}/quizzes`)
+      .set('Authorization', `Bearer ${agencyId}`)
+      .send({
+        quiz: {
+          title: '', // Empty tile
+          questions: [
+            {
+              id: 'q1',
+              question: 'How was the service?',
+              type: 'rating',
+            },
+          ],
+        },
+      });
+
+    expect(res.status).toBe(400);
+    expect(res.body.status).toBe('error');
+    expect(res.body.data.message).toBe('Missing or invalid required fields');
+  });
+
+  test('POST /api/v1/:agencyId/quizzes should fail with 400 if there are no questions', async () => {
+    const res = await request(app)
+      .post(`/api/v1/${agencyId}/quizzes`)
+      .set('Authorization', `Bearer ${agencyId}`)
+      .send({
+        quiz: {
+          title: 'my quiz',
+          questions: [], // No questions
+        },
+      });
+
+    expect(res.status).toBe(400);
+    expect(res.body.status).toBe('error');
+    expect(res.body.data.message).toBe('Missing or invalid required fields');
+  });
+
+  test('POST /api/v1/:agencyId/quizzes should fail with 400 if a question is empty', async () => {
+    const res = await request(app)
+      .post(`/api/v1/${agencyId}/quizzes`)
+      .set('Authorization', `Bearer ${agencyId}`)
+      .send({
+        quiz: {
+          title: 'my quiz',
+          questions: [
+            {
+              id: 'q1',
+              question: '', // Empty question
+              type: 'rating',
+            },
+          ],
+        },
+      });
+
+    expect(res.status).toBe(400);
+    expect(res.body.status).toBe('error');
+    expect(res.body.data.message).toBe(
+      'Each question must have a non-empty question text',
+    );
+  });
+
+  
 });
