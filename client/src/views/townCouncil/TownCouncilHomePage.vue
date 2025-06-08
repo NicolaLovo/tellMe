@@ -13,10 +13,6 @@ import Button from 'primevue/button'
           label="Crea nuovo sondaggio"
           @click="$router.push(APP_ROUTES.townCouncil.createsurvery)"
         />
-        <Button
-          label="Registra ente"
-          @click="$router.push(APP_ROUTES.townCouncil.registeragency)"
-        />
       </div>
     </div>
     <TownCouncilSurveysList />

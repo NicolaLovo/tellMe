@@ -74,7 +74,7 @@ export class AuthApiClient extends ApiClientChildren {
       return {
         status: 'error',
         data: {
-          message: 'Errore nella richiesta di registrazione agenzia',
+          message: 'Errore nella richiesta di registrazione ente',
         },
       }
     }
