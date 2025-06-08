@@ -30,6 +30,7 @@ describe('Surveys Tests', () => {
     const citizenLogin = await loginTestUser({
       email: TEST_USERS.citizen.email,
       password: TEST_USERS.citizen.password,
+      roles: ['citizen'],
     });
 
     citizenToken = citizenLogin.token;
