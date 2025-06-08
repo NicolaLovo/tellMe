@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ApiClient } from '@/api/ApiClient'
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
 import InputNumber from 'primevue/inputnumber'
 import InputText from 'primevue/inputtext'
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { Prize } from '../../../../server/src/types/prizes/Prize'
 
 const title = ref('')
@@ -15,10 +16,12 @@ const submissionError = ref('')
 const userStore = useUserStore()
 const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
 
-const canSubmit = ref(false)
+const canSubmit = computed(() => {
+  return !!title.value.trim() && points.value !== null && points.value > 0
+})
 
-watch([title, points], () => {
-  canSubmit.value = !!title.value && points.value !== null && points.value > 0
+watch(points, (val) => {
+  console.log('Points changed:', val)
 })
 
 async function submitPrize() {
@@ -74,24 +77,28 @@ async function submitPrize() {
       <label for="points">Punti richiesti</label>
       <InputNumber
         id="points"
-        v-model="points"
+        :modelValue="points"
+        @input="points = typeof $event.value === 'number' ? $event.value : null"
         :disabled="submitting || submissionSuccess"
         :min="1"
         inputId="points"
       />
     </div>
-
-    <Button
-      class="submit-btn"
-      label="Crea premio"
-      :disabled="!canSubmit || submitting || submissionSuccess"
-      @click="submitPrize"
-    >
-      {{ submitting ? 'Creazione...' : 'Crea premio' }}
-    </Button>
-
-    <h3 v-if="submissionSuccess" class="success-msg">Premio creato con successo! 🎉</h3>
-    <p v-if="submissionError" class="error-msg">{{ submissionError }}</p>
+    <div class="submission-status-div">
+      <h3 v-if="submissionSuccess" class="success-msg">Premio creato con successo! 🎉</h3>
+      <p v-if="submissionError" class="error-msg">{{ submissionError }}</p>
+    </div>
+    <div class="buttons-group">
+      <Button
+        class="submit-btn"
+        label="Crea premio"
+        :disabled="!canSubmit || submitting || submissionSuccess"
+        @click="submitPrize"
+      >
+        {{ submitting ? 'Creazione...' : 'Crea premio' }}
+      </Button>
+      <Button class="home-btn" label="Torna alla lista dei premi" @click="$router.push(APP_ROUTES.prizes)" />
+    </div>
   </div>
 </template>
 
@@ -104,8 +111,11 @@ async function submitPrize() {
 
 .app-header {
   margin-bottom: 2rem;
-  border-bottom: 2px solid #d6c6f9;
+  border-bottom: 2px solid #c5cae9;
   padding-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .form-group {
@@ -114,7 +124,17 @@ async function submitPrize() {
   flex-direction: column;
 }
 
-.submit-btn {
+.submission-status-div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
+  gap: 1rem;
 }
 </style>
