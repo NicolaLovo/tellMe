@@ -40,7 +40,7 @@ describe('Quizzes Tests', () => {
   test('POST /api/v1/:agencyId/quizzes should return 200 with valid quiz', async () => {
     const res = await request(app)
       .post(`/api/v1/${agencyId}/quizzes`)
-      .set('Authorization', `Bearer ${agencyId}`)
+      .set('Authorization', `Bearer ${agencyToken}`)
       .send({
         quiz: {
           title: 'my quiz',
@@ -61,7 +61,7 @@ describe('Quizzes Tests', () => {
   test('POST /api/v1/:agencyId/quizzes should fail with 400 if title is empty', async () => {
     const res = await request(app)
       .post(`/api/v1/${agencyId}/quizzes`)
-      .set('Authorization', `Bearer ${agencyId}`)
+      .set('Authorization', `Bearer ${agencyToken}`)
       .send({
         quiz: {
           title: '', // Empty tile
@@ -83,7 +83,7 @@ describe('Quizzes Tests', () => {
   test('POST /api/v1/:agencyId/quizzes should fail with 400 if there are no questions', async () => {
     const res = await request(app)
       .post(`/api/v1/${agencyId}/quizzes`)
-      .set('Authorization', `Bearer ${agencyId}`)
+      .set('Authorization', `Bearer ${agencyToken}`)
       .send({
         quiz: {
           title: 'my quiz',
@@ -99,7 +99,7 @@ describe('Quizzes Tests', () => {
   test('POST /api/v1/:agencyId/quizzes should fail with 400 if a question is empty', async () => {
     const res = await request(app)
       .post(`/api/v1/${agencyId}/quizzes`)
-      .set('Authorization', `Bearer ${agencyId}`)
+      .set('Authorization', `Bearer ${agencyToken}`)
       .send({
         quiz: {
           title: 'my quiz',
