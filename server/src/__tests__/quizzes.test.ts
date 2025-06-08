@@ -147,7 +147,7 @@ describe('Quizzes Tests', () => {
     expect(res.body.data.answerId).toBeDefined();
   });
 
-  test('POST /api/v1/agencies/:agencyId/quizzes/:quizId/answers/ without UID should return 404', async () => {
+  test('POST /api/v1/agencies/:agencyId/quizzes/:quizId/answers/:uid where the answer has UID empty should return 400', async () => {
     const payload = {
       quizAnswer: {
         _id: '',
@@ -283,9 +283,7 @@ describe('Quizzes Tests', () => {
     expect(updateRes.body.data.quizAnswerId).toBe(quizAnswerId);
 
     const updatedQuizAnswer = await QuizAnswerModel.findById(quizAnswerId);
-    // Expect status NOT to change, because only status without answers does not update
     expect(updatedQuizAnswer?.status).toBe('pending');
-    // Expect answers unchanged (empty array)
     expect(updatedQuizAnswer?.answers).toEqual([]);
   });
 });
