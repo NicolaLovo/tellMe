@@ -44,8 +44,11 @@ export const updateQuizAnswerController = async (
       req.body.quizAnswer.status === 'completed' &&
       req.body.quizAnswer.answers !== undefined
     ) {
-      updateBody.status = 'completed';
-      updateBody.answers = req.body.quizAnswer.answers;
+      updateBody = {
+        ...updateBody,
+        status: 'completed',
+        answers: req.body.quizAnswer.answers,
+      };
     }
 
     /**
