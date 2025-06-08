@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import CompileQuizButton from '@/components/quizzes/buttons/CompileQuizButton.vue'
 import { ApiClient } from '@/api/ApiClient'
+import CompileQuizButton from '@/components/quizzes/buttons/CompileQuizButton.vue'
 import { useUserStore } from '@/stores/useUserStore'
+import { onMounted, ref } from 'vue'
 
 const props = defineProps<{ agencyId: string; quizId: string; answerId: string }>()
 
@@ -33,12 +33,12 @@ onMounted(loadQuizTitle)
 </script>
 
 <template>
-  <td>
+  <td class="quiz-td">
     <span v-if="quizTitle">{{ quizTitle }}</span>
     <span v-else-if="error" class="error">{{ error }}</span>
     <span v-else class="loading">Caricamento...</span>
   </td>
-  <td>
+  <td class="quiz-td">
     <CompileQuizButton
       :agencyId="props.agencyId"
       :quizId="props.quizId"
@@ -48,6 +48,19 @@ onMounted(loadQuizTitle)
 </template>
 
 <style scoped>
+.quiz-td {
+  padding: 12px 16px;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+.loading {
+  color: #888;
+  font-style: italic;
+}
+
 .error {
   color: #d32f2f;
 }

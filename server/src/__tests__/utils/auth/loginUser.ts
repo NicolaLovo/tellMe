@@ -14,16 +14,27 @@ interface LoginTestUserOptions {
 export const loginTestUser = async ({
   email,
   password,
-}: LoginTestUserOptions): Promise<string> => {
-  const { firebaseToken } = await getTestUserFirebaseToken({ email, password });
+}: LoginTestUserOptions): Promise<{
+  token: string;
+  uid: string;
+}> => {
+  const { firebaseToken, uid } = await getTestUserFirebaseToken({
+    email,
+    password,
+  });
 
   const res = await request(app)
     .post('/api/v1/auth/login')
     .send({ firebaseToken });
 
   if (res.status !== 200 || !res.body?.data?.token) {
+    console.log(res.body.data);
+
     throw new Error(`Failed to log in user ${email}. Status: ${res.status}`);
   }
 
-  return res.body.data.token;
+  return {
+    token: res.body.data.token,
+    uid,
+  };
 };

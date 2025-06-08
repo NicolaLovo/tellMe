@@ -16,10 +16,12 @@ describe('Surveys Tests', () => {
     await initFirebaseServer();
     await initFirebaseClient();
 
-    townCouncilToken = await loginTestUser({
+    const townCouncilLoginRes = await loginTestUser({
       email: TEST_USERS.townCouncil.email,
       password: TEST_USERS.townCouncil.password,
     });
+
+    townCouncilToken = townCouncilLoginRes.token;
   });
 
   // Survey creation
@@ -74,7 +76,7 @@ describe('Surveys Tests', () => {
       .get(`/api/v1/surveys/${createdSurveyId}`)
       .set('Authorization', `Bearer ${townCouncilToken}`)
       .set('Accept', 'application/json');
-    console.log('Read survey response:', createdSurveyId, res.body);
+    // console.log('Read survey response:', createdSurveyId, res.body);
 
     expect(res.status).toBe(200);
     expect(res.body.status).toBe('success');

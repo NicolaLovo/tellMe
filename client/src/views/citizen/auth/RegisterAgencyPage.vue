@@ -14,8 +14,8 @@ const errorMessage = ref('')
 const toast = useToast()
 
 const registerWithToken = async (firebaseToken: string) => {
-  const apiClient = new ApiClient({})
   const userStore = useUserStore()
+  const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
 
   const registerResponse = await apiClient.auth.registerAgency({
     email: email.value,

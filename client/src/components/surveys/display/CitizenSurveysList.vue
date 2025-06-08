@@ -41,7 +41,7 @@ onMounted(fetchSurveys)
 </script>
 
 <template>
-  <div class="survey-list-page">
+  <div class="list-page">
     <div class="survey-list">
       <Card>
         <template #title>
@@ -69,6 +69,12 @@ onMounted(fetchSurveys)
 </template>
 
 <style scoped>
+.list-page {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  width: 100%;
+}
+
 .styled-table {
   width: 100%;
   border-collapse: collapse;
