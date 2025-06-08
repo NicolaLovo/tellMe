@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../app';
 import { connectToDatabase } from '../database/connectToDatabase';
-import { loginTestUser } from './utils/auth/loginUser';
+import { loginTestUser } from './utils/auth/loginTestUser';
 import { TEST_USERS } from './utils/constants/TEST_USERS';
 import { initFirebaseClient } from './utils/database/testFirebaseClient';
 import { initFirebaseServer } from './utils/database/testFirebaseServer';
@@ -21,6 +21,7 @@ describe('Quizzes Tests', () => {
     const citizenres = await loginTestUser({
       email: TEST_USERS.citizen.email,
       password: TEST_USERS.citizen.password,
+      roles: ['citizen'],
     });
 
     citizenId = citizenres.uid;
@@ -29,6 +30,7 @@ describe('Quizzes Tests', () => {
     const agencyres = await loginTestUser({
       email: TEST_USERS.agency.email,
       password: TEST_USERS.agency.password,
+      roles: ['agency'],
     });
 
     agencyToken = agencyres.token;
@@ -214,6 +216,4 @@ describe('Quizzes Tests', () => {
     expect(updateRes.body.status).toBe('success');
     expect(updateRes.body.data.quizAnswerId).toBeDefined();
   });
-
-
 });

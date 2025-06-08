@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../app';
 import { connectToDatabase } from '../database/connectToDatabase';
-import { loginTestUser } from './utils/auth/loginUser';
+import { loginTestUser } from './utils/auth/loginTestUser';
 import { TEST_USERS } from './utils/constants/TEST_USERS';
 import { initFirebaseClient } from './utils/database/testFirebaseClient';
 import { initFirebaseServer } from './utils/database/testFirebaseServer';
@@ -19,6 +19,7 @@ describe('Surveys Tests', () => {
     const townCouncilLoginRes = await loginTestUser({
       email: TEST_USERS.townCouncil.email,
       password: TEST_USERS.townCouncil.password,
+      roles: ['townCouncil'],
     });
 
     townCouncilToken = townCouncilLoginRes.token;

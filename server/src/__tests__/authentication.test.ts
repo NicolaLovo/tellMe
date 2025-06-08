@@ -22,6 +22,8 @@ describe('Authentication Tests', () => {
   let agencyFirebaseToken = '';
   let townCouncilFirebaseToken = '';
 
+  // ! problema ordine dei test
+
   beforeAll(async () => {
     // register citizen with firebase SDK
 
