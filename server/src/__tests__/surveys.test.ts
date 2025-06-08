@@ -15,10 +15,12 @@ describe('Surveys Tests', () => {
     await initFirebaseServer();
     await initFirebaseClient();
 
-    townCouncilToken = await loginTestUser({
+    const townCouncilLoginRes = await loginTestUser({
       email: TEST_USERS.townCouncil.email,
       password: TEST_USERS.townCouncil.password,
     });
+
+    townCouncilToken = townCouncilLoginRes.token;
   });
 
   // Survey creation
