@@ -38,7 +38,7 @@ export const createSurveyAnswerController = async (
 
     const created = await SurveyAnswerModel.create(surveyAnswer);
 
-    res.status(200).json({
+    res.status(201).json({
       status: 'success',
       data: {},
     });
@@ -51,6 +51,7 @@ export const createSurveyAnswerController = async (
           message: error.message,
         },
       });
+      return
     } else {
       res.status(500).json({
         status: 'error',
