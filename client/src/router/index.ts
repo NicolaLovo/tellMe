@@ -1,3 +1,4 @@
+import PrizeCreationPage from '@/components/prizes/CreatePrize.vue'
 import QuizCreateForm from '@/components/quizzes/QuizCreateForm.vue'
 import QuizCitizenView from '@/components/quizzes/visualiseQuiz/QuizCitizenView.vue'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
@@ -11,7 +12,6 @@ import RegisterAgencyPage from '@/views/citizen/auth/RegisterAgencyPage.vue'
 import CitizenCompileSurveyPage from '@/views/citizen/CitizenCompileSurveyPage.vue'
 import CitizenHomePage from '@/views/citizen/CitizenHomePage.vue'
 import PrizeView from '@/views/prize/PrizeView.vue'
-import PrizeCreationPage from '@/components/prizes/CreatePrize.vue'
 import TownCouncilWelcomePage from '@/views/townCouncil/auth/TownCouncilWelcomePage.vue'
 import SurveyCreationPage from '@/views/townCouncil/survey/SurveyCreationPage.vue'
 import SurveyResultsPage from '@/views/townCouncil/survey/SurveyResultsPage.vue'
@@ -59,16 +59,25 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.townCouncil.createsurvery,
     name: 'SurveyCreation',
     component: SurveyCreationPage,
+    meta: {
+      requiresRoles: ['townCouncil'],
+    } satisfies RouteMeta,
   },
   {
     path: APP_ROUTES.townCouncil.surveyresults,
     name: 'SurveyResults',
     component: SurveyResultsPage,
+    meta: {
+      requiresRoles: ['townCouncil'],
+    } satisfies RouteMeta,
   },
   {
     path: APP_ROUTES.townCouncil.createprize,
     name: 'PrizeCreation',
     component: PrizeCreationPage,
+    meta: {
+      requiresRoles: ['townCouncil'],
+    } satisfies RouteMeta,
   },
   {
     path: APP_ROUTES.citizen.welcome,
@@ -89,6 +98,9 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.citizen.home,
     name: 'CitizenHome',
     component: CitizenHomePage,
+    meta: {
+      requiresRoles: ['citizen'],
+    } satisfies RouteMeta,
   },
   {
     path: APP_ROUTES.citizen.changecredentials,
@@ -102,6 +114,9 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.citizen.surveyanswer,
     name: 'SurveyAnswer',
     component: CitizenCompileSurveyPage,
+    meta: {
+      requiresRoles: ['citizen'],
+    } satisfies RouteMeta,
   },
   {
     path: APP_ROUTES.agency.home,
@@ -125,6 +140,9 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.agency.createquiz,
     name: 'CreateQuiz',
     component: QuizCreateForm,
+    meta: {
+      requiresRoles: ['agency'],
+    } satisfies RouteMeta,
   },
   {
     path: APP_ROUTES.agency.changecredentials,
