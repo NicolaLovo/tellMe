@@ -28,6 +28,8 @@ export const loginTestUser = async ({
     .send({ firebaseToken });
 
   if (res.status !== 200 || !res.body?.data?.token) {
+    console.log(res.body.data);
+
     throw new Error(`Failed to log in user ${email}. Status: ${res.status}`);
   }
 
