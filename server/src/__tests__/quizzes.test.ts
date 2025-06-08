@@ -161,4 +161,59 @@ describe('Quizzes Tests', () => {
 
     expect(res.status).toBe(400);
   });
+
+  test('PUT /api/v1/agencies/:agencyId/quizzes/:quizId/answers/:quizAnswerId with all questions answered should succeed', async () => {
+    const quizRes = await request(app)
+      .get(`/api/v1/agencies/${agencyId}/quizzes/${quizId}`)
+      .set('Authorization', `Bearer ${agencyToken}`);
+
+    expect(quizRes.status).toBe(200);
+    const quizData = quizRes.body.data.quiz;
+    expect(quizData.questions.length).toBeGreaterThan(0);
+
+    const createPayload = {
+      quizAnswer: {
+        _id: '',
+        status: 'pending',
+        quizId,
+        agencyId,
+        creationDate: new Date().toISOString(),
+        citizenId,
+      },
+    };
+
+    const createRes = await request(app)
+      .post(
+        `/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers/${citizenId}`,
+      )
+      .send(createPayload);
+
+    expect(createRes.status).toBe(200);
+    const quizAnswerId = createRes.body.data.quizAnswerId;
+
+    const answers = quizData.questions.map((q: any) => ({
+      questionId: q.id,
+      optionId: '5',
+      type: 'rating',
+    }));
+
+    const updatePayload = {
+      quizAnswer: {
+        status: 'completed',
+        answers,
+      },
+    };
+
+    const updateRes = await request(app)
+      .put(
+        `/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers/${quizAnswerId}`,
+      )
+      .send(updatePayload);
+
+    expect(updateRes.status).toBe(200);
+    expect(updateRes.body.status).toBe('success');
+    expect(updateRes.body.data.quizAnswerId).toBeDefined();
+  });
+
+
 });
