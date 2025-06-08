@@ -14,33 +14,32 @@ interface TokenPayload {
 }
 
 describe('Quizzes Tests', () => {
-  let townCouncilToken = '';
-  let agencyToken = '';
-  let agencyId = '';
+  let agencyToken: string;
+  let agencyId: string;
 
-  let agencyFirebaseToken = '';
-  let townCouncilFirebaseToken = '';
+
 
   beforeAll(async () => {
     await connectToDatabase();
     await initFirebaseServer();
     await initFirebaseClient();
 
-    agencyToken = await loginTestUser({
+    const res = await loginTestUser({
       email: TEST_USERS.agency.email,
       password: TEST_USERS.agency.password,
     });
 
-    const decoded = jwtDecode<TokenPayload>(agencyToken);
-    agencyId = decoded.uid;
-    console.log('agency id --> ' , agencyId);
+    agencyToken = res.token;
+    agencyId = res.uid;
+
+    console.log('agency id --> ', agencyId);
     
   });
 
   test('POST /api/v1/:agencyId/quizzes should return 200 with valid quiz', async () => {
     const res = await request(app)
       .post(`/api/v1/${agencyId}/quizzes`)
-      .set('Authorization', `Bearer ${agencyToken}`)
+      .set('Authorization', `Bearer ${agencyId}`)
       .send({
         quiz: {
           title: 'my quiz',
