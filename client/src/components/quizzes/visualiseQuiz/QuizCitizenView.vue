@@ -132,14 +132,15 @@ onMounted(() => {
       <h3>{{ question.question }}</h3>
       <Rating v-model="answers[question.id]" :cancel="false" :stars="5" :disabled="submitting" />
     </div>
-
-    <button
-      class="submit-btn"
-      :disabled="!allAnswered || submitting || submissionSuccess"
-      @click="submit"
-    >
-      {{ submitting ? 'Invio...' : 'Invia Risposte' }}
-    </button>
+    <div class="submit-div">
+      <Button
+        class="submit-btn"
+        :disabled="!allAnswered || submitting || submissionSuccess"
+        @click="submit"
+      >
+        {{ submitting ? 'Invio...' : 'Invia risposte' }}
+      </Button>
+    </div>
 
     <p v-if="submissionError" class="error-msg">{{ submissionError }}</p>
   </div>
@@ -170,12 +171,7 @@ onMounted(() => {
 }
 
 .submit-btn {
-  background-color: #42b983;
-  color: white;
   padding: 0.8rem 1.6rem;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
   border-radius: 5px;
   margin-top: 1rem;
 }
@@ -194,4 +190,12 @@ onMounted(() => {
   color: red;
   margin-top: 1rem;
 }
+
+.submit-div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 </style>

@@ -6,6 +6,7 @@ import Card from 'primevue/card'
 import { onMounted, ref } from 'vue'
 import { useToast } from 'vue-toastification'
 import EnableQuizCompilationButton from '../buttons/EnableQuizCompilationButton.vue'
+import GetQuizResultButton from '../buttons/GetQuizResultsButton.vue'
 
 const pageIndex = ref(0)
 const pageSize = ref(10)
@@ -14,6 +15,7 @@ const totalQuizzes = ref<number>(0)
 const toast = useToast()
 
 const userStore = useUserStore()
+const agencyId = userStore.user?.uid as string
 const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
 
 const fetchQuizzes = async () => {
@@ -27,6 +29,7 @@ const fetchQuizzes = async () => {
     )
 
     if (response.status === 'success') {
+
       quizzes.value = response.data.quizzes
       totalQuizzes.value = response.data.metadata.totalCount
     } else {
@@ -52,7 +55,8 @@ onMounted(fetchQuizzes)
             <thead>
               <tr>
                 <th>Titolo</th>
-                <th></th>
+                <th>Condividi</th>
+                <th>Risultati</th>
               </tr>
             </thead>
             <tbody>
@@ -61,6 +65,7 @@ onMounted(fetchQuizzes)
                 <td>
                   <EnableQuizCompilationButton :quizId="quiz._id" />
                 </td>
+                <td><GetQuizResultButton :quizId="quiz._id" :agencyId="agencyId"/></td>
               </tr>
             </tbody>
           </table>

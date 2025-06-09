@@ -28,5 +28,6 @@ export const APP_ROUTES = {
     login: '/agency/login',
     createquiz: '/agency/createquiz',
     changecredentials: '/agency/changecredentials',
+    quizresults: '/agency/quizzes/:quizId/results',
   },
 } as const

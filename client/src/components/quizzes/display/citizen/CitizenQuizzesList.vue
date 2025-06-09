@@ -5,7 +5,6 @@ import type { QuizAnswer } from '@/types/quiz/answer/QuizAnswer'
 import Card from 'primevue/card'
 import { onMounted, ref } from 'vue'
 import { useToast } from 'vue-toastification'
-import CitizenQuizzesListRow from './CitizenQuizzesListRow.vue'
 
 const pageIndex = ref(0)
 const pageSize = ref(10)

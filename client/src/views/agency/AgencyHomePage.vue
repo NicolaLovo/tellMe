@@ -19,7 +19,7 @@ function goToCreateQuiz() {
 
       <div class="button-div">
         <Button class="button" @click="goToCreateQuiz">
-          Crea Questionario
+          Crea questionario
         </Button>
       </div>
       <div class="quiz-list">

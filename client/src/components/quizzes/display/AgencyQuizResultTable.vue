@@ -7,7 +7,8 @@ import { onMounted, reactive } from 'vue'
 
 // Define the props for the component, which includes the survey ID
 const props = defineProps<{
-  quizAnswerId: string
+  agencyId: string
+  quizId: string
 }>()
 
 // Define the survey result data structure
@@ -33,21 +34,25 @@ const quizResults = reactive<QuizResults>({
 const userStore = useUserStore()
 const apiClient = new ApiClient({ jwtToken: userStore?.user?.token as string })
 
-// Function to fetch survey results
-const fetchSurveyResults = async () => {
-  // try {
-  //   const response = await apiClient...({
-  //     quizAnswerId: props.quizAnswerId,
-  //   })
-  //   if (response.status === 'success') {
-  //     quizResults.results = response.data.quizResults.results
-  //     console.log('Risultati del questionario caricati con successo:', quizResults)
-  //   } else {
-  //     console.error('Errore nel caricamento dei risultati.')
-  //   }
-  // } catch (err) {
-  //   console.error('Errore durante il caricamento dei risultati:', err)
-  // }
+// Function to fetch quiz results
+const fetchQuizResults = async () => {
+  try {
+    const response = await apiClient.agencies.agency.quizzes.quiz.results.read({
+      agencyId: props.agencyId,
+      quizId: props.quizId,
+    })
+    if (response.status === 'success') {
+      quizResults.quizId = response.data.quizResults.quizId
+      quizResults.agencyId = response.data.quizResults.agencyId
+      quizResults.title = response.data.quizResults.title
+      quizResults.results = response.data.quizResults.results
+      console.log('Risultati del questionario caricati con successo:', quizResults)
+    } else {
+      console.error('Errore nel caricamento dei risultati.')
+    }
+  } catch (err) {
+    console.error('Errore durante il caricamento dei risultati:', err)
+  }
 }
 
 // Function to calculate the percentage of votes for each option
@@ -62,29 +67,55 @@ function getTotalResponses(): number {
   return quizResults.results[0].options.reduce((sum, opt) => sum + opt.votes, 0)
 }
 
-// Fetch survey results when the component is mounted
-onMounted(fetchSurveyResults)
+function renderStars(count: number): string {
+  return '★'.repeat(count) + '☆'.repeat(5 - count)
+}
+
+// Fetch quiz results when the component is mounted
+onMounted(fetchQuizResults)
 </script>
 
 <template>
   <div class="p-4">
-    <h1 class="title-h1">Risultati del sondaggio "{{ quizResults.title }}"</h1>
+    <h1 class="title-h1">Risultati del questionario "{{ quizResults.title }}"</h1>
 
     <div v-if="quizResults && quizResults.results" class="users-div">
-      <Tag class="users-tag">{{ getTotalResponses() }} utenti hanno risposto al sondaggio</Tag>
+      <Tag v-if="getTotalResponses() > 1" class="users-tag"
+        >{{ getTotalResponses() }} utenti hanno risposto al questionario</Tag
+      >
+      <Tag v-if="getTotalResponses() == 1" class="users-tag"
+        >1 utente ha risposto al questionario</Tag
+      >
+      <Tag v-if="getTotalResponses() == 0" class="users-tag"
+        >Nessun utente ha risposto al questionario</Tag
+      >
     </div>
     <div
       v-for="(question, qIndex) in quizResults.results"
       :key="question.questionId"
       class="quiz-result-div"
     >
-      <h3 class="question-h3">Domanda {{ qIndex + 1 }}: {{ question }}</h3>
+      <h3 class="question-h3">Domanda {{ qIndex + 1 }}: {{ question.question }}</h3>
       <div v-for="option in question.options" :key="option.optionId">
         <div class="option-div">
-          <span>{{ option.optionId }}</span>
+          <Tag class="star-tag">
+            <span v-html="renderStars(parseInt(option.optionId))"></span>
+          </Tag>
           <span>Voti: {{ option.votes }}</span>
         </div>
         <ProgressBar :value="calculatePercentage(option.votes, question.options)" />
+      </div>
+      <div class="average-div">
+        <Tag class="average-tag"
+          >Media voti:
+          {{
+            (
+              question.options.reduce((acc, opt) => acc + parseInt(opt.optionId) * opt.votes, 0) /
+              question.options.reduce((acc, opt) => acc + opt.votes, 0)
+            ).toFixed(1)
+          }}
+          ★</Tag
+        >
       </div>
     </div>
   </div>
@@ -105,8 +136,9 @@ onMounted(fetchSurveyResults)
 }
 
 .users-tag {
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  background-color: #5c6bc0;
 }
 
 .option-div {
@@ -117,11 +149,30 @@ onMounted(fetchSurveyResults)
   padding-top: 0.8rem;
 }
 
-.survey-result-div {
+.quiz-result-div {
   margin-bottom: 2rem;
   padding: 2rem;
   border-radius: 0.5rem;
   border: 1px solid #e0e0e0;
   margin: 1rem;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.star-tag {
+  background-color: #5c6bc0;
+  color: #ffffff;
+  font-size: 1rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+.average-div {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+.average-tag {
+  background-color: #5c6bc0;
+  margin-top: 10px;
 }
 </style>

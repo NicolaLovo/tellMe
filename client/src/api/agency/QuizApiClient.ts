@@ -4,6 +4,7 @@ import { TmResponse } from '@/types/common/utils/TmResponse'
 import { Quiz } from '@/types/quiz/Quiz'
 import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
 import { QuizAnswersApiClient } from './QuizAnswersApiClient'
+import { QuizResultsApiClient } from './QuizResultsApiClient'
 
 /**
  * API client for managing quizzes within an agency
@@ -11,14 +12,20 @@ import { QuizAnswersApiClient } from './QuizAnswersApiClient'
  */
 export class QuizApiClient extends ApiClientChildren {
   private quizAnswersApiClient: QuizAnswersApiClient
+  private quizResultsApiClient: QuizResultsApiClient
 
   constructor(props: ApiClientChildrenProps) {
     super(props)
     this.quizAnswersApiClient = new QuizAnswersApiClient(props)
+    this.quizResultsApiClient = new QuizResultsApiClient(props)
   }
 
   public get answers() {
     return this.quizAnswersApiClient
+  }
+
+  public get results() {
+    return this.quizResultsApiClient
   }
 
   public async read(params: { agencyId: string; quizId: string }): Promise<

@@ -6,7 +6,7 @@ import { QuizQuestion } from '../../../../types/quiz/QuizQuestion';
 import { QuizResults } from '../../../../types/quiz/QuizResults';
 
 type ResBody = TmResponse<{
-  results: QuizResults;
+  quizResults: QuizResults;
 }>;
 
 /**
@@ -46,7 +46,7 @@ export const getQuizResultsController = async (
 
     // Fetch only completed answers for this quiz
     const completedAnswers = await QuizAnswerModel.find({
-      '_id.quizId': quizId,
+      quizId: quizId,
       status: 'completed',
     }).lean();
 
@@ -89,7 +89,7 @@ export const getQuizResultsController = async (
     }
 
     // Convert resultsMap to QuizResults format
-    const results: QuizResults = {
+    const quizResults: QuizResults = {
       quizId,
       agencyId: quiz.agencyId,
       title: quiz.title,
@@ -112,17 +112,17 @@ export const getQuizResultsController = async (
         });
       }
 
-      // questionResult.options.sort((a, b) => {
-      //   return parseInt(a.optionId) - parseInt(b.optionId);
-      // });
+      questionResult.options.sort((a, b) => {
+        return parseInt(a.optionId) - parseInt(b.optionId);
+      });
 
-      results.results.push(questionResult);
+      quizResults.results.push(questionResult);
     }
 
     res.status(200).json({
       status: 'success',
       data: {
-        results,
+        quizResults: quizResults,
       },
     });
     return;

@@ -16,6 +16,7 @@ import TownCouncilWelcomePage from '@/views/townCouncil/auth/TownCouncilWelcomeP
 import SurveyCreationPage from '@/views/townCouncil/survey/SurveyCreationPage.vue'
 import SurveyResultsPage from '@/views/townCouncil/survey/SurveyResultsPage.vue'
 import TownCouncilHomePage from '@/views/townCouncil/TownCouncilHomePage.vue'
+import QuizResultsPage from '@/views/agency/quiz/QuizResultsPage.vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
 import CitizenWelcomePage from '../views/citizen/auth/CitizenWelcomePage.vue'
@@ -164,6 +165,14 @@ const routes: Array<RouteRecordRaw> = [
     path: APP_ROUTES.prizes,
     name: 'Prizes',
     component: PrizeView,
+  },
+  {
+    path: APP_ROUTES.agency.quizresults,
+    name: 'QuizResults',
+    component: QuizResultsPage,
+    meta: {
+      requiresRoles: ['agency'],
+    } satisfies RouteMeta,
   },
 ]
 
