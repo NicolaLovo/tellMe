@@ -111,6 +111,7 @@ const registerWithEmailAndPassword = async () => {
               toggleMask
               :feedback="false"
               width="100%"
+              :inputStyle="{ width: '100%' }"
             />
             <!-- inputStyle="width: 100%;" -->
           </div>
