@@ -1,6 +1,5 @@
 import cors from 'cors';
 import express from 'express';
-import expressListEndpoints from 'express-list-endpoints';
 import agenciesRouter from './routes/agencies/agenciesRouter';
 import authRouter from './routes/auth/authRouter';
 import citizensRouter from './routes/citizens/citizensRouter';
@@ -23,11 +22,11 @@ app.use('/api/v1/prizes/', prizesRouter);
 
 app.use('/api/v1/citizens/', citizensRouter);
 
-app.get('/test', (req, res) => {
-  res.send({
-    routes: expressListEndpoints(app),
-  });
-});
+// app.get('/test', (req, res) => {
+//   res.send({
+//     routes: expressListEndpoints(app),
+//   });
+// });
 
 app.get('/', (req, res) => {
   res.send('ok');
