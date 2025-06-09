@@ -113,7 +113,7 @@ onMounted(fetchSurveyResults)
       <h3 class="question-h3">Domanda {{ qIndex + 1 }}: {{ question.questionText }}</h3>
       <div v-for="option in question.options" :key="option.optionId">
         <div class="option-div">
-          <span>{{ option.optionText }}</span>
+          <span style="color: #1a237e;">{{ option.optionText }}</span>
           <span style="color: #1a237e;" >Voti: {{ option.votes }}</span>
         </div>
         <ProgressBar :value="calculatePercentage(option.votes, question.options)" />
