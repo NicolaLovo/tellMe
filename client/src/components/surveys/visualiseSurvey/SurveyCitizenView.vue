@@ -8,6 +8,7 @@ import { SurveyQuestionAnswer } from '@/types/survey/answer/SurveyQuestionAnswer
 import type { Survey } from '@/types/survey/Survey'
 import { Button } from 'primevue'
 import { computed, ref } from 'vue'
+import { useToast } from 'vue-toastification'
 
 const props = defineProps<{ survey: Survey }>()
 
@@ -16,9 +17,7 @@ const submitting = ref(false)
 const submissionSuccess = ref(false)
 const submissionError = ref('')
 
-const goHome = () => {
-  router.push(APP_ROUTES.home)
-}
+const toast = useToast()
 
 function selectOption(questionId: string, optionId: string) {
   answers.value[questionId] = optionId
@@ -76,7 +75,9 @@ async function submit() {
     })
 
     if (response.status === 'success') {
-      submissionSuccess.value = true
+      toast.success('Risposte inviate con successo!')
+      router.push(APP_ROUTES.citizen.home)
+      return
     } else {
       submissionError.value = response.data?.message || 'Errore di invio'
     }
@@ -118,8 +119,6 @@ async function submit() {
       {{ submitting ? 'Invio...' : 'Invia risposte' }}
     </Button>
 
-    <h3 v-if="submissionSuccess" class="success-msg">Sondaggio inviato con successo! 🎉</h3>
-    <Button v-if="submissionSuccess" @click="goHome" label="Torna alla Home" />
     <p v-if="submissionError" class="error-msg">{{ submissionError }}</p>
   </div>
 </template>

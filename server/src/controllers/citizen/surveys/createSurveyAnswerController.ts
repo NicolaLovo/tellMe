@@ -19,7 +19,6 @@ export const createSurveyAnswerController = async (
 ): Promise<void> => {
   try {
     const { surveyAnswer } = req.body;
-    console.log(surveyAnswer);
 
     const exists = await SurveyAnswerModel.findOne({
       '_id.surveyId': surveyAnswer._id.surveyId,

@@ -7,7 +7,7 @@ import { initializeApp } from 'firebase/app'
 import { createPinia } from 'pinia'
 import PrimeVue from 'primevue/config'
 import { createApp } from 'vue'
-import Toast from 'vue-toastification'
+import Toast, { POSITION } from 'vue-toastification'
 import App from './App.vue'
 import './assets/base.css'
 import { FIREBASE_CONFIG } from './constants/database/FIREBASE_CONFIG'
@@ -19,7 +19,9 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-app.use(Toast)
+app.use(Toast, {
+  position: POSITION.BOTTOM_RIGHT,
+})
 
 const tellMePreset = definePreset(Material, {
   semantic: {

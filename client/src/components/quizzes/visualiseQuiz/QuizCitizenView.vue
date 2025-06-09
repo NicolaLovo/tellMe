@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ApiClient } from '@/api/ApiClient'
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
 import { QuizAnswer } from '@/types/quiz/answer/QuizAnswer'
 import { QuizQuestionAnswer } from '@/types/quiz/answer/QuizQuestionAnswer'
 import Rating from 'primevue/rating'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
 const route = useRoute()
 const router = useRouter()
@@ -13,13 +15,14 @@ const router = useRouter()
 const agencyId = route.params.agencyId as string
 const quizId = route.params.quizId as string
 const quizAnswerId = route.params.answerId as string
-console.log(route.params)
 
 const quiz = ref<any>(null)
 const answers = ref<Record<string, number | undefined>>({})
 const submitting = ref(false)
 const submissionSuccess = ref(false)
 const submissionError = ref('')
+
+const toast = useToast()
 
 const userStore = useUserStore()
 const apiClient = new ApiClient({ jwtToken: userStore.user?.token ?? '' })
@@ -104,17 +107,14 @@ async function submit() {
       throw new Error(response.data.message || 'Errore aggiornamento risposta')
     }
 
-    submissionSuccess.value = true
+    toast.success('Risposte inviate con successo!')
+    router.push(APP_ROUTES.citizen.home)
   } catch (err: any) {
     console.error('Errore invio:', err)
     submissionError.value = err.message || 'Errore sconosciuto'
   } finally {
     submitting.value = false
   }
-}
-
-const goHome = () => {
-  router.push('/')
 }
 
 onMounted(() => {
@@ -141,8 +141,6 @@ onMounted(() => {
       {{ submitting ? 'Invio...' : 'Invia Risposte' }}
     </button>
 
-    <h3 v-if="submissionSuccess" class="success-msg">Quiz inviato con successo! 🎉</h3>
-    <button v-if="submissionSuccess" @click="goHome">Torna alla Home</button>
     <p v-if="submissionError" class="error-msg">{{ submissionError }}</p>
   </div>
 
