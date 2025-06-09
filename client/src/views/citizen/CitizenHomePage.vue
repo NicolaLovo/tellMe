@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import CitizenQuizzesList from '@/components/quizzes/display/citizen/CitizenQuizzesList.vue'
-import CitizenSurveysList from '@/components/surveys/display/CitizenSurveysList.vue'
+import CitizenQuizList from '@/components/quizzes/display/citizen/CitizenQuizList.vue'
+import CitizenSurveyList from '@/components/surveys/display/CitizenSurveyList.vue'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
 import { useRouter } from 'vue-router'
@@ -15,8 +15,8 @@ function goToChangePassword() {
 <template>
   <div class="user-container">
     <div class="card-content">
-      <div class="content-list"><CitizenSurveysList /></div>
-      <div class="content-list"><CitizenQuizzesList /></div>
+      <div class="content-list"><CitizenSurveyList /></div>
+      <div class="content-list"><CitizenQuizList /></div>
     </div>
   </div>
 </template>

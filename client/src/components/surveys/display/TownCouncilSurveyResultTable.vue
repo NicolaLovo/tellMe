@@ -75,36 +75,17 @@ onMounted(fetchSurveyResults)
 
 <template>
   <div class="p-4">
-    <h1 class="title-h1">
-      Risultati del sondaggio "{{ surveyResults.surveyTitle }}"
-    </h1>
+    <h1 class="title-h1">Risultati del sondaggio "{{ surveyResults.surveyTitle }}"</h1>
 
     <div v-if="surveyResults && surveyResults.results" class="users-div">
-      <Tag v-if="getTotalResponses() > 1" class="users-tag">{{ getTotalResponses() }} utenti hanno risposto al sondaggio</Tag>
-      <Tag  v-if="getTotalResponses() == 1" class="users-tag">1 utente ha risposto al sondaggio</Tag>
-      <Tag v-if="getTotalResponses() == 0" class="users-tag">Nessun utente ha risposto al sondaggio</Tag>
-    </div>
-
-    <!-- <div>
-      <div
-        v-for="(question, qIndex) in surveyResults.results"
-        :key="question.questionId"
-        class="mb-6"
+      <Tag v-if="getTotalResponses() > 1" class="users-tag"
+        >{{ getTotalResponses() }} utenti hanno risposto al sondaggio</Tag
       >
-        <Card class="mb-3">
-          <template #title> Domanda {{ qIndex + 1 }}: {{ question.questionText }} </template>
-          <template #content>
-            <div v-for="option in question.options" :key="option.optionId" class="mb-2">
-              <div class="option-div">
-                <span>{{ option.optionText }}</span>
-                <span>Voti:{{ option.votes }}</span>
-              </div>
-              <ProgressBar :value="calculatePercentage(option.votes, question.options)" />
-            </div>
-          </template>
-        </Card>
-      </div>
-    </div> -->
+      <Tag v-if="getTotalResponses() == 1" class="users-tag">1 utente ha risposto al sondaggio</Tag>
+      <Tag v-if="getTotalResponses() == 0" class="users-tag"
+        >Nessun utente ha risposto al sondaggio</Tag
+      >
+    </div>
     <div
       v-for="(question, qIndex) in surveyResults.results"
       :key="question.questionId"
@@ -113,8 +94,8 @@ onMounted(fetchSurveyResults)
       <h3 class="question-h3">Domanda {{ qIndex + 1 }}: {{ question.questionText }}</h3>
       <div v-for="option in question.options" :key="option.optionId">
         <div class="option-div">
-          <span style="color: #1a237e;">{{ option.optionText }}</span>
-          <span style="color: #1a237e;" >Voti: {{ option.votes }}</span>
+          <span style="color: #1a237e">{{ option.optionText }}</span>
+          <span style="color: #1a237e">Voti: {{ option.votes }}</span>
         </div>
         <ProgressBar :value="calculatePercentage(option.votes, question.options)" />
       </div>
@@ -123,11 +104,11 @@ onMounted(fetchSurveyResults)
 </template>
 
 <style scoped>
-.title-h1{
+.title-h1 {
   margin: 1rem;
 }
 
-.question-h3{
+.question-h3 {
   margin: 0;
   padding-bottom: 1rem;
 }
@@ -156,6 +137,6 @@ onMounted(fetchSurveyResults)
   border-radius: 0.5rem;
   border: 1px solid #e0e0e0;
   margin: 1rem;
-  background-color: rgba(255, 255, 255, 0.600);
+  background-color: rgba(255, 255, 255, 0.6);
 }
 </style>
