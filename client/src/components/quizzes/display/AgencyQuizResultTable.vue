@@ -101,7 +101,7 @@ onMounted(fetchQuizResults)
           <Tag class="star-tag">
             <span v-html="renderStars(parseInt(option.optionId))"></span>
           </Tag>
-          <span>Voti: {{ option.votes }}</span>
+          <span style="color: #1a237e;">Voti: {{ option.votes }}</span>
         </div>
         <ProgressBar :value="calculatePercentage(option.votes, question.options)" />
       </div>

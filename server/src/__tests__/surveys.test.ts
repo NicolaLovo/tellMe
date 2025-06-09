@@ -312,6 +312,35 @@ describe('Surveys Tests', () => {
     return res;
   });
 
-  // At least one queston not answered
-  test('POST /api/v1/citizens/:uid/surveys/:surveyId/answer should return 400 for incomplete survey answer', async () => {});
+  // If already answered
+  test('POST /api/v1/citizens/:uid/surveys/:surveyId/answer should return 409 if user already answered survey', async () => {
+    const answer: SurveyAnswer = {
+      _id: {
+        surveyId: createdSurveyId,
+        uid: citizenUid,
+      },
+      creationDate: new Date(),
+      answers: [
+        {
+          questionId: 'q1',
+          optionId: 'opt2',
+          type: 'multiple-choice',
+        },
+        {
+          questionId: 'q2',
+          optionId: 'opt2',
+          type: 'multiple-choice',
+        },
+      ],
+    };
+    const res = await request(app)
+      .post(`/api/v1/citizens/${citizenUid}/surveys/${createdSurveyId}/answer`)
+      .send({ surveyAnswer: answer })
+      .set('Authorization', `Bearer ${citizenToken}`)
+      .set('Accept', 'application/json');
+    console.log(res.body);
+    expect(res.status).toBe(409);
+    expect(res.body.status).toBe('error');
+    return res;
+  });
 });
