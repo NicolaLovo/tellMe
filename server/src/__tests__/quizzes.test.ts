@@ -12,7 +12,7 @@ describe('Quizzes Tests', () => {
   let agencyId: string;
   let citizenToken: string;
   let citizenId: string;
-  const quizId = '684548f34850426da2c8acf4';
+  let quizId = '';
 
   jest.setTimeout(30000);
 
@@ -59,6 +59,7 @@ describe('Quizzes Tests', () => {
 
     expect(res.status).toBe(200);
     expect(res.body.data.quizId).toBeDefined();
+    quizId = res.body.data.quizId; // Store the quizId for later tests
   });
 
   test('POST /api/v1/agencies/:agencyId/quizzes should fail with 400 if title is empty', async () => {
@@ -174,7 +175,6 @@ describe('Quizzes Tests', () => {
       .get(`/api/v1/agencies/${agencyId}/quizzes/${quizId}`)
       .set('Authorization', `Bearer ${agencyToken}`);
 
-    console.log('Quiz GET response status:', quizRes.status);
     expect(quizRes.status).toBe(200);
 
     const quizData = quizRes.body.data.quiz;
@@ -197,10 +197,6 @@ describe('Quizzes Tests', () => {
       .set('Authorization', `Bearer ${agencyToken}`)
       .send(createPayload);
 
-    console.log(
-      'QuizAnswer POST response:',
-      JSON.stringify(createRes.body, null, 2),
-    );
     expect(createRes.status).toBe(200);
 
     const quizAnswerId = createRes.body.data.answerId;
@@ -226,12 +222,6 @@ describe('Quizzes Tests', () => {
         `/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers/${quizAnswerId}`,
       )
       .send(updatePayload);
-
-    console.log(
-      'PUT response:',
-      updateRes.status,
-      JSON.stringify(updateRes.body, null, 2),
-    );
 
     expect(updateRes.status).toBe(200);
     expect(updateRes.body.status).toBe('success');
