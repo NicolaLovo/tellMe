@@ -171,7 +171,7 @@ const handleSubmit = async () => {
 }
 
 .spaced-button {
-  margin-top: 12px; /* distanza tra input e bottone */
+  margin-top: 12px;
 }
 
 .input-group {

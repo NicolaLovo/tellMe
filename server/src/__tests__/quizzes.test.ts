@@ -40,6 +40,7 @@ describe('Quizzes Tests', () => {
     agencyId = agencyres.uid;
   });
 
+  //Quiz creation
   test('POST /api/v1/agencies/:agencyId/quizzes should return 200 with valid quiz', async () => {
     const res = await request(app)
       .post(`/api/v1/agencies/${agencyId}/quizzes`)
@@ -62,6 +63,7 @@ describe('Quizzes Tests', () => {
     quizId = res.body.data.quizId; // Store the quizId for later tests
   });
 
+  //Create Quiz with empty title
   test('POST /api/v1/agencies/:agencyId/quizzes should fail with 400 if title is empty', async () => {
     const res = await request(app)
       .post(`/api/v1/agencies/${agencyId}/quizzes`)
@@ -84,6 +86,7 @@ describe('Quizzes Tests', () => {
     expect(res.body.data.message).toBe('Missing or invalid required fields');
   });
 
+  //Create Quiz without questions
   test('POST /api/v1/agencies/:agencyId/quizzes should fail with 400 if there are no questions', async () => {
     const res = await request(app)
       .post(`/api/v1/agencies/${agencyId}/quizzes`)
@@ -100,6 +103,7 @@ describe('Quizzes Tests', () => {
     expect(res.body.data.message).toBe('Missing or invalid required fields');
   });
 
+  //Create Quiz with an empty question
   test('POST /api/v1/agencies/:agencyId/quizzes should fail with 400 if a question is empty', async () => {
     const res = await request(app)
       .post(`/api/v1/agencies/${agencyId}/quizzes`)
@@ -124,6 +128,7 @@ describe('Quizzes Tests', () => {
     );
   });
 
+  //Create a QuizAnswer
   test('POST /api/v1/agencies/:agencyId/quizzes/:quizId/answers/:uid should create a quiz answer', async () => {
     const payload = {
       quizAnswer: {
@@ -148,6 +153,7 @@ describe('Quizzes Tests', () => {
     expect(res.body.data.answerId).toBeDefined();
   });
 
+  //Create a QuizAnswer without sending the citizen id
   test('POST /api/v1/agencies/:agencyId/quizzes/:quizId/answers/:uid where the answer has UID empty should return 400', async () => {
     const payload = {
       quizAnswer: {
@@ -170,6 +176,7 @@ describe('Quizzes Tests', () => {
     expect(res.status).toBe(400);
   });
 
+  //Compile a QuizAnswer
   test('PUT /api/v1/agencies/:agencyId/quizzes/:quizId/answers/:quizAnswerId with all questions answered should succeed', async () => {
     const quizRes = await request(app)
       .get(`/api/v1/agencies/${agencyId}/quizzes/${quizId}`)
@@ -228,6 +235,7 @@ describe('Quizzes Tests', () => {
     expect(updateRes.body.data.quizAnswerId).toBeDefined();
   });
 
+  //Try to respond without giving the answers
   test('PUT /answers/:quizAnswerId with completed status but no answers does not update anything', async () => {
     const quizRes = await request(app)
       .get(`/api/v1/agencies/${agencyId}/quizzes/${quizId}`)

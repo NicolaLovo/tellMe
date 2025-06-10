@@ -24,7 +24,7 @@ surveysRouter.get(
   listTownCouncilSurveysController,
 );
 
-//Read survey by ID
+// Read survey by ID
 surveysRouter.get('/:surveyId', readSurveyController);
 
 // Update survey by ID

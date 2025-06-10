@@ -113,7 +113,6 @@ const registerWithEmailAndPassword = async () => {
               width="100%"
               :inputStyle="{ width: '100%' }"
             />
-            <!-- inputStyle="width: 100%;" -->
           </div>
           <Button type="submit" label="Registrati" style="width: 100%" />
         </form>

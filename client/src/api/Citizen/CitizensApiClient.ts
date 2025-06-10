@@ -17,6 +17,9 @@ export class CitizensApiClient extends ApiClientChildren {
     return this.citizenApiClient
   }
 
+  /**
+   * Fetches a citizen by their email address
+   */
   public async readCitizenByEmail(queries: {
     email: string
   }): Promise<TmResponse<{ uid: string }>> {

@@ -66,7 +66,6 @@ const submitForm = async () => {
                 toggleMask
                 :feedback="false"
               />
-              <!-- inputStyle="width: 100%;" -->
             </div>
 
             <div class="button-group">

@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import router from '@/router'
 import { getAuth, signOut } from 'firebase/auth'
-// import SurveyCreateForm from './components/surveys/SurveyCreateForm/SurveyCreateForm.vue'
-//import SurveyClientView from './components/surveys/visualiseSurvey/SurveyClientView.vue'
 import { computed, ref } from 'vue'
 import { APP_ROUTES } from './constants/APP_ROUTES'
 import { useUserStore } from './stores/useUserStore'
@@ -99,7 +97,6 @@ const toggleMenu = (event: MouseEvent) => {
         :value="userStore.user.email"
         severity="info"
       />
-      <!-- <Button v-if="!!userStore.user" @click="logout" label="Logout" /> -->
       <Menu ref="menu" :model="menuItems" popup />
       <Button v-if="!!userStore.user" icon="pi pi-bars" @click="toggleMenu" class="menu-button"/>
     </div>

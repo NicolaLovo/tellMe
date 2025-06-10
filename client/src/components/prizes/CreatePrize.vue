@@ -36,7 +36,7 @@ async function submitPrize() {
   }
 
   const payload: Prize = {
-    _id: '', // Server should generate this
+    _id: '',
     title: title.value.trim(),
     creationDate: new Date(),
     points: points.value!,

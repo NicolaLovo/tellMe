@@ -33,7 +33,7 @@ export const createPrizeController = async (
       return;
     }
 
-    // Save the validated survey to the database
+    // Save the prize to the database
     const newPrize = new PrizeModel({
       title: prize.title,
       points: prize.points,
@@ -41,7 +41,7 @@ export const createPrizeController = async (
     });
     await newPrize.save();
 
-    // Return the new survey ID if successfull
+    // Return the new prize ID if successfull
     res.status(200).json({
       status: 'success',
       data: {
