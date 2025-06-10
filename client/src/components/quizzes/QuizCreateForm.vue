@@ -181,9 +181,12 @@ const handleSubmit = async () => {
 }
 
 .error-message {
-  color: red;
-  font-weight: bold;
-  margin-top: 10px;
+  color: #d32f2f;
+  background-color: #fce4ec;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 0.95rem;
 }
 
 .section {

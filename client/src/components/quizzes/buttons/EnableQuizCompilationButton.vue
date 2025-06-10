@@ -106,7 +106,7 @@ const handleSubmit = async () => {
             <InputText id="email" v-model="form.email" class="w-full" />
           </div>
 
-          <p v-if="form.errorMessage">{{ form.errorMessage }}</p>
+          <p v-if="form.errorMessage" class="error-msg">{{ form.errorMessage }}</p>
 
           <!-- Submit button -->
           <div class="center-div">
@@ -146,5 +146,14 @@ const handleSubmit = async () => {
 
 .email-label {
   padding-top: 8px;
+}
+
+.error-msg {
+  color: #d32f2f;
+  background-color: #fce4ec;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 0.95rem;
 }
 </style>
