@@ -25,11 +25,11 @@ export class PrizesApiClient extends ApiClientChildren {
 
       return response ?? HTTP_TMRESPONSES.error
     } catch (error) {
-      console.error('Create Survey error:', error)
+      console.error('Create Prize error:', error)
       return {
         status: 'error',
         data: {
-          message: 'Error in Create Survey request',
+          message: 'Error in Create Prize request',
         },
       }
     }
@@ -77,11 +77,11 @@ export class PrizesApiClient extends ApiClientChildren {
 
       return response ?? HTTP_TMRESPONSES.error
     } catch (error) {
-      console.error('List Surveys error:', error)
+      console.error('List Prizes error:', error)
       return {
         status: 'error',
         data: {
-          message: 'Error in List Surveys request',
+          message: 'Error in List Prizes request',
         },
       }
     }
