@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { QuizAnswerModel } from '../../../database/quiz/QuizAnswerSchema';
-import { TmResponse } from '../../../types/common/utils/TmResponse';
-import { QuizAnswer } from '../../../types/quiz/answer/QuizAnswer';
+import { QuizAnswerModel } from '../../../../database/quiz/QuizAnswerSchema';
+import { TmResponse } from '../../../../types/common/utils/TmResponse';
+import { QuizAnswer } from '../../../../types/quiz/answer/QuizAnswer';
 
 interface ReqBody {
   quizAnswer: Partial<QuizAnswer>;

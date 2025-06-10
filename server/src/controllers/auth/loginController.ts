@@ -30,7 +30,7 @@ export const loginController = async (
     });
 
     if (!userEntity) {
-      res.status(400).json({
+      res.status(404).json({
         status: 'error',
         data: {
           message: 'User not found',

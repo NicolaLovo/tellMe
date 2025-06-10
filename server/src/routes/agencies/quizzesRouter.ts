@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { createQuizAnswerController } from '../../controllers/agency/quizzes/answers/createQuizAnswerController';
 import { getQuizResultsController } from '../../controllers/agency/quizzes/answers/getQuizResultsController';
+import { updateQuizAnswerController } from '../../controllers/agency/quizzes/answers/updateQuizAnswerController';
 import { createQuizController } from '../../controllers/agency/quizzes/createQuizController';
 import { listAgencyQuizzesController } from '../../controllers/agency/quizzes/listAgencyQuizzesController';
 import { readQuizController } from '../../controllers/agency/quizzes/readQuizController';
-import { updateQuizAnswerController } from '../../controllers/citizen/quizzes/updateQuizAnswerController';
 import { getRbacMiddleware } from '../../middlewares/getRbacMiddleware';
 
 const quizzesRouter = Router();

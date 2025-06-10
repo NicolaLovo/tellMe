@@ -11,9 +11,7 @@ export type QuizResults = {
      * Text of the question.
      */
     question: string;
-
     type: 'rating';
-
     options: {
       optionId: '1' | '2' | '3' | '4' | '5';
       votes: number;
