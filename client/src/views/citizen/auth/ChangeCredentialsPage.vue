@@ -50,7 +50,7 @@ const submitForm = async () => {
   <div class="change-credentials-container">
     <Card class="content">
       <template #title>
-        <h1>Modifica la tua Password</h1>
+        <h1>Modifica la tua password</h1>
       </template>
       <template #content>
         <form @submit.prevent="submitForm">
@@ -72,7 +72,7 @@ const submitForm = async () => {
             <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
 
             <div class="button-group">
-              <Button type="submit" label="Salva Cambiamenti" class="btn" style="width: 200px" />
+              <Button type="submit" label="Salva" style="width: 200px" />
             </div>
           </div>
         </form>
