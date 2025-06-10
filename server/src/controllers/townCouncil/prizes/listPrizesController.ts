@@ -28,6 +28,9 @@ type ResBody = TmResponse<{
   };
 }>;
 
+/**
+ * Controller to list the prizes.
+ */
 export const listPrizesController = async (
   req: Request<{}, ResBody, {}, ReqQuery>,
   res: Response<ResBody>,

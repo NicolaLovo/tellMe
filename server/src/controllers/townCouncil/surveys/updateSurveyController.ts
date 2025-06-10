@@ -11,6 +11,10 @@ type ResBody = TmResponse<{
   surveyId: string;
 }>;
 
+
+/**
+ * Controller to update a survey
+ */
 export const updateSurveyController = async (
   req: Request<{ surveyId: string }, ResBody, ReqBody>,
   res: Response<ResBody>,

@@ -33,6 +33,9 @@ type ResBody = TmResponse<{
   };
 }>;
 
+/**
+ * Controller used to list quizzes avalable for the user
+ */
 export const listCitizenQuizzesController = async (
   req: Request<ReqParams, ResBody, {}, ReqQuery>,
   res: Response<ResBody>,
@@ -63,6 +66,7 @@ export const listCitizenQuizzesController = async (
 
     const totalCount = await QuizAnswerModel.countDocuments(filter).exec();
 
+    // Return quizzes and metadata on success
     res.status(200).json({
       status: 'success',
       data: {

@@ -28,6 +28,10 @@ type ResBody = TmResponse<{
   };
 }>;
 
+
+/**
+ * Controller to list all the surveys
+ */
 export const listTownCouncilSurveysController = async (
   req: Request<{}, ResBody, {}, ReqQuery>,
   res: Response<ResBody>,

@@ -26,6 +26,9 @@ type ResBody = TmResponse<{
   };
 }>;
 
+/**
+ * Controller to list the surveys available for the citizen
+ */
 export const listCitizenSurveysController = async (
   req: Request<
     {
@@ -79,6 +82,7 @@ export const listCitizenSurveysController = async (
 
     const totalCount = await SurveyModel.countDocuments(filter).exec();
 
+    // Return surveys and metadata if successfull
     res.status(200).json({
       status: 'success',
       data: {

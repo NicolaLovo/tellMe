@@ -7,6 +7,9 @@ type ResBody = TmResponse<{
   survey: Survey;
 }>;
 
+/**
+ * Controller to read a survey
+ */
 export const readSurveyController = async (
   req: Request<{ surveyId: string }, ResBody, {}>,
   res: Response<ResBody>,

@@ -28,6 +28,7 @@ export const createQuizAnswerController = async (
   try {
     const { quizAnswer } = req.body;
 
+    // Check if quiz answer is valid
     if (!quizAnswer || typeof quizAnswer !== 'object') {
       res.status(400).json({
         status: 'error',
@@ -47,6 +48,7 @@ export const createQuizAnswerController = async (
 
     const newQuiz = await QuizAnswerModel.create(quizPayload);
 
+    // Return answer id on success
     res.status(200).json({
       status: 'success',
       data: {

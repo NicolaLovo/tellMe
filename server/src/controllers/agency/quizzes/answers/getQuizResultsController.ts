@@ -25,6 +25,7 @@ export const getQuizResultsController = async (
 
     const quiz = quizFindRes[0];
 
+    // Check if quiz exists
     if (!quiz) {
       res.status(404).json({
         status: 'error',
@@ -104,7 +105,7 @@ export const getQuizResultsController = async (
         options: [],
       };
 
-      // iterate over the option votes and create options array
+      // Iterate over the option votes and create options array
       for (const [optionId, votes] of Object.entries(result.optionVotes)) {
         questionResult.options.push({
           optionId: optionId as '1' | '2' | '3' | '4' | '5',

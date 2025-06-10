@@ -23,6 +23,7 @@ export const createSurveyController = async (
   try {
     const { survey } = req.body;
 
+    // Check fields
     if (
       !survey?.title.trim() ||
       !survey?.status ||

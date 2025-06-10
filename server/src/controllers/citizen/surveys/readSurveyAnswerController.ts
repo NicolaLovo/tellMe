@@ -13,7 +13,7 @@ type ResBody = TmResponse<{
 }>;
 
 /**
- * Searches for answer of a certain survey in order to understand wheter it was already answered
+ * Controller to search for an answer of a certain survey, in order to understand wheter it was already answered by a user
  */
 export const readSurveyAnswerController = async (
   req: Request<ReqParams, ResBody, {}>,
@@ -27,6 +27,7 @@ export const readSurveyAnswerController = async (
       },
     });
 
+    // Check if survey exists
     if (!surveyAnswerData) {
       res.status(404).json({
         status: 'error',
@@ -37,6 +38,7 @@ export const readSurveyAnswerController = async (
       return;
     }
 
+    // Return survey answer if successfull
     res.status(200).json({
       status: 'success',
       data: {

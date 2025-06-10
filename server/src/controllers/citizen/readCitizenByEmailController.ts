@@ -13,7 +13,7 @@ type ResBody = TmResponse<{
 }>;
 
 /**
- * Finds a citizen by their email address.
+ * Controller to find a citizen by their email address.
  */
 export const readCitizenByEmailController = async (
   req: Request<ReqParams, ResBody, {}, ReqQuery>,
@@ -34,6 +34,7 @@ export const readCitizenByEmailController = async (
 
     const citizen = await UserModel.findOne({ email }).exec();
 
+    // Check if citizen exists
     if (!citizen) {
       res.status(404).json({
         status: 'error',
@@ -44,6 +45,7 @@ export const readCitizenByEmailController = async (
       return;
     }
 
+    // Check if it is a citizen
     if (!citizen.roles.includes('citizen')) {
       res.status(403).json({
         status: 'error',
@@ -54,6 +56,7 @@ export const readCitizenByEmailController = async (
       return;
     }
 
+    // Return uid if successfull
     res.status(200).json({
       status: 'success',
       data: {

@@ -12,6 +12,9 @@ type ResBody = TmResponse<{
   token: string;
 }>;
 
+/**
+ * Controller used to login
+ */
 export const loginController = async (
   req: Request<{}, ResBody, ReqBody>,
   res: Response<ResBody>,
@@ -21,10 +24,10 @@ export const loginController = async (
 
     const auth = getAuth();
 
-    // decode the firebase token to ensure it's valid
+    // Decode the firebase token to ensure it's valid
     const decodedFirebaseToken = await auth.verifyIdToken(firebaseToken);
 
-    // retrieve user from database
+    // Retrieve user from database
     const userEntity = await UserModel.findOne({
       uid: decodedFirebaseToken.uid,
     });
@@ -51,6 +54,7 @@ export const loginController = async (
       additionalClaims,
     );
 
+    // Return custom token on success
     res.status(200).json({
       status: 'success',
       data: {

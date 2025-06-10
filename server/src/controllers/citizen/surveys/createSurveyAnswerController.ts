@@ -29,6 +29,7 @@ export const createSurveyAnswerController = async (
       '_id.uid': surveyAnswer._id.uid,
     });
 
+    // Check if user already answered the survey
     if (exists) {
       res.status(409).json({
         status: 'error',

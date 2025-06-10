@@ -15,6 +15,9 @@ type ResBody = TmResponse<{
   };
 }>;
 
+/**
+ * Controller used to list all the quizzes
+ */
 export const listAgencyQuizzesController = async (
   req: Request<
     {
@@ -43,6 +46,7 @@ export const listAgencyQuizzesController = async (
       return;
     }
 
+    // Check if agencyId is valid
     if (!agencyId) {
       res.status(400).json({
         status: 'error',
@@ -69,6 +73,7 @@ export const listAgencyQuizzesController = async (
 
     const totalCount = await QuizModel.countDocuments(filter).exec();
 
+    // Return quizzes and metadata
     res.status(200).json({
       status: 'success',
       data: {

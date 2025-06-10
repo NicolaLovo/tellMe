@@ -32,7 +32,7 @@ export const registerAgencyController = async (
     // Retrieve the current instance of the Firebase Authentication service
     const auth = getAuth();
 
-    // decode the firebase token to ensure it's valid
+    // Decode the firebase token to ensure it's valid
     const decodedFirebaseToken = await auth.verifyIdToken(firebaseToken);
 
     // Check email is not empty
