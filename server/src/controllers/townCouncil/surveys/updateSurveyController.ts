@@ -33,17 +33,18 @@ export const updateSurveyController = async (
       return;
     }
 
-    // Check if the survey is a draft, if not return an error
+    // Only surveys in created status can be published
     if (survey.status !== 'created' && req.body.survey.status === 'published') {
       res.status(400).json({
         status: 'error',
         data: {
-          message: 'Only surveys in draft status can be published',
+          message: 'Only surveys in created status can be published',
         },
       });
       return;
     }
 
+    // Only surveys in published status can be closed
     if (survey.status !== 'published' && req.body.survey.status === 'closed') {
       res.status(400).json({
         status: 'error',

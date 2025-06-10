@@ -29,7 +29,7 @@ export const readSurveyController = async (
       return;
     }
 
-    // Return the survey ID in the response
+    // Return the survey in the response
     res.status(200).json({
       status: 'success',
       data: {
