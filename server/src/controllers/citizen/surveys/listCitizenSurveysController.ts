@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
+import { SurveyAnswerModel } from '../../../database/survey/SurveyAnswerSchema';
 import { SurveyModel } from '../../../database/survey/SurveySchema';
 import { TmResponse } from '../../../types/common/utils/TmResponse';
 import { Survey } from '../../../types/survey/Survey';
-import { SurveyAnswerModel } from '../../../database/survey/SurveyAnswerSchema';
 
 interface ReqQuery {
   /**
@@ -17,7 +17,6 @@ interface ReqQuery {
    * @default 10
    */
   pageSize?: string;
-  uid: string;
 }
 
 type ResBody = TmResponse<{
@@ -28,11 +27,19 @@ type ResBody = TmResponse<{
 }>;
 
 export const listCitizenSurveysController = async (
-  req: Request<{}, ResBody, {}, ReqQuery>,
+  req: Request<
+    {
+      uid: string;
+    },
+    ResBody,
+    {},
+    ReqQuery
+  >,
   res: Response<ResBody>,
 ): Promise<void> => {
   try {
-    const { pageIndex = '0', pageSize = '10', uid } = req.query;
+    const uid = req.params.uid;
+    const { pageIndex = '0', pageSize = '10' } = req.query;
 
     const page = parseInt(pageIndex, 10);
     const size = parseInt(pageSize, 10);
