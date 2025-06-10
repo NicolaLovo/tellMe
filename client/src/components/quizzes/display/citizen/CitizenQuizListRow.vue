@@ -61,11 +61,4 @@ onMounted(loadQuizTitle)
   font-style: italic;
 }
 
-.error {
-  color: #d32f2f;
-}
-.loading {
-  color: #888;
-  font-style: italic;
-}
 </style>
