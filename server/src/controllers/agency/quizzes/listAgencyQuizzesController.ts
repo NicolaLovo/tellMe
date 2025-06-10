@@ -15,8 +15,8 @@ type ResBody = TmResponse<{
   };
 }>;
 
-/**
- * Controller used to list all the quizzes
+/** 
+ * Controller used to list all the quizzes of an agency
  */
 export const listAgencyQuizzesController = async (
   req: Request<
