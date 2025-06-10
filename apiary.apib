@@ -5,8 +5,6 @@ HOST: https://your-api-host.com
 
 # Group Authentication API
 
-These APIs allow users to authenticate using a Firebase token and receive a custom token with additional user claims.
-
 ## Login [/api/v1/auth/login]
 
 ### Login with Firebase Token [POST]
@@ -15,15 +13,15 @@ Authenticates a user using a Firebase ID token. On success, returns a custom tok
 
 + Request (application/json)
     + Attributes (object)
-        + firebaseToken: `eyJhbGci...` (string, required) - Firebase ID token obtained from client-side authentication
+        + firebaseToken: `eagoaasj...` (string, required) - Firebase ID token obtained from client-side authentication
 
 + Response 200 (application/json)
     + Attributes (object)
         + status: `success` (string)
         + data (object)
-            + token: `eyJhbGci...` (string) - Custom token with additional claims
+            + token: `eagoaasj...` (string) - Custom token with additional claims
 
-+ Response 401 (application/json)
++ Response 404 (application/json)
     + Attributes (object)
         + status: `error` (string)
         + data (object)
@@ -45,13 +43,13 @@ Registers a citizen by verifying their Firebase token, validating their email, c
 + Request (application/json)
     + Attributes (object)
         + email: `citizen@example.com` (string, required) - The email address of the citizen
-        + firebaseToken: `eyJhbGci...` (string, required) - Firebase ID token to authenticate the user
+        + firebaseToken: `eagoaasj...` (string, required) - Firebase ID token to authenticate the user
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
     + Attributes (object)
         + status: `success` (string)
         + data (object)
-            + token: `eyJhbGci...` (string) - A Firebase custom token that can be used for authentication
+            + token: `eagoaasj...` (string) - Custom token with additional claims
 
 + Response 400 (application/json)
     + Attributes (object)
@@ -74,13 +72,13 @@ Registers a new agency user by verifying a Firebase token and creating a user re
 + Request (application/json)
     + Attributes (object)
         + email: `agency@example.com` (string, required) - Email address of the agency user
-        + firebaseToken: `eyJhbGci...` (string, required) - Firebase ID token to verify identity
+        + firebaseToken: `eagoaasj...` (string, required) - Firebase ID token to verify identity
 
 + Response 200 (application/json)
     + Attributes (object)
         + status: `success` (string)
         + data (object)
-            + token: `eyJhbGci...` (string) - Custom authentication token for the user
+            + token: `eagoaasj...` (string) - Custom authentication token for the user
 
 + Response 400 (application/json)
     + Attributes (object)
@@ -101,8 +99,7 @@ Registers a new agency user by verifying a Firebase token and creating a user re
 
 ### Find Citizen by Email [GET]
 
-Find a citizen user by their email address.  
-Returns the UID of the user if found and the user has the `citizen` role.
+Find a citizen user by their email address. Returns the UID of the user if found and if the user has the `citizen` role.
 
 + Parameters
     + email: `alice@example.com` (optional, string) - Email address of the citizen to find
@@ -112,7 +109,7 @@ Returns the UID of the user if found and the user has the `citizen` role.
     + Attributes (object)
         + status: `success` (string)
         + data (object)
-            + uid: `64a8f2d23903cd2f776ed98c` (string)
+            + uid: `3rE2o8Bo5vX3Itqy1mwqKKrZ9xq2` (string)
 
 + Response 400 (application/json)
 
@@ -149,7 +146,7 @@ Returns the UID of the user if found and the user has the `citizen` role.
 Returns a paginated list of surveys available to a citizen. Only surveys with `status: published` are returned. Supports pagination via `pageIndex` and `pageSize`.
 
 + Parameters
-    + uid: `user456` (string, required) - Unique identifier of the citizen
+    + uid: `3rE2o8Bo5vX3Itqy1mwqKKrZ9xq2` (string, required) - Unique identifier of the citizen
     + pageIndex: `0` (optional, string) - 0-based index of the first item in the current page (default: 0)
     + pageSize: `10` (optional, string) - Number of items to include in the current page (default: 10)
 
@@ -160,41 +157,6 @@ Returns a paginated list of surveys available to a citizen. Only surveys with `s
             + surveys (array[Survey]) - List of published surveys
             + metadata (object)
                 + totalCount: 25 (number) - Total number of published surveys
-                + Body
-                
-                    {
-                        "status": "success",
-                        "data": {
-                            "surveys": [
-                                {
-                                    "title": "Citizen Feedback",
-                                    "rewardPoints": 10,
-                                    "creationDate": "2025-05-20T12:30:00Z",
-                                    "status": "published",
-                                    "questions": [
-                                        {
-                                            "id": "q1",
-                                            "question": "How do you rate our services?",
-                                            "type": "multiple-choice",
-                                            "options": [
-                                                {
-                                                    "id": "opt1",
-                                                    "text": "Excellent"
-                                                },
-                                                {
-                                                    "id": "opt2",
-                                                    "text": "Good"
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ],
-                            "metadata": {
-                                "totalCount": 25
-                            }
-                        }
-                    }
 
 + Response 400 (application/json)
     + Attributes (object)
@@ -212,11 +174,11 @@ Returns a paginated list of surveys available to a citizen. Only surveys with `s
 
 ### Create a survey answer [POST]
 
-Creates and submits a user's answers to a specific survey. If the user has already answered this survey, the server will respond with `409 Conflict`.
+Creates and submits a user's answer to a specific survey. 
 
 + Parameters
-    + surveyId: `survey789` (string, required) - ID of the survey
-    + uid: `user456` (string, required) - User ID submitting the answer
+    + surveyId: `survey123` (string, required) - ID of the survey
+    + uid: `3rE2o8Bo5vX3Itqy1mwqKKrZ9xq2` (string, required) - User ID submitting the answer
 
 + Request (application/json)
     + Attributes (object)
@@ -241,37 +203,17 @@ Creates and submits a user's answers to a specific survey. If the user has alrea
 
 ### Get a citizen's survey answer [GET]
 
-Retrieves the survey answer submitted by a specific citizen (`uid`) for a specific survey (`surveyId`). If no answer is found, returns a 404 error.
+Retrieves the survey answer submitted by a specific citizen (`uid`) for a specific survey (`surveyId`). 
 
 + Parameters
-    + uid: `user456` (string, required) - Unique identifier of the citizen
-    + surveyId: `survey789` (string, required) - Unique identifier of the survey
+    + uid: `3rE2o8Bo5vX3Itqy1mwqKKrZ9xq2` (string, required) - Unique identifier of the citizen
+    + surveyId: `survey123` (string, required) - Unique identifier of the survey
 
 + Response 200 (application/json)
     + Attributes (object)
         + status: `success` (string)
         + data (object)
             + answer (SurveyAnswer)
-            + Body
-                {
-                    "status": "success",
-                    "data": {
-                        "answer": {
-                            "_id": {
-                                "surveyId": "survey789",
-                                "uid": "user456"
-                            },
-                            "creationDate": "2025-05-27T12:00:00Z",
-                            "answer": [
-                                {
-                                    "id": "q1",
-                                    "answer": "Very satisfied",
-                                    "type": "multiple-choice"
-                                }
-                            ]
-                        }
-                    }
-                }
 
 + Response 404 (application/json)
     + Attributes (object)
@@ -292,7 +234,7 @@ Retrieves the survey answer submitted by a specific citizen (`uid`) for a specif
 Returns a paginated list of pending quizzes associated with the specified citizen.
 
 + Parameters
-    + uid: `user123` (string, required) - Unique identifier of the citizen
+    + uid: `3rE2o8Bo5vX3Itqy1mwqKKrZ9xq2` (string, required) - Unique identifier of the citizen
     + pageIndex: `0` (optional, string) - 0-based index of the first item in the current page (default: `0`)
     + pageSize: `10` (optional, string) - Number of items per page (default: `10`)
 
@@ -563,7 +505,7 @@ Creates and submits a new quiz answer for a specific user and quiz. Stores the a
         + data (object)
             + answerId (object)
                 + quizId: `quiz456` (string)
-                + uid: `user789` (string)
+                + uid: `3rE2o8Bo5vX3Itqy1mwqKKrZ9xq2` (string)
 
 + Response 500 (application/json)
 
@@ -726,7 +668,7 @@ Returns a paginated list of available prizes, sorted by creation date (newest fi
 ## SurveyAnswer (object)
 + _id (object, required)
     + surveyId: `abc123` (string, required) - ID of the survey
-    + uid: `user456` (string, required) - ID of the user who answered
+    + uid: `3rE2o8Bo5vX3Itqy1mwqKKrZ9xq2` (string, required) - ID of the user who answered
 + creationDate: `2025-05-27T12:00:00Z` (string, required) - Timestamp when the answer was created
 + answer (array[SurveyQuestionAnswer], required) - Answers to the survey questions
     + Members
@@ -769,7 +711,7 @@ Returns a paginated list of available prizes, sorted by creation date (newest fi
 ## QuizAnswer (object)
 + _id (object) - Composite ID of the quiz answer
     + quizId: `quiz456` (string) - ID of the related quiz
-    + uid: `user789` (string) - ID of the user who submitted the answer
+    + uid: `3rE2o8Bo5vX3Itqy1mwqKKrZ9xq2` (string) - ID of the user who submitted the answer
 + creationDate: `2025-05-29T12:00:00Z` (string) - ISO 8601 date of answer submission
 + status: `pending` (enum[string]) - Status of the quiz answer
     + Members
