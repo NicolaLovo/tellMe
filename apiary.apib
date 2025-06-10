@@ -51,7 +51,7 @@ Registers a citizen by verifying their Firebase token, validating their email, c
     + Attributes (object)
         + status: `success` (string)
         + data (object)
-            + token: `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...` (string) - A Firebase custom token that can be used for authentication
+            + token: `eyJhbGci...` (string) - A Firebase custom token that can be used for authentication
 
 + Response 400 (application/json)
     + Attributes (object)
@@ -64,20 +64,48 @@ Registers a citizen by verifying their Firebase token, validating their email, c
         + status: `error` (string)
         + data (object)
             + message: `Internal server error` (string)
-            
+
+## Agency registration [/api/v1/auth/agencies]
+
+### Register a new agency user [POST]
+
+Registers a new agency user by verifying a Firebase token and creating a user record with agency role. Returns a custom authentication token on success.
+
++ Request (application/json)
+    + Attributes (object)
+        + email: `agency@example.com` (string, required) - Email address of the agency user
+        + firebaseToken: `eyJhbGci...` (string, required) - Firebase ID token to verify identity
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + token: `eyJhbGci...` (string) - Custom authentication token for the user
+
++ Response 400 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Email is invalid` (string) - Missing or invalid email
+
++ Response 500 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)          
 
 
 # Group Citizens API
 
 ## Citizens [/api/v1/citizens{?email}]
 
+### Find Citizen by Email [GET]
+
 Find a citizen user by their email address.  
 Returns the UID of the user if found and the user has the `citizen` role.
 
 + Parameters
     + email: `alice@example.com` (optional, string) - Email address of the citizen to find
-
-### Find Citizen by Email [GET]
 
 + Response 200 (application/json)
 
@@ -132,41 +160,41 @@ Returns a paginated list of surveys available to a citizen. Only surveys with `s
             + surveys (array[Survey]) - List of published surveys
             + metadata (object)
                 + totalCount: 25 (number) - Total number of published surveys
-+ Body
-
-    {
-        "status": "success",
-        "data": {
-            "surveys": [
-                {
-                    "title": "Citizen Feedback",
-                    "rewardPoints": 10,
-                    "creationDate": "2025-05-20T12:30:00Z",
-                    "status": "published",
-                    "questions": [
-                        {
-                            "id": "q1",
-                            "question": "How do you rate our services?",
-                            "type": "multiple-choice",
-                            "options": [
+                + Body
+                
+                    {
+                        "status": "success",
+                        "data": {
+                            "surveys": [
                                 {
-                                    "id": "opt1",
-                                    "text": "Excellent"
-                                },
-                                {
-                                    "id": "opt2",
-                                    "text": "Good"
+                                    "title": "Citizen Feedback",
+                                    "rewardPoints": 10,
+                                    "creationDate": "2025-05-20T12:30:00Z",
+                                    "status": "published",
+                                    "questions": [
+                                        {
+                                            "id": "q1",
+                                            "question": "How do you rate our services?",
+                                            "type": "multiple-choice",
+                                            "options": [
+                                                {
+                                                    "id": "opt1",
+                                                    "text": "Excellent"
+                                                },
+                                                {
+                                                    "id": "opt2",
+                                                    "text": "Good"
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 }
-                            ]
+                            ],
+                            "metadata": {
+                                "totalCount": 25
+                            }
                         }
-                    ]
-                }
-            ],
-            "metadata": {
-                "totalCount": 25
-            }
-        }
-    }
+                    }
 
 + Response 400 (application/json)
     + Attributes (object)
@@ -182,6 +210,35 @@ Returns a paginated list of surveys available to a citizen. Only surveys with `s
 
 ## Survey Answers [/api/v1/citizens/{uid}/surveys/{surveyId}/answer]
 
+### Create a survey answer [POST]
+
+Creates and submits a user's answers to a specific survey. If the user has already answered this survey, the server will respond with `409 Conflict`.
+
++ Parameters
+    + surveyId: `survey789` (string, required) - ID of the survey
+    + uid: `user456` (string, required) - User ID submitting the answer
+
++ Request (application/json)
+    + Attributes (object)
+        + surveyAnswer (SurveyAnswer, required)
+
++ Response 201 (application/json)
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+
++ Response 409 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `User already answered this survey.` (string)
+
++ Response 500 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string) 
+
 ### Get a citizen's survey answer [GET]
 
 Retrieves the survey answer submitted by a specific citizen (`uid`) for a specific survey (`surveyId`). If no answer is found, returns a 404 error.
@@ -195,34 +252,63 @@ Retrieves the survey answer submitted by a specific citizen (`uid`) for a specif
         + status: `success` (string)
         + data (object)
             + answer (SurveyAnswer)
-
-+ Body
-
-    {
-        "status": "success",
-        "data": {
-            "answer": {
-                "_id": {
-                    "surveyId": "survey789",
-                    "uid": "user456"
-                },
-                "creationDate": "2025-05-27T12:00:00Z",
-                "answer": [
-                    {
-                        "id": "q1",
-                        "answer": "Very satisfied",
-                        "type": "multiple-choice"
+            + Body
+                {
+                    "status": "success",
+                    "data": {
+                        "answer": {
+                            "_id": {
+                                "surveyId": "survey789",
+                                "uid": "user456"
+                            },
+                            "creationDate": "2025-05-27T12:00:00Z",
+                            "answer": [
+                                {
+                                    "id": "q1",
+                                    "answer": "Very satisfied",
+                                    "type": "multiple-choice"
+                                }
+                            ]
+                        }
                     }
-                ]
-            }
-        }
-    }
+                }
 
 + Response 404 (application/json)
     + Attributes (object)
         + status: `error` (string)
         + data (object)
             + message: `Survey answer not found` (string)
+
++ Response 500 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
+
+## Citizen Quizzes [/api/v1/citizens/{uid}/quizzes{?pageIndex,pageSize}]
+
+### List available quizzes for a citizen [GET]
+
+Returns a paginated list of pending quizzes associated with the specified citizen.
+
++ Parameters
+    + uid: `user123` (string, required) - Unique identifier of the citizen
+    + pageIndex: `0` (optional, string) - 0-based index of the first item in the current page (default: `0`)
+    + pageSize: `10` (optional, string) - Number of items per page (default: `10`)
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + quizzes (array[QuizAnswer]) - List of quizzes with status `pending`
+            + metadata (object)
+                + totalCount: `5` (number) - Total number of matching quizzes
+
++ Response 400 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Invalid pagination parameters` (string)
 
 + Response 500 (application/json)
     + Attributes (object)
@@ -276,8 +362,7 @@ Returns the list of surveys saved in the system.
         + status: `error` (string) 
         + data (object)
             + message: `string` (string) - Error message describing the failure
-            
-            
+
 ## Survey [/api/v1/surveys/{surveyId}]
 
 ### Get a survey [GET]
@@ -292,33 +377,32 @@ Retrieves the survey identified by the given `surveyId`.
         + status: `success` (string)
         + data (object)
             + survey (Survey)
-
-+ Body
-
-    {
-        "status": "success",
-        "data": {
-            "survey": {
-                "title": "Customer Satisfaction Survey",
-                "rewardPoints": 10,
-                "creationDate": "2025-05-20T12:30:00",
-                "status": "published",
-                "questions": [
-                    {
-                        "id": "q1",
-                        "question": "How satisfied are you with our service?",
-                        "type": "multiple-choice",
-                        "options": [
-                            { "id": "o1", "text": "Very satisfied" },
-                            { "id": "o2", "text": "Satisfied" },
-                            { "id": "o3", "text": "Neutral" },
-                            { "id": "o4", "text": "Dissatisfied" }
-                        ]
+            + Body
+            
+                {
+                    "status": "success",
+                    "data": {
+                        "survey": {
+                            "title": "Customer Satisfaction Survey",
+                            "rewardPoints": 10,
+                            "creationDate": "2025-05-20T12:30:00",
+                            "status": "published",
+                            "questions": [
+                                {
+                                    "id": "q1",
+                                    "question": "How satisfied are you with our service?",
+                                    "type": "multiple-choice",
+                                    "options": [
+                                        { "id": "o1", "text": "Very satisfied" },
+                                        { "id": "o2", "text": "Satisfied" },
+                                        { "id": "o3", "text": "Neutral" },
+                                        { "id": "o4", "text": "Dissatisfied" }
+                                    ]
+                                }
+                            ]
+                        }
                     }
-                ]
-            }
-        }
-    }
+                }
 
 + Response 404 (application/json)
     + Attributes (object)
@@ -332,6 +416,36 @@ Retrieves the survey identified by the given `surveyId`.
         + data (object)
             + message: `Internal server error` (string)
 
+
+## Survey results [/api/v1/surveys/{surveyId}/results]
+
+### Get Survey Results [GET]
+
+Returns aggregated survey results with question and option texts.
+
++ Parameters
+    + surveyId: `abc123` (string) - The ID of the survey
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + surveyResults (SurveyResult)
+
++ Response 404 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Survey not found` (string)
+
++ Response 500 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
 
 ### Update a survey [PUT]
 
@@ -356,15 +470,14 @@ Updates the survey with the provided data. Returns the updated survey ID on succ
         + data (object)
             + message: `Internal server error` (string)
 
+        
 # Group Quizzes API
 
 ## Quizzes [/api/v1/agencies/{agencyId}/quizzes]
 
 ### Create Quiz [POST]
 
-Creates a new quiz associated with the given agency.  
-Ensures the quiz is valid before saving it to the database.  
-Returns the ID of the newly created quiz if successful.
+Creates a new quiz associated with the given agency. Ensures the quiz is valid before saving it to the database. Returns the ID of the newly created quiz if successful.
 
 + Parameters
     + agencyId: `agency456` (string) - ID of the agency creating the quiz
@@ -395,14 +508,16 @@ Returns the ID of the newly created quiz if successful.
         + data (object)
             + message: `Internal server error` (string)
 
-## Quiz [/api/v1/quizzes/{quizId}]
+## Quiz [/api/v1/agencies/{agencyId}/quizzes/{quizId}]
+
+### Read Quiz [GET]
 
 Fetch a quiz by its ID.
 
 + Parameters
+    + agencyId: `agency123` (string) - ID of the agency that owns the quiz
     + quizId: `64b72b2efc13ae1b39000123` (string) - Unique identifier of the quiz
 
-### Read Quiz [GET]
 
 + Response 200 (application/json)
 
@@ -426,17 +541,15 @@ Fetch a quiz by its ID.
             + message: `Internal server error` (string)
 
 
-## Quiz answers [/api/v1/agencies/{agencyId}/quizzes/{quizId}/answers/{uid}]
+## Quiz answers [/api/v1/agencies/{agencyId}/quizzes/{quizId}/answers]
 
-### Submit Quiz Answer [POST]
+### Create Quiz Answer [POST]
 
-Submits a new quiz answer for a specific user and quiz.  
-Stores the answer in the database and returns a unique identifier for the saved answer.
+Creates and submits a new quiz answer for a specific user and quiz. Stores the answer in the database and returns a unique identifier for the saved answer.
 
 + Parameters
     + agencyId: `agency123` (string) - ID of the agency that owns the quiz
     + quizId: `quiz456` (string) - ID of the quiz being answered
-    + uid: `user789` (string) - Unique identifier of the user submitting the answer
 
 + Request (application/json)
 
@@ -459,22 +572,120 @@ Stores the answer in the database and returns a unique identifier for the saved 
         + data (object)
             + message: `Internal server error` (string)
 
+## Quiz answer [/api/v1/agencies/{agencyId}/quizzes/{quizId}/answers/{quizAnswerId}]
 
-## Quiz Results [/api/v1/quizzes/{quizId}/results]
+### Update quiz answer with citizen responses [PUT]
 
-Returns aggregated results for a completed quiz based on stored answers.  
-Only includes data from answers with `status: completed`.
+Allows a citizen to submit answers for a quiz by updating an existing quiz answer. Only the `status` and `answers` fields can be updated, and `status` must be set to `"completed"`.
+
++ Parameters
+    + agencyId: `agency123` (string) - ID of the agency that owns the quiz
+    + quizId: `quiz456` (string) - ID of the quiz being answered
+    + quizAnswerId: `quizanswer123` (string, required) - Unique identifier of the quiz answer
+
++ Request (application/json)
+    + Attributes (object)
+        + quizAnswer (object)
+            + status: `completed` (string, required) - Must be `"completed"` to allow submission
+            + quizAnswer (QuizAnswer, required) - Partial quiz answer completed by the user
+
++ Response 200 (application/json)
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + quizAnswerId: `quizanswer123` (string) - The updated quiz answer ID
+
++ Response 404 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Quiz answer not found` (string)
+
++ Response 500 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
+
+## Quiz Results [/api/v1/agencies/{agencyId}/quizzes//{quizId}/results]
+
+### Get Quiz Results [GET]
+
+Returns aggregated results for a completed quiz based on stored answers. Only includes data from answers with `status: completed`.
 
 + Parameters
     + quizId: `quiz456` (string) - The ID of the quiz to summarize
-
-### Get Quiz Results [GET]
 
 + Response 200 (application/json)
 
     + Attributes (object)
         + status: `success` (string)
         + data (QuizResults)
+
++ Response 500 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
+
+# Group Prizes API
+
+## Prizes [/api/v1/prizes{?pageIndex,pageSize}]
+
+### Create Prize [POST]
+
+Creates a new prize. The prize must include a title and a positive number of points.
+
++ Request (application/json)
+
+    + Attributes (object)
+        + prize (Prize)
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + prizeId: `prz123` (string) - The ID of the newly created prize
+
++ Response 400 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Missing or invalid required fields` (string)
+
++ Response 500 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
+
+### List prizes [GET]
+
+Returns a paginated list of available prizes, sorted by creation date (newest first).
+
++ Parameters
+    + pageIndex: `0` (optional, string) - 0-based index of the first document in the current page. Default is `0`.
+    + pageSize: `10` (optional, string) - Number of documents per page. Default is `10`.
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + status: `success` (string)
+        + data (object)
+            + prizes (array[Prize])
+            + metadata (object)
+                + totalCount: 125 (number) - Total number of prizes in the collection
+
++ Response 400 (application/json)
+
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Invalid pagination parameters` (string)
 
 + Response 500 (application/json)
 
@@ -525,6 +736,21 @@ Only includes data from answers with `status: completed`.
 + id: `q1` (string, required) - ID of the question being answered
 + answer: `Very satisfied` (string, required) - User's answer to the question
 + type: `multiple-choice` (string, required) - Type of the question (currently only 'multiple-choice')
+
+## SurveyResult (object)
++ surveyId: `abc123` (string)
++ surveyTitle: `Favorite Programming Language?` (string)
++ results (array[QuestionResult])
+
+## QuestionResult (object)
++ questionId: `q1` (string)
++ questionText: `What is your favorite language?` (string)
++ options (array[OptionResult])
+
+## OptionResult (object)
++ optionId: `opt1` (string)
++ optionText: `JavaScript` (string)
++ votes: 42 (number)
 
 ## Quiz (object)
 + _id: `abc123` (string) - Unique identifier of the quiz
@@ -584,3 +810,9 @@ Only includes data from answers with `status: completed`.
         + 4
         + 5
 + votes: 42 (number) - Total votes received for this option
+
+## Prize (object)
++ _id: `prz123` (string) - Unique identifier for the prize
++ title: `Bluetooth Speaker` (string) - Title or name of the prize
++ creationDate: `2025-06-10T12:00:00Z` (string) - ISO 8601 formatted creation date
++ points: 150 (number) - Number of points required to redeem this prize
