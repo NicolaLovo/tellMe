@@ -16,6 +16,8 @@ describe('Authentication Tests', () => {
   let agencyFirebaseToken = '';
   let townCouncilFirebaseToken = '';
 
+  jest.setTimeout(30000);
+
   beforeAll(async () => {
     await connectToDatabase();
     await initFirebaseServer();
@@ -43,7 +45,6 @@ describe('Authentication Tests', () => {
     agencyFirebaseToken = agencyCredentials.firebaseToken;
     townCouncilFirebaseToken = townCouncilCredentials.firebaseToken;
   });
-
 
   test('GET / should return 200', () => {
     return request(app).get('/').expect(200);

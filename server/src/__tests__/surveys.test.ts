@@ -14,6 +14,8 @@ describe('Surveys Tests', () => {
   let citizenToken = '';
   let citizenUid = '';
 
+  jest.setTimeout(30000);
+
   beforeAll(async () => {
     await connectToDatabase();
     await initFirebaseServer();
