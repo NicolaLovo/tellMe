@@ -8,6 +8,7 @@ import { formatDateWithMomentHs } from '../../../tools/formatDateWithMoment'
 import PublishSurveyButton from '../buttons/PublishSurveyButton.vue'
 
 // PrimeVue components
+import { SurveyStatus } from '@/types/survey/SurveyStatus'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
 import CloseSurveyButton from '../buttons/CloseSurveyButton.vue'
@@ -44,6 +45,17 @@ const onPageChange = (event: { page: number; rows: number }) => {
   pageIndex.value = event.page
   pageSize.value = event.rows
   fetchSurveys()
+}
+
+const getSurveyStatusLabel = (status: SurveyStatus): string => {
+  switch (status) {
+    case 'closed':
+      return 'Chiuso'
+    case 'created':
+      return 'Creato'
+    case 'published':
+      return 'Pubblicato'
+  }
 }
 
 onMounted(fetchSurveys)
@@ -83,7 +95,7 @@ onMounted(fetchSurveys)
           <Column header="Stato">
             <template #body="slotProps">
               <div style="align-items: center">
-                <Tag>{{ slotProps.data.status }}</Tag>
+                <Tag>{{ getSurveyStatusLabel(slotProps.data.status) }}</Tag>
               </div>
             </template>
           </Column>
@@ -116,6 +128,4 @@ onMounted(fetchSurveys)
   </Card>
 </template>
 
-<style>
-
-</style>
+<style></style>
