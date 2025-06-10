@@ -7,6 +7,9 @@ type ResBody = TmResponse<{
   quiz: Quiz;
 }>;
 
+/** 
+ * Controller used to retrive the informations of a quiz 
+ */
 export const readQuizController = async (
   req: Request<{ agencyId: string; quizId: string }, ResBody, {}>,
   res: Response<ResBody>,
