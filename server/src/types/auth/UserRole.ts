@@ -1,8 +1,8 @@
 /**
  * Represents the role of a user within the system.
  *
- * - `'citizen'`: `Utente autenticato
+ * - `'citizen'`: `Utente autenticato`
  * - `'townCouncil'`: `Comune`
- * - `'agency'`: `Ente
+ * - `'agency'`: `Ente`
  */
 export type UserRole = 'citizen' | 'townCouncil' | 'agency'

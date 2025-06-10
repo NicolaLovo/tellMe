@@ -8,12 +8,6 @@ import { initFirebaseClient } from './utils/database/testFirebaseClient';
 import { initFirebaseServer } from './utils/database/testFirebaseServer';
 
 describe('Authentication Tests', () => {
-  // register a citizen
-  // register agency using townCouncil token
-  // login townCouncil
-  // login citizen
-  // login agency
-
   let townCouncilToken = '';
   let citizenToken = '';
   let agencyToken = '';
@@ -22,11 +16,7 @@ describe('Authentication Tests', () => {
   let agencyFirebaseToken = '';
   let townCouncilFirebaseToken = '';
 
-  // ! problema ordine dei test
-
   beforeAll(async () => {
-    // register citizen with firebase SDK
-
     await connectToDatabase();
     await initFirebaseServer();
     await initFirebaseClient();
@@ -52,22 +42,14 @@ describe('Authentication Tests', () => {
     citizenFirebaseToken = citizenCredentials.firebaseToken;
     agencyFirebaseToken = agencyCredentials.firebaseToken;
     townCouncilFirebaseToken = townCouncilCredentials.firebaseToken;
-
-    // console.log({
-    //   citizenFirebaseToken,
-    //   agencyFirebaseToken,
-    //   townCouncilFirebaseToken,
-    // });
   });
 
-  /**
-   * ? How to add a header in the request?
-   */
+
   test('GET / should return 200', () => {
     return request(app).get('/').expect(200);
   });
 
-  // register a citizen
+  // Register a citizen
   test('POST /api/v1/auth/citizens should return 200', async () => {
     const res = await request(app)
       .post('/api/v1/auth/citizens')
@@ -99,7 +81,7 @@ describe('Authentication Tests', () => {
     return res;
   });
 
-  // register agency using townCouncil token
+  // Registera agency using townCouncil token
   test('POST /api/v1/auth/agencies should return 200', async () => {
     const res = await request(app)
       .post('/api/v1/auth/agencies')
