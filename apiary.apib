@@ -265,7 +265,7 @@ Returns a paginated list of pending quizzes associated with the specified citize
 
 ### Create a new survey [POST]
 
-Creates a new survey. Returns the ID of the newly created survey if successful. If the creation fails, returns an error response with details.
+Creates a new survey. Returns the ID of the newly created survey if successful.
 
 + Request (application/json)
     + Attributes (object)
@@ -281,7 +281,13 @@ Creates a new survey. Returns the ID of the newly created survey if successful. 
     + Attributes (object)
         + status: `error` (string) 
         + data (object)
-            + message: `string` (string) - Error message describing the failure
+            + message: `Missing or invalid required fields` (string)
+
++ Response 500 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
 
 ### List surveys [GET]
 
@@ -303,7 +309,13 @@ Returns the list of surveys saved in the system.
     + Attributes (object)
         + status: `error` (string) 
         + data (object)
-            + message: `string` (string) - Error message describing the failure
+            + message: `Invalid pagination parameters` (string) 
+
++ Response 500 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Internal server error` (string)
 
 ## Survey [/api/v1/surveys/{surveyId}]
 
@@ -312,40 +324,14 @@ Returns the list of surveys saved in the system.
 Retrieves the survey identified by the given `surveyId`.
 
 + Parameters
-    + surveyId: `12345` (string, required) - The ID of the survey to retrieve
+    + surveyId: `survey123` (string, required) - The ID of the survey to retrieve
 
 + Response 200 (application/json)
     + Attributes (object)
         + status: `success` (string)
         + data (object)
             + survey (Survey)
-            + Body
             
-                {
-                    "status": "success",
-                    "data": {
-                        "survey": {
-                            "title": "Customer Satisfaction Survey",
-                            "rewardPoints": 10,
-                            "creationDate": "2025-05-20T12:30:00",
-                            "status": "published",
-                            "questions": [
-                                {
-                                    "id": "q1",
-                                    "question": "How satisfied are you with our service?",
-                                    "type": "multiple-choice",
-                                    "options": [
-                                        { "id": "o1", "text": "Very satisfied" },
-                                        { "id": "o2", "text": "Satisfied" },
-                                        { "id": "o3", "text": "Neutral" },
-                                        { "id": "o4", "text": "Dissatisfied" }
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                }
-
 + Response 404 (application/json)
     + Attributes (object)
         + status: `error` (string)
@@ -358,7 +344,6 @@ Retrieves the survey identified by the given `surveyId`.
         + data (object)
             + message: `Internal server error` (string)
 
-
 ## Survey results [/api/v1/surveys/{surveyId}/results]
 
 ### Get Survey Results [GET]
@@ -366,24 +351,21 @@ Retrieves the survey identified by the given `surveyId`.
 Returns aggregated survey results with question and option texts.
 
 + Parameters
-    + surveyId: `abc123` (string) - The ID of the survey
+    + surveyId: `survey123` (string) - The ID of the survey
 
 + Response 200 (application/json)
-
     + Attributes (object)
         + status: `success` (string)
         + data (object)
             + surveyResults (SurveyResult)
 
 + Response 404 (application/json)
-
     + Attributes (object)
         + status: `error` (string)
         + data (object)
             + message: `Survey not found` (string)
 
 + Response 500 (application/json)
-
     + Attributes (object)
         + status: `error` (string)
         + data (object)
@@ -394,7 +376,7 @@ Returns aggregated survey results with question and option texts.
 Updates the survey with the provided data. Returns the updated survey ID on success.
 
 + Parameters
-    + surveyId: `Survey ID` (string, required) - The ID of the survey to update
+    + surveyId: `survey123` (string, required) - The ID of the survey to update
 
 + Request (application/json)
     + Attributes (object)
@@ -404,7 +386,19 @@ Updates the survey with the provided data. Returns the updated survey ID on succ
     + Attributes (object)
         + status: `success` (string)
         + data (object)
-            + surveyId: `Survey ID` (string) - The ID of the updated survey
+            + surveyId: `survey123` (string) - The ID of the updated survey
+            
++ Response 400 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Only surveys in draft status can be published` (string)
+            
++ Response 404 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Survey not found` (string)
 
 + Response 500 (application/json)
     + Attributes (object)
@@ -422,29 +416,25 @@ Updates the survey with the provided data. Returns the updated survey ID on succ
 Creates a new quiz associated with the given agency. Ensures the quiz is valid before saving it to the database. Returns the ID of the newly created quiz if successful.
 
 + Parameters
-    + agencyId: `agency456` (string) - ID of the agency creating the quiz
+    + agencyId: `agency123` (string) - ID of the agency creating the quiz
 
 + Request (application/json)
-
     + Attributes (object)
         + quiz (Quiz)
 
 + Response 200 (application/json)
-
     + Attributes (object)
         + status: `success` (string)
         + data (object)
-            + quizId: `quiz789` (string) - ID of the newly created quiz
+            + quizId: `quiz123` (string) - ID of the newly created quiz
 
 + Response 400 (application/json)
-
     + Attributes (object)
         + status: `error` (string)
         + data (object)
             + message: `Missing or invalid required fields` (string)
 
 + Response 500 (application/json)
-
     + Attributes (object)
         + status: `error` (string)
         + data (object)
@@ -458,57 +448,54 @@ Fetch a quiz by its ID.
 
 + Parameters
     + agencyId: `agency123` (string) - ID of the agency that owns the quiz
-    + quizId: `64b72b2efc13ae1b39000123` (string) - Unique identifier of the quiz
-
+    + quizId: `quiz123` (string) - Unique identifier of the quiz
 
 + Response 200 (application/json)
-
     + Attributes (object)
         + status: `success` (string)
         + data (object)
             + quiz (Quiz)
 
 + Response 404 (application/json)
-
     + Attributes (object)
         + status: `error` (string)
         + data (object)
             + message: `Quiz not found` (string)
 
 + Response 500 (application/json)
-
     + Attributes (object)
         + status: `error` (string)
         + data (object)
             + message: `Internal server error` (string)
 
-
 ## Quiz answers [/api/v1/agencies/{agencyId}/quizzes/{quizId}/answers]
 
 ### Create Quiz Answer [POST]
 
-Creates and submits a new quiz answer for a specific user and quiz. Stores the answer in the database and returns a unique identifier for the saved answer.
+Creates a new quiz answer for a specific user and quiz. Stores the answer in the database and returns a unique identifier for the saved answer.
 
 + Parameters
     + agencyId: `agency123` (string) - ID of the agency that owns the quiz
     + quizId: `quiz456` (string) - ID of the quiz being answered
 
 + Request (application/json)
-
     + Attributes (object)
         + quizAnswer (QuizAnswer)
 
 + Response 200 (application/json)
-
     + Attributes (object)
         + status: `success` (string)
         + data (object)
             + answerId (object)
-                + quizId: `quiz456` (string)
-                + uid: `3rE2o8Bo5vX3Itqy1mwqKKrZ9xq2` (string)
+                + answerId: `quizAnswer123` (string)
+ 
++ Response 400 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Invalid or missing quiz answer object` (string)
 
 + Response 500 (application/json)
-
     + Attributes (object)
         + status: `error` (string)
         + data (object)
@@ -522,13 +509,12 @@ Allows a citizen to submit answers for a quiz by updating an existing quiz answe
 
 + Parameters
     + agencyId: `agency123` (string) - ID of the agency that owns the quiz
-    + quizId: `quiz456` (string) - ID of the quiz being answered
+    + quizId: `quiz123` (string) - ID of the quiz being answered
     + quizAnswerId: `quizanswer123` (string, required) - Unique identifier of the quiz answer
 
 + Request (application/json)
     + Attributes (object)
         + quizAnswer (object)
-            + status: `completed` (string, required) - Must be `"completed"` to allow submission
             + quizAnswer (QuizAnswer, required) - Partial quiz answer completed by the user
 
 + Response 200 (application/json)
@@ -696,7 +682,7 @@ Returns a paginated list of available prizes, sorted by creation date (newest fi
 
 ## Quiz (object)
 + _id: `abc123` (string) - Unique identifier of the quiz
-+ agencyId: `agency456` (string) - ID of the agency that owns the quiz
++ agencyId: `agency123` (string) - ID of the agency that owns the quiz
 + title: `Customer Satisfaction Survey` (string) - Title of the quiz
 + creationDate: `2025-05-29T12:00:00Z` (string) - ISO 8601 date of quiz creation
 + questions (array[QuizQuestion]) - List of questions in the quiz
