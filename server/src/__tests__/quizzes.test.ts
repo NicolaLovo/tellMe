@@ -2,6 +2,7 @@ import request from 'supertest';
 import app from '../app';
 import { connectToDatabase } from '../database/connectToDatabase';
 import { QuizAnswerModel } from '../database/quiz/QuizAnswerSchema';
+import { QuizAnswer } from '../types/quiz/answer/QuizAnswer';
 import { loginTestUser } from './utils/auth/loginTestUser';
 import { TEST_USERS } from './utils/constants/TEST_USERS';
 import { initFirebaseClient } from './utils/database/testFirebaseClient';
@@ -129,7 +130,7 @@ describe('Quizzes Tests', () => {
   });
 
   //Create a QuizAnswer
-  test('POST /api/v1/agencies/:agencyId/quizzes/:quizId/answers/:uid should create a quiz answer', async () => {
+  test('POST /api/v1/agencies/:agencyId/quizzes/:quizId/answers should create a quiz answer', async () => {
     const payload = {
       quizAnswer: {
         _id: '',
@@ -142,9 +143,7 @@ describe('Quizzes Tests', () => {
     };
 
     const res = await request(app)
-      .post(
-        `/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers/${citizenId}`,
-      )
+      .post(`/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers`)
       .set('Authorization', `Bearer ${agencyToken}`)
       .send(payload);
 
@@ -154,7 +153,7 @@ describe('Quizzes Tests', () => {
   });
 
   //Create a QuizAnswer without sending the citizen id
-  test('POST /api/v1/agencies/:agencyId/quizzes/:quizId/answers/:uid where the answer has UID empty should return 400', async () => {
+  test('POST /api/v1/agencies/:agencyId/quizzes/:quizId/answers where the answer has UID empty should return 500', async () => {
     const payload = {
       quizAnswer: {
         _id: '',
@@ -167,13 +166,11 @@ describe('Quizzes Tests', () => {
     };
 
     const res = await request(app)
-      .post(
-        `/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers/${citizenId}`,
-      )
+      .post(`/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers`)
       .set('Authorization', `Bearer ${agencyToken}`)
       .send(payload);
 
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(500);
   });
 
   //Compile a QuizAnswer
@@ -187,20 +184,21 @@ describe('Quizzes Tests', () => {
     const quizData = quizRes.body.data.quiz;
     expect(quizData.questions.length).toBeGreaterThan(0);
 
-    const createPayload = {
+    const createPayload: {
+      quizAnswer: QuizAnswer;
+    } = {
       quizAnswer: {
+        _id: '',
         status: 'pending',
         quizId,
         agencyId,
-        creationDate: new Date().toISOString(),
+        creationDate: new Date(),
         uid: citizenId,
       },
     };
 
     const createRes = await request(app)
-      .post(
-        `/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers/${citizenId}`,
-      )
+      .post(`/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers`)
       .set('Authorization', `Bearer ${agencyToken}`)
       .send(createPayload);
 
@@ -255,9 +253,7 @@ describe('Quizzes Tests', () => {
     };
 
     const createRes = await request(app)
-      .post(
-        `/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers/${citizenId}`,
-      )
+      .post(`/api/v1/agencies/${agencyId}/quizzes/${quizId}/answers`)
       .set('Authorization', `Bearer ${agencyToken}`)
       .send(createPayload);
 

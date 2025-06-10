@@ -8,11 +8,7 @@ type ResBody = TmResponse<{
 }>;
 
 export const readQuizController = async (
-  req: Request<
-    { agencyId: string; quizId: string; answerId: string },
-    ResBody,
-    {}
-  >,
+  req: Request<{ agencyId: string; quizId: string }, ResBody, {}>,
   res: Response<ResBody>,
 ): Promise<void> => {
   try {

@@ -28,7 +28,6 @@ export const createQuizAnswerController = async (
   try {
     const { quizAnswer } = req.body;
 
-    // eventualmente anche verifica che quizAnswer.uid corrisponda a params.uid
     if (!quizAnswer || typeof quizAnswer !== 'object') {
       res.status(400).json({
         status: 'error',

@@ -80,7 +80,7 @@ describe('Surveys Tests', () => {
     return res;
   });
 
-  // Attempt to create a survey without required fields
+  // Attempts to create a survey with missing/invalid fields
   // Missing title
   test('POST /api/v1/surveys should return 400 for missing title', async () => {
     const res = await request(app)
@@ -201,7 +201,7 @@ describe('Surveys Tests', () => {
     return res;
   });
 
-  // Question with less than 2 options
+  // At least one question with less than 2 options
   test('POST /api/v1/surveys should return 400 for question with less than 2 options', async () => {
     const res = await request(app)
       .post('/api/v1/surveys')
