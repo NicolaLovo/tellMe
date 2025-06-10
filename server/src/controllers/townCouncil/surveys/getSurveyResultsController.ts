@@ -27,6 +27,9 @@ type QuestionResult = {
   options: OptionResult[];
 };
 
+/**
+ * Controller used to retrive the results of a survey
+ */
 export const getSurveyResultsController = async (
   req: Request<{ surveyId: string }, ResBody, {}>,
   res: Response<ResBody>,
