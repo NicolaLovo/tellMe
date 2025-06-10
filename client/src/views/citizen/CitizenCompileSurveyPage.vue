@@ -36,10 +36,6 @@ onMounted(async () => {
 
 <template>
   <div class="citizen-compile-survey-page">
-    <div class="header">
-      <h2>Compila sondaggio</h2>
-    </div>
-
     <div class="content">
       <p v-if="loading" class="p-text-secondary">Caricamento...</p>
       <p v-else-if="error" class="p-text-danger">{{ error }}</p>
@@ -54,11 +50,6 @@ onMounted(async () => {
   flex-direction: column;
   align-items: center;
   padding: 2rem;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 2rem;
 }
 
 .content {
