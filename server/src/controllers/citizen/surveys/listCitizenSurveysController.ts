@@ -56,7 +56,9 @@ export const listCitizenSurveysController = async (
 
     // Get all survey IDs already answered by the user
     const answeredSurveyIds = await SurveyAnswerModel.find(
-      { uid },
+      {
+        '_id.uid': uid,
+      },
       'surveyId',
     ).exec();
     const answeredIdsSet = new Set(

@@ -77,7 +77,9 @@ const registerWithEmailAndPassword = async () => {
   <div class="register-container">
     <Card class="content">
       <template #title>
-        <h1>Registrazione ente</h1>
+        <div class="title-div">
+          <h1>Registrazione ente</h1>
+        </div>
       </template>
       <template #content>
         <h4 class="subtitle">Compila il modulo per registrare un nuovo ente</h4>
@@ -129,5 +131,12 @@ const registerWithEmailAndPassword = async () => {
 
 .btn {
   width: 100%;
+}
+
+.title-div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
