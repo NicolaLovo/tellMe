@@ -535,23 +535,27 @@ Allows a citizen to submit answers for a quiz by updating an existing quiz answe
         + data (object)
             + message: `Internal server error` (string)
 
-## Quiz Results [/api/v1/agencies/{agencyId}/quizzes//{quizId}/results]
+## Quiz Results [/api/v1/agencies/{agencyId}/quizzes/{quizId}/results]
 
 ### Get Quiz Results [GET]
 
 Returns aggregated results for a completed quiz based on stored answers. Only includes data from answers with `status: completed`.
 
 + Parameters
-    + quizId: `quiz456` (string) - The ID of the quiz to summarize
+    + quizId: `quiz123` (string) - The ID of the quiz to summarize
 
 + Response 200 (application/json)
-
     + Attributes (object)
         + status: `success` (string)
         + data (QuizResults)
 
-+ Response 500 (application/json)
++ Response 404 (application/json)
+    + Attributes (object)
+        + status: `error` (string)
+        + data (object)
+            + message: `Quiz answer not found` (string)
 
++ Response 500 (application/json)
     + Attributes (object)
         + status: `error` (string)
         + data (object)
@@ -563,29 +567,25 @@ Returns aggregated results for a completed quiz based on stored answers. Only in
 
 ### Create Prize [POST]
 
-Creates a new prize. The prize must include a title and a positive number of points.
+Creates a new prize. 
 
 + Request (application/json)
-
     + Attributes (object)
         + prize (Prize)
 
 + Response 200 (application/json)
-
     + Attributes (object)
         + status: `success` (string)
         + data (object)
-            + prizeId: `prz123` (string) - The ID of the newly created prize
+            + prizeId: `prize123` (string) - The ID of the newly created prize
 
 + Response 400 (application/json)
-
     + Attributes (object)
         + status: `error` (string)
         + data (object)
             + message: `Missing or invalid required fields` (string)
 
 + Response 500 (application/json)
-
     + Attributes (object)
         + status: `error` (string)
         + data (object)
@@ -600,7 +600,6 @@ Returns a paginated list of available prizes, sorted by creation date (newest fi
     + pageSize: `10` (optional, string) - Number of documents per page. Default is `10`.
 
 + Response 200 (application/json)
-
     + Attributes (object)
         + status: `success` (string)
         + data (object)
@@ -609,14 +608,12 @@ Returns a paginated list of available prizes, sorted by creation date (newest fi
                 + totalCount: 125 (number) - Total number of prizes in the collection
 
 + Response 400 (application/json)
-
     + Attributes (object)
         + status: `error` (string)
         + data (object)
             + message: `Invalid pagination parameters` (string)
 
 + Response 500 (application/json)
-
     + Attributes (object)
         + status: `error` (string)
         + data (object)
@@ -653,20 +650,20 @@ Returns a paginated list of available prizes, sorted by creation date (newest fi
 
 ## SurveyAnswer (object)
 + _id (object, required)
-    + surveyId: `abc123` (string, required) - ID of the survey
+    + surveyId: `survey123` (string, required) - ID of the survey
     + uid: `3rE2o8Bo5vX3Itqy1mwqKKrZ9xq2` (string, required) - ID of the user who answered
 + creationDate: `2025-05-27T12:00:00Z` (string, required) - Timestamp when the answer was created
-+ answer (array[SurveyQuestionAnswer], required) - Answers to the survey questions
++ answers (array[SurveyQuestionAnswer], required) - Answers to the survey questions
     + Members
         + (SurveyQuestionAnswer)
 
 ## SurveyQuestionAnswer (object)
 + id: `q1` (string, required) - ID of the question being answered
-+ answer: `Very satisfied` (string, required) - User's answer to the question
++ optionId: `option123` (string, required) - User's selected option
 + type: `multiple-choice` (string, required) - Type of the question (currently only 'multiple-choice')
 
 ## SurveyResult (object)
-+ surveyId: `abc123` (string)
++ surveyId: `survey123` (string)
 + surveyTitle: `Favorite Programming Language?` (string)
 + results (array[QuestionResult])
 
@@ -681,7 +678,7 @@ Returns a paginated list of available prizes, sorted by creation date (newest fi
 + votes: 42 (number)
 
 ## Quiz (object)
-+ _id: `abc123` (string) - Unique identifier of the quiz
++ _id: `quiz123` (string) - Unique identifier of the quiz
 + agencyId: `agency123` (string) - ID of the agency that owns the quiz
 + title: `Customer Satisfaction Survey` (string) - Title of the quiz
 + creationDate: `2025-05-29T12:00:00Z` (string) - ISO 8601 date of quiz creation
@@ -695,9 +692,10 @@ Returns a paginated list of available prizes, sorted by creation date (newest fi
         + rating - A question that expects a rating response from 1 to 5
 
 ## QuizAnswer (object)
-+ _id (object) - Composite ID of the quiz answer
-    + quizId: `quiz456` (string) - ID of the related quiz
-    + uid: `3rE2o8Bo5vX3Itqy1mwqKKrZ9xq2` (string) - ID of the user who submitted the answer
++ _id: `quizAnswer123` (string) - Unique identifier of the quiz answer
++ agencyId: `agency123` (string) - ID of the agency that owns the quiz
++ quizId: `quiz456` (string) - ID of the related quiz
++ uid: `3rE2o8Bo5vX3Itqy1mwqKKrZ9xq2` (string) - ID of the user who submitted the answer
 + creationDate: `2025-05-29T12:00:00Z` (string) - ISO 8601 date of answer submission
 + status: `pending` (enum[string]) - Status of the quiz answer
     + Members
@@ -719,11 +717,14 @@ Returns a paginated list of available prizes, sorted by creation date (newest fi
         + rating
 
 ## QuizResults (object)
-+ quizId: `quiz456` (string) - The ID of the quiz
++ quizId: `quiz123` (string) - The ID of the quiz
++ agencyId: `agency123` (string) - ID of the agency that owns the quiz
++ title: `Customer Satisfaction Survey` (string) - Title of the quiz
 + results (array[QuizQuestionResult]) - List of questions with their aggregated responses
 
 ## QuizQuestionResult (object)
 + questionId: `q1` (string) - ID of the question
++ question: `How satisfied are you with our service?` (string) - The question text
 + type: `rating` (enum[string]) - Type of the question
     + Members
         + rating
