@@ -51,6 +51,7 @@ export const getSurveyResultsController = async (
 
     const typedSurvey = survey as SurveyModelSchema;
 
+    // Aggregation of the answers to count votes for each option
     const aggregatedResults: AggregatedResult[] =
       await SurveyAnswerModel.aggregate([
         { $match: { '_id.surveyId': surveyId } },
@@ -76,6 +77,8 @@ export const getSurveyResultsController = async (
           },
         },
       ]);
+
+    // Mapping aggregated results to include question and option text
 
     const resultsWithText: QuestionResult[] = aggregatedResults
       .map((questionResult): QuestionResult | null => {
@@ -105,6 +108,8 @@ export const getSurveyResultsController = async (
       })
       .filter((q): q is QuestionResult => q !== null);
 
+    // Construct the final response object containing survey results
+    
     const responseBody: SurveyResult = {
       surveyId,
       surveyTitle: typedSurvey.title,
