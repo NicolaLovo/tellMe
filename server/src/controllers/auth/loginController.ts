@@ -30,7 +30,7 @@ export const loginController = async (
     });
 
     if (!userEntity) {
-      res.status(400).json({
+      res.status(404).json({
         status: 'error',
         data: {
           message: 'User not found',
@@ -57,6 +57,7 @@ export const loginController = async (
         token,
       },
     });
+    return;
   } catch (error) {
     console.error('Error logging in:', error);
     res.status(500).json({
@@ -65,5 +66,6 @@ export const loginController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

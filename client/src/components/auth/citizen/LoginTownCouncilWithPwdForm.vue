@@ -74,48 +74,60 @@ const onSubmit = async () => {
 
 <template>
   <form @submit.prevent="onSubmit">
-    <input type="password" placeholder="Password" v-model="loginFormData.password" class="input" />
-    <button type="submit" class="btn">Accedi</button>
+    <div class="form-container">
+      <div style="display: block; margin-bottom: 1rem">
+        <label for="password" style="display: block; margin-bottom: 0.5rem"> Password </label>
+        <Password
+          id="password"
+          v-model="loginFormData.password"
+          placeholder="Password"
+          toggleMask
+          :feedback="false"
+        />
+      </div>
+      <p v-if="loginFormData.errorMessage" class="error">
+        {{ loginFormData.errorMessage }}
+      </p>
+
+      <div class="center">
+        <Button type="submit" label="Accedi" class="submit-btn" />
+      </div>
+    </div>
   </form>
-  <p v-if="loginFormData.errorMessage" class="error">{{ loginFormData.errorMessage }}</p>
 </template>
 
 <style scoped>
-.btn {
-  padding: 12px 25px;
-  background-color: #9578f4;
-  color: white;
-  font-size: 1rem;
-  border: none;
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 400px;
+}
+
+:deep(.p-password) {
+  width: 100%;
+}
+
+:deep(.p-password-input) {
+  width: 100%;
+}
+
+.submit-btn {
+  width: 100%;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error {
+  color: #d32f2f;
+  background-color: #fce4ec;
+  padding: 10px;
   border-radius: 8px;
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
-  width: 95%;
-  margin: 10px 0;
-}
-
-.btn:hover {
-  background-color: #815aff;
-  transform: scale(1.05);
-}
-
-.btn:focus {
-  outline: none;
-}
-
-.input {
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  width: 95%;
-}
-
-input:focus {
-  border-color: #815aff;
-  outline: none;
+  margin-top: 15px;
+  font-size: 0.95rem;
 }
 </style>

@@ -94,12 +94,13 @@ export const registerCitizenController = async (
     );
 
     // Return the custom token
-    res.status(201).json({
+    res.status(200).json({
       status: 'success',
       data: {
         token: token,
       },
     });
+    return;
   } catch (error) {
     // Handle server error
     console.error('Error registering citizen:', error);
@@ -109,5 +110,6 @@ export const registerCitizenController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

@@ -24,10 +24,12 @@ export const createSurveyController = async (
     const { survey } = req.body;
 
     if (
-      !survey?.title?.trim() ||
+      !survey?.title.trim() ||
       !survey?.status ||
       !Array.isArray(survey.questions) ||
-      survey.questions.length === 0
+      survey.questions.length === 0 ||
+      typeof survey.rewardPoints !== 'number' ||
+      survey.rewardPoints < 1
     ) {
       res.status(400).json({
         status: 'error',
@@ -35,6 +37,7 @@ export const createSurveyController = async (
           message: 'Missing or invalid required fields',
         },
       });
+      return;
     }
 
     // Validate each question
@@ -46,22 +49,24 @@ export const createSurveyController = async (
             message: 'Each question must have a non-empty question text',
           },
         });
+        return;
       }
 
       // Validate multiple-choice question options
       if (question.type === 'multiple-choice') {
         if (
           !Array.isArray(question.options) ||
-          question.options.length === 0 ||
+          question.options.length < 2 ||
           question.options.some((option) => !option.text?.trim())
         ) {
           res.status(400).json({
             status: 'error',
             data: {
               message:
-                'Multiple-choice questions must have at least one option',
+                'Multiple-choice questions must have at least two options',
             },
           });
+          return;
         }
       }
     }
@@ -83,6 +88,7 @@ export const createSurveyController = async (
         surveyId: newSurvey.id.toString(),
       },
     });
+    return;
   } catch (error) {
     console.error('Error creating survey:', error);
     res.status(500).json({
@@ -91,5 +97,6 @@ export const createSurveyController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

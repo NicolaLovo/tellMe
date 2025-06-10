@@ -52,6 +52,7 @@ export const listTownCouncilSurveysController = async (
 
     // Fetch surveys from the database
     const surveys = await SurveyModel.find()
+      .sort({ creationDate: -1 })
       .skip(page * size)
       .limit(size)
       .exec();
@@ -63,12 +64,13 @@ export const listTownCouncilSurveysController = async (
     res.status(200).json({
       status: 'success',
       data: {
-        surveys,
+        surveys: surveys as Survey[],
         metadata: {
           totalCount,
         },
       },
     });
+    return;
   } catch (error) {
     console.error('Error creating survey:', error);
     res.status(500).json({
@@ -77,5 +79,6 @@ export const listTownCouncilSurveysController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };

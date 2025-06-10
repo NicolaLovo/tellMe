@@ -7,7 +7,7 @@ export type SurveyQuestion = {
   id: string
   question: string
   /**
-   * Enumberative type of the questions.
+   * Enumerative type of the questions.
    * Extend this type to add more question types in the future.
    */
   type: 'multiple-choice'

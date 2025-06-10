@@ -3,28 +3,16 @@ import SurveyCreateForm from '@/components/surveys/forms/SurveyCreateForm.vue'
 </script>
 
 <template>
-  <div class="survey-creation-page">
-    <h1 class="title">Crea un nuovo sondaggio</h1>
+  <div>
+    <h1>Crea un nuovo sondaggio</h1>
     <p class="description">Compila il modulo sottostante per creare un nuovo sondaggio.</p>
     <SurveyCreateForm />
   </div>
 </template>
 
-<style>
-.survey-creation-page {
-  background-color: #f0f0f0;
-  min-height: 100vh;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Arial', sans-serif;
-  padding: 20px; /* Padding per un po' di respiro ai bordi */
-}
-
+<style scoped>
 h1 {
-  color: #5e4b8b;
-  font-size: 2.5rem;
   text-align: center;
-  margin-bottom: 20px;
 }
 
 p {

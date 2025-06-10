@@ -70,7 +70,7 @@ const onClick = async () => {
       return
     }
 
-    toast.success('Registrazione avvenuta con successo!')
+    toast.success('Login effettuato con successo!')
     const userStore = useUserStore()
     const user = userStore.login({
       token,
@@ -81,36 +81,13 @@ const onClick = async () => {
     })
   } catch (error) {
     console.error('Errore Google login:', error)
-    errorMessage.value = 'Si è verificato un errore durante la registrazione con Google.'
+    errorMessage.value = 'Si è verificato un errore durante il login con Google.'
   }
 }
 </script>
 
 <template>
-  <button @click="onClick" class="btn">Accedi con google</button>
+  <Button label="Accedi con Google" icon="pi pi-google" @click="onClick" style="width: 100%" />
 </template>
 
-<style scoped>
-.btn {
-  padding: 12px 25px;
-  background-color: #9578f4; /* Colore lilla */
-  color: white;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
-  width: 100%;
-}
-
-.btn:hover {
-  background-color: #815aff; /* Lilla più scuro al passaggio del mouse */
-  transform: scale(1.05);
-}
-
-.btn:focus {
-  outline: none;
-}
-</style>
+<style scoped></style>

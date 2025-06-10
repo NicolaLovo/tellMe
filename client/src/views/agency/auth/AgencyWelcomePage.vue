@@ -1,82 +1,53 @@
+<script setup lang="ts">
+import { APP_ROUTES } from '@/constants/APP_ROUTES'
+import Button from 'primevue/button'
+import Card from 'primevue/card'
+</script>
+
 <template>
-  <div class="user-container">
-    <div class="content">
-      <h1 class="title">Benvenuto {{ userStore.user?.email }}!</h1>
-      <p class="subtitle">Accedi o registrati per continuare.</p>
-      dummy agency page
-    </div>
+  <div class="agency-container">
+    <Card>
+      <template #title>
+        <h1>Accedi come ente</h1>
+      </template>
+      <template #content>
+        <div class="button-group">
+          <router-link :to="APP_ROUTES.agency.login" class="btn-link">
+            <Button label="Login" class="btn" style="width: 100%" />
+          </router-link>
+        </div>
+      </template>
+    </Card>
   </div>
 </template>
 
-<script setup lang="ts">
-import { APP_ROUTES } from '@/constants/APP_ROUTES'
-import { useUserStore } from '@/stores/useUserStore'
-
-const userStore = useUserStore()
-
-// Nessuna logica al momento
-</script>
-
 <style scoped>
-.user-container {
-  background-color: #f0f0f0;
+.agency-container {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: 'Arial', sans-serif;
+  gap: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-.content {
-  text-align: center;
-  background-color: #f5f3ff;
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
+.card-content {
   width: 90%;
-}
-
-.title {
-  font-size: 2.5rem;
-  color: #4f0adf;
-  margin-bottom: 10px;
-}
-
-.subtitle {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 30px;
+  max-width: 800px;
 }
 
 .button-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  margin-top: 1rem;
 }
 
 .btn {
-  width: 200px;
-  padding: 12px 25px;
-  background-color: #9578f4;
-  color: white;
-  font-size: 1rem;
-  text-decoration: none;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
+  font-weight: 600;
 }
 
-.btn:hover {
-  background-color: #815aff; /* Lilla più scuro al passaggio del mouse */
-  transform: scale(1.05);
-}
-
-.btn:focus {
-  outline: none;
+.btn-link {
+  display: block;
+  width: 100%;
 }
 </style>

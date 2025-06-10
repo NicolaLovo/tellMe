@@ -12,15 +12,15 @@ type ResBody = TmResponse<{
 }>;
 
 export const updateSurveyController = async (
-  req: Request<{ id: string }, ResBody, ReqBody>,
+  req: Request<{ surveyId: string }, ResBody, ReqBody>,
   res: Response<ResBody>,
 ): Promise<void> => {
   try {
     // Extract the survey ID from the request parameters
-    const { id } = req.params;
+    const { surveyId } = req.params;
 
     // Search for the survey by ID
-    const survey = await SurveyModel.findById(id);
+    const survey = await SurveyModel.findById(surveyId);
 
     // Check if the survey exists
     if (!survey) {
@@ -34,11 +34,21 @@ export const updateSurveyController = async (
     }
 
     // Check if the survey is a draft, if not return an error
-    if (survey.status !== 'created') {
+    if (survey.status !== 'created' && req.body.survey.status === 'published') {
       res.status(400).json({
         status: 'error',
         data: {
           message: 'Only surveys in draft status can be published',
+        },
+      });
+      return;
+    }
+
+    if (survey.status !== 'published' && req.body.survey.status === 'closed') {
+      res.status(400).json({
+        status: 'error',
+        data: {
+          message: 'Only surveys in published status can be closed',
         },
       });
       return;
@@ -74,6 +84,7 @@ export const updateSurveyController = async (
         surveyId: survey.id.toString(),
       },
     });
+    return;
   } catch (error) {
     console.error('Error publishing survey:', error);
     res.status(500).json({
@@ -82,5 +93,6 @@ export const updateSurveyController = async (
         message: 'Internal server error',
       },
     });
+    return;
   }
 };
