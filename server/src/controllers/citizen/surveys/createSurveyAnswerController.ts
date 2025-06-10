@@ -13,6 +13,10 @@ type ResBody = TmResponse<{}>;
 interface ReqBody {
   surveyAnswer: SurveyAnswer;
 }
+
+/**
+ * Controller used to create an answer to a specific survey
+ */
 export const createSurveyAnswerController = async (
   req: Request<ReqParams, ResBody, ReqBody>,
   res: Response<ResBody>,

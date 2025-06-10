@@ -12,6 +12,9 @@ type ResBody = TmResponse<{
   answer: SurveyAnswer;
 }>;
 
+/**
+ * Searches for answer of a certain survey in order to understand wheter it was already answered
+ */
 export const readSurveyAnswerController = async (
   req: Request<ReqParams, ResBody, {}>,
   res: Response<ResBody>,
