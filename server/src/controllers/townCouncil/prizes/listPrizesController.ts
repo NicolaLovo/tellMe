@@ -50,17 +50,17 @@ export const listPrizesController = async (
       return;
     }
 
-    // Fetch surveys from the database
+    // Fetch prizes from the database
     const prizes = await PrizeModel.find()
       .sort({ creationDate: -1 })
       .skip(page * size)
       .limit(size)
       .exec();
 
-    // Get the total count of surveys
+    // Get the total count of prizes
     const totalCount = await PrizeModel.countDocuments().exec();
 
-    // Return the surveys and metadata in the response
+    // Return the prizes
     res.status(200).json({
       status: 'success',
       data: {
