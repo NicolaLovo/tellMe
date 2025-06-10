@@ -121,4 +121,13 @@ const onSubmit = async () => {
   justify-content: center;
   align-items: center;
 }
+
+.error {
+  color: #d32f2f;
+  background-color: #fce4ec;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 0.95rem;
+}
 </style>
