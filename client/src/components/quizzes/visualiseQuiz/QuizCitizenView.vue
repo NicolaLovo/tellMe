@@ -187,15 +187,18 @@ onMounted(() => {
 }
 
 .error-msg {
-  color: red;
-  margin-top: 1rem;
+  color: #d32f2f;
+  background-color: #fce4ec;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 0.95rem;
 }
 
-.submit-div{
+.submit-div {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-
 </style>
