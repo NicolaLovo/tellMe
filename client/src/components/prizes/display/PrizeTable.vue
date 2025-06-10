@@ -42,7 +42,7 @@ onMounted(fetchPrizes)
     <header class="header">
       <template v-if="userStore?.user?.roles?.includes('townCouncil')">
         <RouterLink to="/townCouncil/createprize" custom v-slot="{ navigate }">
-          <Button class="add-btn" @click="navigate" label="Aggiungi un nuovo premio" />
+          <Button @click="navigate" label="Aggiungi un nuovo premio" />
         </RouterLink>
       </template>
     </header>
@@ -103,12 +103,5 @@ onMounted(fetchPrizes)
   text-align: center;
   color: #666;
   padding: 2rem 0;
-}
-
-.add-btn {
-  background-color: #6226e3;
-  border: none;
-  color: white;
-  font-weight: 500;
 }
 </style>
