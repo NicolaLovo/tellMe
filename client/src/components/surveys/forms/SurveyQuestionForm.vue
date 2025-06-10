@@ -8,49 +8,6 @@ defineProps<{
 const emit = defineEmits(['remove-question', 'add-option', 'remove-option'])
 </script>
 
-<!-- <template>
-  <div class="section">
-    <label :for="'question-' + question.id">Domanda:</label>
-    <div class="section-header">
-      <input
-        type="text"
-        :id="'question-' + question.id"
-        v-model="question.question"
-        class="uniform-input"
-        placeholder="Scrivi la tua domanda"
-        required
-      />
-      <button type="button" @click="emit('remove-question')" class="btn danger small">
-        <i class="pi pi-trash"></i>
-      </button>
-    </div>
-
-    <div>
-      <label>Opzioni:</label>
-      <div v-for="(option, optionIndex) in question.options" :key="option.id" class="option-group">
-        <input
-          type="text"
-          v-model="option.text"
-          class="uniform-input"
-          placeholder="Inserisci l'opzione"
-          required
-        />
-        <button
-          v-if="question.options.length > 2"
-          type="button"
-          @click="emit('remove-option', optionIndex)"
-          class="btn danger small"
-        >
-          <i class="pi pi-trash"></i>
-        </button>
-      </div>
-      <button type="button" @click="emit('add-option')" class="btn primary small">
-        Aggiungi opzione
-      </button>
-    </div>
-  </div>
-</template> -->
-
 <template>
   <Card>
     <template #content>

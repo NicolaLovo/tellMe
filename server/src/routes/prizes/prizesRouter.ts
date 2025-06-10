@@ -4,12 +4,10 @@ import { listPrizesController } from '../../controllers/townCouncil/prizes/listP
 
 const prizesRouter = Router();
 
-// Surveys routes for town council
-
-// Creation of a survey
+// Creation of a prize
 prizesRouter.post('', createPrizeController);
 
-// List all surveys
+// List all prizes
 prizesRouter.get('', listPrizesController);
 
 export default prizesRouter;
