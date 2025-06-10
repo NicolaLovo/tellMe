@@ -70,7 +70,7 @@ const onClick = async () => {
       return
     }
 
-    toast.success('Registrazione avvenuta con successo!')
+    toast.success('Login effettuato con successo!')
     const userStore = useUserStore()
     const user = userStore.login({
       token,
@@ -81,7 +81,7 @@ const onClick = async () => {
     })
   } catch (error) {
     console.error('Errore Google login:', error)
-    errorMessage.value = 'Si è verificato un errore durante la registrazione con Google.'
+    errorMessage.value = 'Si è verificato un errore durante il login con Google.'
   }
 }
 </script>

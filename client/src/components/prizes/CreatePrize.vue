@@ -6,7 +6,11 @@ import { Prize } from '@/types/prizes/Prize'
 import InputNumber from 'primevue/inputnumber'
 import InputText from 'primevue/inputtext'
 import { computed, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
+const router = useRouter()
+const toast = useToast()
 const title = ref('')
 const points = ref<number | null>(null)
 const submitting = ref(false)
@@ -48,7 +52,8 @@ async function submitPrize() {
     })
 
     if (response.status === 'success') {
-      submissionSuccess.value = true
+      router.push(APP_ROUTES.prizes)
+      toast.success('Premio creato con successo!')
       console.log('Id:', response.data?.prizeId)
     } else {
       submissionError.value = response.data?.message || 'Errore di creazione premio.'
@@ -85,7 +90,6 @@ async function submitPrize() {
       />
     </div>
     <div class="submission-status-div">
-      <h3 v-if="submissionSuccess" class="success-msg">Premio creato con successo! 🎉</h3>
       <p v-if="submissionError" class="error-msg">{{ submissionError }}</p>
     </div>
     <div class="buttons-group">
