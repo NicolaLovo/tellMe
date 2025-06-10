@@ -65,16 +65,17 @@ const submitForm = async () => {
                 placeholder="Password"
                 toggleMask
                 :feedback="false"
+                :inputStyle="{ width: '100%' }"
               />
             </div>
+
+            <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
 
             <div class="button-group">
               <Button type="submit" label="Salva Cambiamenti" class="btn" style="width: 200px" />
             </div>
           </div>
         </form>
-
-        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
       </template>
     </Card>
   </div>
@@ -107,5 +108,14 @@ const submitForm = async () => {
 
   width: 100%;
   margin-bottom: 15px;
+}
+
+.error-message {
+  color: #d32f2f;
+  background-color: #fce4ec;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 0.95rem;
 }
 </style>
