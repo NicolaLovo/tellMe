@@ -21,12 +21,11 @@ export class QuizAnswersApiClient extends ApiClientChildren {
     params: {
       agencyId: string
       quizId: string
-      uid: string
     },
     body: { quizAnswer: QuizAnswer },
   ): Promise<TmResponse<{ quizAnswerId: QuizAnswer['_id'] }>> {
     try {
-      if (!params.agencyId || !params.quizId || !params.uid) {
+      if (!params.agencyId || !params.quizId) {
         return {
           status: 'error',
           data: {
@@ -56,7 +55,7 @@ export class QuizAnswersApiClient extends ApiClientChildren {
       }
 
       const response = await this.httpClient.post<TmResponse<{ quizAnswerId: QuizAnswer['_id'] }>>(
-        `${API_URL}/api/v1/agencies/${params.agencyId}/quizzes/${params.quizId}/answers/${params.uid}`,
+        `${API_URL}/api/v1/agencies/${params.agencyId}/quizzes/${params.quizId}/answers`,
         body,
       )
 

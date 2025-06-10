@@ -36,7 +36,7 @@ quizzesRouter.get(
 );
 
 quizzesRouter.post(
-  '/:agencyId/quizzes/:quizId/answers/:uid',
+  '/:agencyId/quizzes/:quizId/answers',
   getRbacMiddleware({
     requiredRoles: ['agency'],
   }),

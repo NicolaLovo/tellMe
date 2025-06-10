@@ -58,7 +58,6 @@ const handleSubmit = async () => {
     {
       agencyId: userStore.user?.uid as string,
       quizId: props.quizId,
-      uid: citizenEmailRes.data.uid,
     },
     {
       quizAnswer: {

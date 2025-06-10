@@ -13,12 +13,12 @@ type ResBody = TmResponse<{
 
 /**
  * Controller for creating a new quiz answer
- */ export const createQuizAnswerController = async (
+ */
+export const createQuizAnswerController = async (
   req: Request<
     {
       agencyId: string;
       quizId: string;
-      uid: string;
     },
     ResBody,
     ReqBody
@@ -26,28 +26,14 @@ type ResBody = TmResponse<{
   res: Response<ResBody>,
 ) => {
   try {
-    const { uid } = req.params;
-
-    if (!uid || uid.trim() === '') {
-      res.status(400).json({
-        status: 'error',
-        data: { message: 'Missing required parameter: uid' },
-      });
-      return;
-    }
-
     const { quizAnswer } = req.body;
 
     // eventualmente anche verifica che quizAnswer.uid corrisponda a params.uid
-    if (
-      !quizAnswer ||
-      typeof quizAnswer !== 'object' ||
-      quizAnswer.uid !== uid
-    ) {
+    if (!quizAnswer || typeof quizAnswer !== 'object') {
       res.status(400).json({
         status: 'error',
         data: {
-          message: 'Invalid or missing quizAnswer object or uid mismatch',
+          message: 'Invalid or missing quizAnswer object',
         },
       });
       return;
