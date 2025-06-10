@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ApiClient } from '@/api/ApiClient'
 import { useUserStore } from '@/stores/useUserStore'
+import { Prize } from '@/types/prizes/Prize'
 import Button from 'primevue/button'
 import { onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import { Prize } from '../../../../../server/src/types/prizes/Prize'
 
 const prizes = ref<Prize[]>([])
 const pageIndex = ref(0)
@@ -50,7 +50,10 @@ onMounted(fetchPrizes)
     <div v-if="prizes?.length" class="prize-table">
       <ul class="prize-grid">
         <li v-for="prize in prizes" :key="prize._id" class="prize-card">
-          <i class="pi pi-gift" style="font-size: 1.5rem; color: #7986cb; margin-bottom: 0.5rem;"></i>
+          <i
+            class="pi pi-gift"
+            style="font-size: 1.5rem; color: #7986cb; margin-bottom: 0.5rem"
+          ></i>
           <h3>{{ prize.title }}</h3>
           <h5 class="points">Punti: {{ prize.points }}</h5>
         </li>
@@ -95,7 +98,6 @@ onMounted(fetchPrizes)
 .prize-card:hover {
   transform: scale(1.02);
 }
-
 
 .empty-state {
   text-align: center;

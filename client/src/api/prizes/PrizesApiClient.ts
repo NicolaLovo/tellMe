@@ -1,7 +1,7 @@
 import { API_URL } from '@/constants/API_URL'
 import { HTTP_TMRESPONSES } from '@/constants/HTTP_TMRESPONSES'
 import { TmResponse } from '@/types/common/utils/TmResponse'
-import { Prize } from '../../../../server/src/types/prizes/Prize'
+import { Prize } from '@/types/prizes/Prize'
 import { ApiClientChildren, ApiClientChildrenProps } from '../base/ApiClientChildren'
 
 /**

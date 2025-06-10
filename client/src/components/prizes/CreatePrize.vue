@@ -2,10 +2,10 @@
 import { ApiClient } from '@/api/ApiClient'
 import { APP_ROUTES } from '@/constants/APP_ROUTES'
 import { useUserStore } from '@/stores/useUserStore'
+import { Prize } from '@/types/prizes/Prize'
 import InputNumber from 'primevue/inputnumber'
 import InputText from 'primevue/inputtext'
 import { computed, ref, watch } from 'vue'
-import { Prize } from '../../../../server/src/types/prizes/Prize'
 
 const title = ref('')
 const points = ref<number | null>(null)
@@ -97,7 +97,11 @@ async function submitPrize() {
       >
         {{ submitting ? 'Creazione...' : 'Crea premio' }}
       </Button>
-      <Button class="home-btn" label="Torna alla lista dei premi" @click="$router.push(APP_ROUTES.prizes)" />
+      <Button
+        class="home-btn"
+        label="Torna alla lista dei premi"
+        @click="$router.push(APP_ROUTES.prizes)"
+      />
     </div>
   </div>
 </template>
@@ -124,7 +128,7 @@ async function submitPrize() {
   flex-direction: column;
 }
 
-.submission-status-div{
+.submission-status-div {
   display: flex;
   flex-direction: column;
   align-items: center;
