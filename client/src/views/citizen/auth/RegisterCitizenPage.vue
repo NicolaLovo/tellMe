@@ -84,11 +84,10 @@ const registerWithEmailAndPassword = async () => {
   <div class="register-container">
     <Card class="content">
       <template #title>
-        <h1>Registrazione</h1>
+        <div class="title-div"><h1>Registrazione</h1></div>
       </template>
       <template #content>
         <p>Crea il tuo account per iniziare.</p>
-
         <form @submit.prevent="registerWithEmailAndPassword">
           <div class="input-field">
             <label for="email" style="align-self: flex-start; margin-bottom: 0.5rem">Email</label>
@@ -114,14 +113,12 @@ const registerWithEmailAndPassword = async () => {
               :inputStyle="{ width: '100%' }"
             />
           </div>
+          <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
           <Button type="submit" label="Registrati" style="width: 100%" />
         </form>
         <div style="margin-top: 10px">
           <RegisterCitizenWithGoogleButton />
         </div>
-
-        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-
         <p class="alternative">
           Hai già un account?
           <router-link :to="APP_ROUTES.citizen.login" class="link">Accedi</router-link>
@@ -180,5 +177,12 @@ const registerWithEmailAndPassword = async () => {
 
 .link:hover {
   text-decoration: underline;
+}
+
+.title-div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
