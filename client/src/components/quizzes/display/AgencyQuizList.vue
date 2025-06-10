@@ -69,7 +69,7 @@ onMounted(fetchQuizzes)
               </tr>
             </tbody>
           </table>
-          <p v-else>Non ci sono questionari disponibili.</p>
+          <p v-else>Non sono stati creati questionari.</p>
         </template>
       </Card>
     </div>

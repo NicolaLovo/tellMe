@@ -51,8 +51,8 @@ onMounted(fetchQuizzes)
           <table v-if="quizAnswers.length" class="styled-table">
             <thead>
               <tr>
-                <th><h4>Titolo</h4></th>
-                <th><h4>Compila</h4></th>
+                <th><div>Titolo</div></th>
+                <th><div>Compila</div></th>
               </tr>
             </thead>
             <tbody>
