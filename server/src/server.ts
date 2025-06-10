@@ -41,5 +41,5 @@ app.listen(config.port, async () => {
   console.log('--------------------------------');
 
   //This function has to be called just one time to set-up the Town Council account
-  // setupTownCouncilAccount();
+  setupTownCouncilAccount();
 });
